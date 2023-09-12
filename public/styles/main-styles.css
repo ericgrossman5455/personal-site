@@ -5,6 +5,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 :root {
 	scroll-behavior: smooth;
 	color-scheme: light dark;
+	font-family: depot-new-web, sans-serif;
+
 	--bg-layer-top: #404046;
 	--bg-layer1: #33333a;
 	--bg-layer-base: #212024;
