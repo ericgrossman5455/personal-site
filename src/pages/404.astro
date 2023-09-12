@@ -30,3 +30,41 @@ import Footer from '../components/Footer.astro';
 
 	<Footer />
 </MainLayout>
+
+<style>
+	.doh {
+		padding-top: 25vh;
+	}
+
+	.doh p {
+		margin-bottom: 10px;
+		max-width: 42ch;
+	}
+
+	.doh .btn-row {
+		margin-top: 10px;
+	}
+
+	.homer {
+		line-height: 0;
+		width: 100%;
+		margin: 0 auto;
+		max-width: 900px;
+		text-align: right;
+	}
+
+	.homer img {
+		margin: 50px 10% 0 auto;
+		max-width: 20em;
+	}
+
+	@media only screen and (max-width: 80em) {
+		.homer {
+			width: 100%;
+		}
+
+		.homer img {
+			max-width: 15em;
+		}
+	}
+</style>
