@@ -1,8 +1,79 @@
-/* CSS DOCUMENT */
+---
+const {
+	id = 'Lorem Ipsum',
 
-/*---------------------UX BANNERS-----------------------*/
+	copyEyebrow = 'Lorem Ipsum',
+	copyHeadline = 'Lorem Ipsum',
 
-.mobell-uxb-wrapper button,
+	imageAlt = 'Lorem Ipsum',
+	imageLoading = 'eager',
+} = Astro.props;
+---
+
+<div class="mobell-uxb-wrapper" id="scroll-to-mobell">
+	<div class="mobell-uxb-glow"></div>
+	<img
+		class="mobell-uxb-image"
+		alt="Three phones displaying various screens from an app called Mobell."
+		src="./assets/mobell/mobell-product-shot.png"
+		loading="eager"
+	/>
+	<div class="mobell-uxb-copy">
+		<h3>Mobell Service</h3>
+		<h2>Improving accessibility, from hackathon idea to&nbsp;product</h2>
+		<p>
+			Mobell aims to make society more inclusive to people with disabilities and, as a result,
+			make greater independence accessible to all. This service suite for businesses and their
+			customers was conceived during the 2019 Camp PolyHacks Hackathon, winning 1st Place and
+			“Best Use of Satellite Technology by&nbsp;Northrop&nbsp;Grumman”.
+		</p>
+	</div>
+</div>
+
+<div class="boltabout-uxb-wrapper">
+	<div class="boltabout-uxb-glow"></div>
+	<img
+		class="boltabout-uxb-image"
+		alt="iPad displaying people on BoltAbout bikes, with the BoltAbout logo in the corner."
+		src="./assets/boltabout/boltabout-product-shot.png"
+		loading="lazy"
+	/>
+	<div class="boltabout-uxb-copy">
+		<h3>BoltAbout Dashboard</h3>
+		<h2>Streamlining the employee UX via Lean/6σ methodologies</h2>
+		<p>
+			Driven by a pursuit of constant improvement, my team and I were tasked with identifying
+			inefficiencies to streamline BoltAbout&rsquo;s internal processes. This work utilized
+			Lean/Six Sigma and UX Design methodologies to implement changes that not only
+			drastically improve the employee experience, but also continue to save
+			the&nbsp;company&nbsp;money.
+		</p>
+	</div>
+</div>
+
+<div class="cp-uxb-wrapper">
+	<div class="cp-uxb-glow"></div>
+	<img
+		class="cp-uxb-image"
+		alt="Phone displaying a list of events from a Cal Poly events application."
+		src="./assets/cp-events/cp-events-product-shot.png"
+		loading="lazy"
+	/>
+	<div class="cp-uxb-copy">
+		<h3>Cal Poly Events App</h3>
+		<h2>Facilitating event discovery via research &amp;&nbsp;design</h2>
+		<p>
+			The end goal for this project was to re-envision Cal Poly&rsquo;s brand in an authentic
+			and modern way by incorporating Material Design language in conjunction with user
+			research and Cal Poly’s branding guidelines. This work and its associated insights were
+			later used for inspiration by the Cal Poly app design team for development of their
+			redesigned student&nbsp;application.
+		</p>
+	</div>
+</div>
+
+<style lang="scss">
+	.mobell-uxb-wrapper button,
 .boltabout-uxb-wrapper button,
 .cp-uxb-wrapper button {
 	cursor: not-allowed;
@@ -44,7 +115,7 @@
 	transition: ease 1s;
 }
 
-.mobell-uxb-text {
+.mobell-uxb-copy {
 	grid-column: 3/5;
 	grid-row: 1;
 	margin-right: 4em;
@@ -62,7 +133,7 @@
 	transform: scale(1.3) translateX(0.3em);
 }
 
-.mobell-uxb-wrapper:hover .mobell-uxb-text {
+.mobell-uxb-wrapper:hover .mobell-uxb-copy {
 	transform: translateX(-0.3em);
 }
 
@@ -79,7 +150,7 @@
 		transform: scale(1.3) translateX(-2em);
 	}
 
-	.mobell-uxb-text {
+	.mobell-uxb-copy {
 		margin-right: 3em;
 	}
 
@@ -91,7 +162,7 @@
 		transform: scale(1.3) translateX(-2em);
 	}
 
-	.mobell-uxb-wrapper:hover .mobell-uxb-text {
+	.mobell-uxb-wrapper:hover .mobell-uxb-copy {
 		transform: translateX(0);
 	}
 }
@@ -121,7 +192,7 @@
 		margin: 5em auto -5em;
 	}
 
-	.mobell-uxb-text {
+	.mobell-uxb-copy {
 		padding: 3em 2em 0;
 		grid-column: 1/-1;
 		grid-row: 2;
@@ -138,8 +209,8 @@
 		);
 	}
 
-	.mobell-uxb-text p,
-	.mobell-uxb-text h2 {
+	.mobell-uxb-copy p,
+	.mobell-uxb-copy h2 {
 		max-width: 550px;
 	}
 
@@ -151,12 +222,12 @@
 		transform: scale(1.5) translateX(-1em);
 	}
 
-	.mobell-uxb-wrapper:hover .mobell-uxb-text {
+	.mobell-uxb-wrapper:hover .mobell-uxb-copy {
 		transform: translateX(0);
 	}
 
 	@media (prefers-color-scheme: light) {
-		.mobell-uxb-text {
+		.mobell-uxb-copy {
 			background: linear-gradient(
 				0deg,
 				var(--bg-layer-base) 0%,
@@ -208,7 +279,7 @@
 	transition: ease 1s;
 }
 
-.boltabout-uxb-text {
+.boltabout-uxb-copy {
 	grid-column: 1/3;
 	grid-row: 1;
 	margin-left: 3em;
@@ -226,7 +297,7 @@
 	transform: scale(1.5) translateX(-0.3em);
 }
 
-.boltabout-uxb-wrapper:hover .boltabout-uxb-text {
+.boltabout-uxb-wrapper:hover .boltabout-uxb-copy {
 	transform: translateX(0.3em);
 }
 
@@ -249,7 +320,7 @@
 		align-self: center;
 	}
 
-	.boltabout-uxb-text {
+	.boltabout-uxb-copy {
 		grid-column: 1/4;
 		max-width: 35em;
 	}
@@ -262,7 +333,7 @@
 		transform: scale(3) translateX(1em);
 	}
 
-	.boltabout-uxb-wrapper:hover .boltabout-uxb-text {
+	.boltabout-uxb-wrapper:hover .boltabout-uxb-copy {
 		transform: translateX(0);
 	}
 }
@@ -292,7 +363,7 @@
 		margin: 5em auto 2em;
 	}
 
-	.boltabout-uxb-text {
+	.boltabout-uxb-copy {
 		padding: 3em 2em 0;
 		grid-column: 1/-1;
 		grid-row: 2;
@@ -309,8 +380,8 @@
 		);
 	}
 
-	.boltabout-uxb-text p,
-	.boltabout-uxb-text h2 {
+	.boltabout-uxb-copy p,
+	.boltabout-uxb-copy h2 {
 		max-width: 550px;
 	}
 
@@ -322,12 +393,12 @@
 		transform: scale(1.5) translateX(4em) translateY(1em);
 	}
 
-	.boltabout-uxb-wrapper:hover .boltabout-uxb-text {
+	.boltabout-uxb-wrapper:hover .boltabout-uxb-copy {
 		transform: translateX(0);
 	}
 
 	@media (prefers-color-scheme: light) {
-		.boltabout-uxb-text {
+		.boltabout-uxb-copy {
 			background: linear-gradient(
 				0deg,
 				var(--bg-layer-base) 0%,
@@ -391,7 +462,7 @@
 	transition: ease 1s;
 }
 
-.cp-uxb-text {
+.cp-uxb-copy {
 	grid-column: 3/5;
 	grid-row: 1;
 	margin-right: 4em;
@@ -409,7 +480,7 @@
 	transform: scale(1.1) translateX(0.3em);
 }
 
-.cp-uxb-wrapper:hover .cp-uxb-text {
+.cp-uxb-wrapper:hover .cp-uxb-copy {
 	transform: translateX(-0.3em);
 }
 
@@ -436,7 +507,7 @@
 		transform: scale(1.1) translateX(-2em);
 	}
 
-	.cp-uxb-text {
+	.cp-uxb-copy {
 		margin-right: 3em;
 	}
 
@@ -448,7 +519,7 @@
 		transform: scale(1.1) translateX(-2em);
 	}
 
-	.cp-uxb-wrapper:hover .cp-uxb-text {
+	.cp-uxb-wrapper:hover .cp-uxb-copy {
 		transform: translateX(0);
 	}
 }
@@ -478,7 +549,7 @@
 		margin: 5em auto -5em;
 	}
 
-	.cp-uxb-text {
+	.cp-uxb-copy {
 		padding: 3em 2em 0;
 		grid-column: 1/-1;
 		grid-row: 2;
@@ -495,8 +566,8 @@
 		);
 	}
 
-	.cp-uxb-text p,
-	.cp-uxb-text h2 {
+	.cp-uxb-copy p,
+	.cp-uxb-copy h2 {
 		max-width: 550px;
 	}
 
@@ -508,12 +579,12 @@
 		transform: scale(1.4) translateX(-1em);
 	}
 
-	.cp-uxb-wrapper:hover .cp-uxb-text {
+	.cp-uxb-wrapper:hover .cp-uxb-copy {
 		transform: translateX(0);
 	}
 
 	@media (prefers-color-scheme: light) {
-		.cp-uxb-text {
+		.cp-uxb-copy {
 			background: linear-gradient(
 				0deg,
 				var(--bg-layer-base) 0%,
@@ -526,3 +597,4 @@
 		}
 	}
 }
+</style>
