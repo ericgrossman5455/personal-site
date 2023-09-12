@@ -8,7 +8,9 @@ import FeaturedItem from '../components/page-index/FeaturedItem.astro';
 ---
 
 <MainLayout title="Portfolio | Eric Grossman" description="Eric Grossman's previous work">
-	<SnackBar btnCopy="Got&nbsp;it">This site is a work in progress. Content and design will&nbsp;change.</SnackBar>
+	<SnackBar btnCopy="Got it">
+		This site is a work in progress. Content and design will&nbsp;change.
+	</SnackBar>
 
 	<div class="narration hero">
 		<div class="flex">
@@ -40,7 +42,40 @@ import FeaturedItem from '../components/page-index/FeaturedItem.astro';
 
 	<SectionTitle scrollDestination="mobell">Featured&nbsp;Work</SectionTitle>
 
-	<FeaturedItem></FeaturedItem>
+	<FeaturedItem
+		id="mobell"
+		copyEyebrow="Mobell Service"
+		copyHeadline="Improving accessibility, from hackathon idea to product"
+		imageAlt="Three phones displaying various screens from an app called Mobell."
+		imageLoading="eager">
+		Mobell aims to make society more inclusive to people with disabilities and, as a result,
+		make greater independence accessible to all. This service suite for businesses and their
+		customers was conceived during the 2019 Camp PolyHacks Hackathon, winning 1st Place and
+		“Best Use of Satellite Technology by&nbsp;Northrop&nbsp;Grumman”.
+	</FeaturedItem>
+
+	<FeaturedItem
+		id="boltabout"
+		copyEyebrow="BoltAbout Dashboard"
+		copyHeadline="Streamlining the employee UX via Lean/6σ methodologies"
+		imageAlt="iPad displaying people on BoltAbout bikes, with the BoltAbout logo in the corner.">
+		Driven by a pursuit of constant improvement, my team and I were tasked with identifying
+		inefficiencies to streamline BoltAbout&rsquo;s internal processes. This work utilized
+		Lean/Six Sigma and UX Design methodologies to implement changes that not only drastically
+		improve the employee experience, but also continue to save the&nbsp;company&nbsp;money.
+	</FeaturedItem>
+
+	<FeaturedItem
+		id="cp-events"
+		copyEyebrow="Cal Poly Events App"
+		copyHeadline="Facilitating event discovery via research & design"
+		imageAlt="Phone displaying a list of events from a Cal Poly events application.">
+		The goal for this project was to re-envision Cal Poly&rsquo;s brand in an authentic and
+		modern way by incorporating Material Design language in conjunction with user research and
+		Cal Poly’s branding guidelines. This work and its associated insights were later used for
+		inspiration by the Cal Poly app design team for development of their redesigned
+		student&nbsp;application.
+	</FeaturedItem>
 
 	<div class="sunrise">
 		<div class="narration art-intro">
@@ -56,7 +91,6 @@ import FeaturedItem from '../components/page-index/FeaturedItem.astro';
 		</div>
 
 		<SectionTitle scrollDestination="art">Photos &amp; Graphics</SectionTitle>
-
 	</div>
 
 	<ArtGrid />
