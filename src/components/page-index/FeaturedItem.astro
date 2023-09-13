@@ -101,7 +101,6 @@ const {
 		grid-column: 1/3;
 
 		@media (width <= 50em) {
-			transform-origin: top;
 			width: auto;
 			min-height: 25em;
 		}
@@ -156,6 +155,7 @@ const {
 				@media (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.5) translateX(-1em);
+					transform-origin: top;
 					height: 60vh;
 					max-height: 28em;
 					margin: 5em auto -5em;
