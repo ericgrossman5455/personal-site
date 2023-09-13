@@ -48,7 +48,7 @@ const {
 		width: 30em;
 		height: 30em;
 
-		@media (width <= 50em) {
+		@media only screen and (width <= 50em) {
 			width: auto;
 			height: 25em;
 			margin-bottom: -10em;
@@ -66,7 +66,7 @@ const {
 			max-width: 550px;
 		}
 
-		@media (width <= 50em) {
+		@media only screen and (width <= 50em) {
 			padding: 3em 2em 0;
 			grid-column: 1/-1;
 			grid-row: 2;
@@ -100,7 +100,7 @@ const {
 		grid-row: 1;
 		grid-column: 1/3;
 
-		@media (width <= 50em) {
+		@media only screen and (width <= 50em) {
 			width: auto;
 			min-height: 25em;
 		}
@@ -114,11 +114,11 @@ const {
 			margin: 23vh auto;
 			column-gap: 5%;
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				column-gap: 0;
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				margin: 0 auto 10vh;
 				grid-template-rows: 31em auto;
 			}
@@ -134,11 +134,11 @@ const {
 				opacity: 0.5;
 				-webkit-transform: scale(2) translateX(2em);
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					-webkit-transform: scale(1.7) translateX(-2em);
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					-webkit-transform: scale(1.5) translateX(-1em);
 				}
@@ -148,11 +148,11 @@ const {
 				transform: scale(1.3);
 				transform-origin: right;
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					transform: scale(1.3) translateX(-2em);
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.5) translateX(-1em);
 					transform-origin: top;
@@ -166,11 +166,11 @@ const {
 				grid-column: 3/5;
 				margin-right: 4em;
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					margin-right: 3em;
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					margin-right: 0;
 				}
@@ -186,7 +186,7 @@ const {
 				transform: translateX(-0.3em);
 			}
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				&:hover .glow {
 					transform: scale(1.7) translateX(-2em);
 				}
@@ -198,7 +198,7 @@ const {
 				}
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				&:hover .glow {
 					transform: scale(1.5) translateX(-1em);
 				}
@@ -216,12 +216,12 @@ const {
 			margin: 40vh auto 25vh;
 			column-gap: 3%;
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				margin: 15vh auto;
 				column-gap: 0;
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				margin: -7vh auto 10vh;
 				grid-template-rows: 33em auto;
 			}
@@ -237,13 +237,13 @@ const {
 				transform: scale(1.8) translateX(-3em) translateY(-1em);
 				opacity: 0.8;
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					width: 25em;
 					height: 25em;
 					transform: scale(2.2) translateX(5em) translateY(1em);
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.5) translateX(2em);
 					width: auto;
@@ -257,13 +257,13 @@ const {
 				transform: scale(1.5);
 				transform-origin: left;
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					grid-column: 4/5;
 					transform: scale(3) translateX(1em);
 					align-self: center;
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.5) translateX(4em) translateY(1em);
 					transform-origin: top;
@@ -282,12 +282,12 @@ const {
 					max-width: none;
 				}
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					grid-column: 1/4;
 					max-width: 35em;
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					max-width: none;
 					margin-left: 0;
@@ -309,7 +309,7 @@ const {
 				transform: translateX(0.3em);
 			}
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				&:hover .glow {
 					transform: scale(2.2) translateX(5em) translateY(1em);
 				}
@@ -321,7 +321,7 @@ const {
 				}
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				&:hover .glow {
 					transform: scale(1.5) translateX(2em);
 				}
@@ -339,11 +339,11 @@ const {
 			margin: 21vh auto 0;
 			column-gap: 5%;
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				column-gap: 0;
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				margin: -7vh auto 10vh;
 				grid-template-rows: 32em auto;
 			}
@@ -370,15 +370,15 @@ const {
 					);
 				}
 
-				@media (width <= 90em) {
+				@media only screen and (width <= 90em) {
 					transform: scale(1.5) translateX(1em) translateY(-2em) rotate(12deg);
 				}
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					transform: scale(1.5) translateX(0em) translateY(-2em) rotate(12deg);
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.3) translateX(-1em);
 					width: 100%;
@@ -391,11 +391,11 @@ const {
 				transform: scale(1.1);
 				transform-origin: center;
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					transform: scale(1.1) translateX(-2em);
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					transform: scale(1.4) translateX(-1em);
 					transform-origin: top;
@@ -415,11 +415,11 @@ const {
 					max-width: none;
 				}
 
-				@media (width <= 70em) {
+				@media only screen and (width <= 70em) {
 					margin-right: 3em;
 				}
 
-				@media (width <= 50em) {
+				@media only screen and (width <= 50em) {
 					grid-column: 1/-1;
 					margin-right: 0;
 
@@ -440,13 +440,13 @@ const {
 				transform: translateX(-0.3em);
 			}
 
-			@media (width <= 90em) {
+			@media only screen and (width <= 90em) {
 				&:hover .glow {
 					transform: scale(2) translateX(1.4em) translateY(-2em) rotate(12deg);
 				}
 			}
 
-			@media (width <= 70em) {
+			@media only screen and (width <= 70em) {
 				&:hover .glow {
 					transform: scale(1.5) translateX(0em) translateY(-2em) rotate(12deg);
 				}
@@ -458,7 +458,7 @@ const {
 				}
 			}
 
-			@media (width <= 50em) {
+			@media only screen and (width <= 50em) {
 				&:hover .glow {
 					transform: scale(1.3) translateX(-1em);
 				}
