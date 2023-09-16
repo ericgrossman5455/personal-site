@@ -30,16 +30,25 @@ const {
 	.featured-item-container {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
+		column-gap: 5%;
 		grid-template-rows: auto;
 		max-width: 100em;
 		max-height: 100em;
 		min-height: 40em;
+
+		@media only screen and (max-width: 70em) {
+			column-gap: 0% !important;
+		}
 	}
 
 	.glow,
 	.copy,
 	.image {
 		transition: ease 1s;
+
+		@media only screen and (max-width: 50em) {
+			grid-column: 1/-1 !important;
+		}
 	}
 
 	.glow {
@@ -61,14 +70,8 @@ const {
 		z-index: 1;
 		max-width: 40em;
 
-		p,
-		h2 {
-			max-width: 550px;
-		}
-
 		@media only screen and (max-width: 50em) {
 			padding: 3em 2em 0;
-			grid-column: 1/-1;
 			grid-row: 2;
 			margin: 0;
 			max-width: none;
@@ -93,6 +96,11 @@ const {
 					rgba(225, 225, 225, 0) 100%
 				);
 			}
+
+			p,
+			h2 {
+				max-width: 550px;
+			}
 		}
 	}
 
@@ -106,17 +114,11 @@ const {
 		}
 	}
 
-	// ITEM-SPECIFIC STYLES
-	// MOBELL
+	// MOBELL SPECIFIC
 
 	.mobell {
 		&.featured-item-container {
 			margin: 23vh auto;
-			column-gap: 5%;
-
-			@media only screen and (max-width: 70em) {
-				column-gap: 0;
-			}
 
 			@media only screen and (max-width: 50em) {
 				margin: 0 auto 10vh;
@@ -132,30 +134,10 @@ const {
 					rgba(248, 181, 0, 0) 100%
 				);
 				opacity: 0.5;
-				-webkit-transform: scale(2) translateX(2em);
-
-				@media only screen and (max-width: 70em) {
-					-webkit-transform: scale(1.7) translateX(-2em);
-				}
-
-				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					-webkit-transform: scale(1.5) translateX(-1em);
-				}
 			}
 
 			.image {
-				transform: scale(1.3);
-				transform-origin: right;
-
-				@media only screen and (max-width: 70em) {
-					transform: scale(1.3) translateX(-2em);
-				}
-
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					transform: scale(1.5) translateX(-1em);
-					transform-origin: top;
 					height: 60vh;
 					max-height: 28em;
 					margin: 5em auto -5em;
@@ -171,45 +153,67 @@ const {
 				}
 
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
 					margin-right: 0;
 				}
 			}
 
+			// MOBELL TRANSFORM EFFECTS
+
+			$glow-scale: 2;
+			$glow-translate: 2em;
+			.glow {
+				transform: scale($glow-scale) translateX($glow-translate);
+			}
 			&:hover .glow {
-				transform: scale(2.7) translateX(2em);
+				transform: scale(calc(#{$glow-scale} + 0.7)) translateX($glow-translate);
+			}
+
+			$image-scale: 1.3;
+			$image-translate: 0em;
+			.image {
+				transform-origin: right;
+				transform: scale($image-scale) translateX($image-translate);
 			}
 			&:hover .image {
-				transform: scale(1.3) translateX(0.3em);
+				transform: scale($image-scale) translateX(calc(#{$image-translate} + 0.3em));
 			}
+
 			&:hover .copy {
 				transform: translateX(-0.3em);
 			}
 
 			@media only screen and (max-width: 70em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(1.7) translateX(-2em);
 				}
+
+				.image,
 				&:hover .image {
 					transform: scale(1.3) translateX(-2em);
 				}
+
 				&:hover .copy {
 					transform: translateX(0);
 				}
 			}
 
 			@media only screen and (max-width: 50em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(1.5) translateX(-1em);
 				}
+
+				.image,
 				&:hover .image {
+					transform-origin: top;
 					transform: scale(1.5) translateX(-1em);
 				}
 			}
 		}
 	}
 
-	// BOLTABOUT
+	// BOLTABOUT SPECIFIC
 
 	.boltabout {
 		&.featured-item-container {
@@ -218,7 +222,6 @@ const {
 
 			@media only screen and (max-width: 70em) {
 				margin: 15vh auto;
-				column-gap: 0;
 			}
 
 			@media only screen and (max-width: 50em) {
@@ -228,24 +231,20 @@ const {
 
 			.glow {
 				grid-column: 4/5;
+				opacity: 0.8;
 				background: radial-gradient(
 					ellipse closest-side,
 					rgba(17, 172, 243, 1) 0%,
 					rgba(17, 172, 243, 0.1) 70%,
 					rgba(17, 172, 243, 0) 100%
 				);
-				transform: scale(1.8) translateX(-3em) translateY(-1em);
-				opacity: 0.8;
 
 				@media only screen and (max-width: 70em) {
 					width: 25em;
 					height: 25em;
-					transform: scale(2.2) translateX(5em) translateY(1em);
 				}
 
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					transform: scale(1.5) translateX(2em);
 					width: auto;
 					height: 25em;
 					margin-bottom: -10em;
@@ -254,19 +253,13 @@ const {
 
 			.image {
 				grid-column: 3/5;
-				transform: scale(1.5);
-				transform-origin: left;
 
 				@media only screen and (max-width: 70em) {
 					grid-column: 4/5;
-					transform: scale(3) translateX(1em);
 					align-self: center;
 				}
 
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					transform: scale(1.5) translateX(4em) translateY(1em);
-					transform-origin: top;
 					height: 50vh;
 					max-height: 30em;
 					margin: 5em auto 2em;
@@ -277,71 +270,78 @@ const {
 				grid-column: 1/3;
 				margin-left: 3em;
 
-				p,
-				h2 {
-					max-width: none;
-				}
-
 				@media only screen and (max-width: 70em) {
 					grid-column: 1/4;
-					max-width: 35em;
 				}
 
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					max-width: none;
 					margin-left: 0;
-
-					p,
-					h2 {
-						max-width: 550px;
-					}
 				}
 			}
 
+			// BOLTABOUT TRANSFORM EFFECTS
+
+			$glow-scale: 1.8;
+			$glow-translateX: -3em;
+			$glow-translateY: -1em;
+			.glow {
+				transform: scale($glow-scale) translateX($glow-translateX) translateY($glow-translateY);
+			}
 			&:hover .glow {
-				transform: scale(2.5) translateX(-3em) translateY(-1em);
+				transform: scale(calc(#{$glow-scale} + 0.7)) translateX($glow-translateX)
+					translateY($glow-translateY);
+			}
+
+			$image-scale: 1.5;
+			$image-translateX: 0em;
+			.image {
+				transform-origin: left;
+				transform: scale($image-scale) translateX($image-translateX);
 			}
 			&:hover .image {
-				transform: scale(1.5) translateX(-0.3em);
+				transform: scale($image-scale) translateX(calc(#{$image-translateX} - 0.3em));
 			}
+
 			&:hover .copy {
 				transform: translateX(0.3em);
 			}
 
 			@media only screen and (max-width: 70em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(2.2) translateX(5em) translateY(1em);
 				}
+
+				.image,
 				&:hover .image {
 					transform: scale(3) translateX(1em);
 				}
+
 				&:hover .copy {
 					transform: translateX(0);
 				}
 			}
 
 			@media only screen and (max-width: 50em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(1.5) translateX(2em);
 				}
+
+				.image,
 				&:hover .image {
+					transform-origin: top;
 					transform: scale(1.5) translateX(4em) translateY(1em);
 				}
 			}
 		}
 	}
 
-	// CP EVENTS
+	// CP EVENTS SPECIFIC
 
 	.cp-events {
 		&.featured-item-container {
 			margin: 21vh auto 0;
-			column-gap: 5%;
-
-			@media only screen and (max-width: 70em) {
-				column-gap: 0;
-			}
 
 			@media only screen and (max-width: 50em) {
 				margin: -7vh auto 10vh;
@@ -359,7 +359,6 @@ const {
 					rgba(21, 71, 52, 0.1) 90%,
 					rgba(21, 71, 52, 0) 100%
 				);
-				transform: scale(1.5) translateX(1em) translateY(-2em) rotate(12deg);
 
 				@media (prefers-color-scheme: light) {
 					background: radial-gradient(
@@ -370,17 +369,7 @@ const {
 					);
 				}
 
-				@media only screen and (max-width: 90em) {
-					transform: scale(1.5) translateX(1em) translateY(-2em) rotate(12deg);
-				}
-
-				@media only screen and (max-width: 70em) {
-					transform: scale(1.5) translateX(0em) translateY(-2em) rotate(12deg);
-				}
-
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					transform: scale(1.3) translateX(-1em);
 					width: 100%;
 					height: 25em;
 					margin-bottom: -10em;
@@ -391,14 +380,7 @@ const {
 				transform: scale(1.1);
 				transform-origin: center;
 
-				@media only screen and (max-width: 70em) {
-					transform: scale(1.1) translateX(-2em);
-				}
-
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
-					transform: scale(1.4) translateX(-1em);
-					transform-origin: top;
 					height: 60vh;
 					max-height: 30em;
 					margin: 5em auto -5em;
@@ -408,61 +390,78 @@ const {
 			.copy {
 				grid-column: 3/5;
 				margin-right: 4em;
-				max-width: 40rem;
-
-				p,
-				h2 {
-					max-width: none;
-				}
 
 				@media only screen and (max-width: 70em) {
 					margin-right: 3em;
 				}
 
 				@media only screen and (max-width: 50em) {
-					grid-column: 1/-1;
 					margin-right: 0;
-
-					p,
-					h2 {
-						max-width: 550px;
-					}
 				}
 			}
 
+			// CP EVENTS TRANSFORM EFFECTS
+
+			$glow-scale: 1.5;
+			$glow-translateX: 1em;
+			$glow-translateY: -2em;
+			$glow-rotate: 12deg;
+			.glow {
+				transform: scale($glow-scale) translateX($glow-translateX) translateY($glow-translateY)
+					rotate($glow-rotate);
+			}
 			&:hover .glow {
-				transform: scale(2.5) translateX(1.4em) translateY(-2em) rotate(12deg);
+				transform: scale(calc(#{$glow-scale} + 1)) translateX(calc(#{$glow-translateX} + 0.4em))
+					translateY($glow-translateY) rotate($glow-rotate);
+			}
+
+			$image-scale: 1.1;
+			$image-translateX: 0em;
+			.image {
+				transform-origin: center;
+				transform: scale($image-scale) translateX($image-translateX);
 			}
 			&:hover .image {
-				transform: scale(1.1) translateX(0.3em);
+				transform: scale($image-scale) translateX(calc(#{$image-translateX} + 0.3em));
 			}
+
 			&:hover .copy {
 				transform: translateX(-0.3em);
 			}
 
 			@media only screen and (max-width: 90em) {
 				&:hover .glow {
-					transform: scale(2) translateX(1.4em) translateY(-2em) rotate(12deg);
+					transform: scale(calc(#{$glow-scale} + 0.5))
+						translateX(calc(#{$glow-translateX} + 0.4em)) translateY($glow-translateY)
+						rotate($glow-rotate);
 				}
 			}
 
 			@media only screen and (max-width: 70em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(1.5) translateX(0em) translateY(-2em) rotate(12deg);
 				}
+
+				.image,
 				&:hover .image {
 					transform: scale(1.1) translateX(-2em);
 				}
+
 				&:hover .copy {
 					transform: translateX(0);
 				}
 			}
 
 			@media only screen and (max-width: 50em) {
+				.glow,
 				&:hover .glow {
 					transform: scale(1.3) translateX(-1em);
 				}
+
+				.image,
 				&:hover .image {
+					transform-origin: top;
 					transform: scale(1.4) translateX(-1em);
 				}
 			}
