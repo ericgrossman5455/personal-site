@@ -1,4 +1,6 @@
 ---
+import Footer from "../components/Footer.astro";
+
 const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 ---
 
@@ -37,6 +39,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	<body>
 		<main>
 			<slot>LOREM IPSUM</slot>
+			<Footer />
 		</main>
 	</body>
 </html>
