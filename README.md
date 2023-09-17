@@ -1,4 +1,4 @@
-# Oh hey.
+# Oh hey,
 I'm humbled that you're interested in this code. I'm using the Astro framework to build this site.
 
 ## To get started:
