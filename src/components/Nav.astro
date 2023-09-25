@@ -1,0 +1,47 @@
+<nav>
+	<div class="nav-control"></div>
+
+	<div class="pages">
+		<a href="#">
+			<img src="./assets/icons/home.svg" title="Home" alt="Home page icon" />
+		</a>
+
+		<a href="#">
+			<img src="./assets/icons/journal.svg" title="Journal" alt="Journal page icon" />
+		</a>
+
+		<a href="#">
+			<img src="./assets/icons/about.svg" title="About" alt="About page icon" />
+		</a>
+	</div>
+
+	<div class="notifications"></div>
+</nav>
+
+<style lang="scss">
+	nav {
+		grid-area: nav;
+		position: sticky;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+		height: 100svh;
+		// fix for shift at end of page scroll (Google Chrome)
+		margin-bottom: -1px;
+
+		.pages {
+			display: flex;
+			flex-direction: column;
+			row-gap: 20px;
+
+			img {
+				width: 48px;
+				@media (prefers-color-scheme: dark) {
+					filter: invert(0.95);
+				}
+			}
+		}
+	}
+</style>
