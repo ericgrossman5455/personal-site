@@ -1,6 +1,6 @@
 <nav>
-	<div class="nav-control">
-		<img class="placeholder" src="./assets/icons/hamburger_menu.svg" alt="Expand/contract navbar icon">
+	<div class="nav-toggle placeholder">
+		<img src="./assets/icons/hamburger_menu.svg" role="presentation" />
 	</div>
 
 	<div class="directory">
@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="notifications">
-		<img src="./assets/icons/notifications.svg" alt="Notification icon">
+		<img src="./assets/icons/notifications.svg" alt="Notification icon" />
 	</div>
 </nav>
 
@@ -38,23 +38,24 @@
 		overflow-y: auto;
 		height: calc(100vh - $nav-padding * 2);
 		height: calc(100svh - $nav-padding * 2);
-		// border-right: 1px solid black;
 		// fix for shift at end of page scroll (Google Chrome)
 		margin-bottom: -1px;
 
+		.nav-toggle.placeholder {
+			opacity: 0;
+		}
+
 		img {
-				width: 48px;
-				@media (prefers-color-scheme: dark) {
-					filter: invert(0.95);
-				}
+			width: 48px;
+			@media (prefers-color-scheme: dark) {
+				filter: invert(0.95);
 			}
+		}
 
 		.directory {
 			display: flex;
 			flex-direction: column;
 			row-gap: 20px;
-
-			
 		}
 	}
 </style>

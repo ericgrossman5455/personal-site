@@ -33,7 +33,11 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	</head>
 
 	<body>
+		<input id="nav-toggle" type="checkbox" />
 		<main>
+			<label class="nav-toggle functional" for="nav-toggle">
+				<img src="./assets/icons/hamburger_menu.svg" alt="Navbar menu icon" />
+			</label>
 			<Nav />
 			<slot>LOREM IPSUM</slot>
 			<Footer />
@@ -42,34 +46,47 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 </html>
 
 <style is:global lang="scss">
+	#nav-toggle:checked + main {
+		grid-template-columns: 0px auto;
+	}
 
-:root {
-	$bg-layer-base: #DEDEDE;
-	$glyph-standard: #4B4B4B;
-	background-color: $bg-layer-base;
-	color: $glyph-standard;
+	#nav-toggle {
+		display: none;
+	}
 
-	scroll-behavior: smooth;
-	color-scheme: light dark;
-	font-family: sans-serif;
+	.nav-toggle.functional {
+		position: fixed;
+		left: 18.5px;
+		top: 25px;
+		width: 48px;
+		z-index: 100;
+	}
 
-	@media (prefers-color-scheme: dark) {
-		$bg-layer-base: #212024;
-		$glyph-standard: #E1E1E1;
+	:root {
+		$bg-layer-base: #dedede;
+		$glyph-standard: #4b4b4b;
 		background-color: $bg-layer-base;
 		color: $glyph-standard;
+
+		scroll-behavior: smooth;
+		color-scheme: light dark;
+		font-family: sans-serif;
+
+		@media (prefers-color-scheme: dark) {
+			$bg-layer-base: #212024;
+			$glyph-standard: #e1e1e1;
+			background-color: $bg-layer-base;
+			color: $glyph-standard;
+		}
 	}
-}
 
-main {
-	display: grid;
-	grid-template-columns: 85px 1fr;
-	grid-template-rows: 1fr auto;
-	grid-template-areas:
-	"nav content"
-	"nav footer";
-}
-
+	main {
+		display: grid;
+		grid-template-columns: 85px 1fr;
+		grid-template-rows: 1fr auto;
+		grid-template-areas:
+			'nav content'
+			'nav footer';
+		transition: grid-template-columns 500ms;
+	}
 </style>
-
-
