@@ -22,8 +22,25 @@
 	</div>
 </nav>
 
-<style lang="scss">
+<style is:global lang="scss">
 	$nav-padding: 25px;
+
+	#nav-toggle:checked + main {
+		grid-template-columns: 0px auto;
+	}
+
+	#nav-toggle {
+		display: none;
+	}
+
+	.nav-toggle.functional {
+		position: fixed;
+		left: 18.5px;
+		top: 25px;
+		width: 48px;
+		z-index: 100;
+
+	}
 
 	nav {
 		grid-area: nav;

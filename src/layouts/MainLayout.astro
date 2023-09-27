@@ -46,22 +46,6 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 </html>
 
 <style is:global lang="scss">
-	#nav-toggle:checked + main {
-		grid-template-columns: 0px auto;
-	}
-
-	#nav-toggle {
-		display: none;
-	}
-
-	.nav-toggle.functional {
-		position: fixed;
-		left: 18.5px;
-		top: 25px;
-		width: 48px;
-		z-index: 100;
-	}
-
 	:root {
 		$bg-layer-base: #dedede;
 		$glyph-standard: #4b4b4b;
@@ -87,6 +71,6 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		grid-template-areas:
 			'nav content'
 			'nav footer';
-		transition: grid-template-columns 500ms;
+		transition: grid-template-columns ease-in-out 150ms;
 	}
 </style>
