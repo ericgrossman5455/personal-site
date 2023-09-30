@@ -3,7 +3,7 @@ const { navWidth } = Astro.props;
 ---
 
 <nav>
-	<label class="nav-toggle functional" for="nav-toggle">
+	<label class="nav-toggle functional" for="nav-toggle" tabindex="0">
 		<img src="./assets/icons/hamburger_menu.svg" alt="Navbar menu icon" />
 	</label>
 	<div class="nav-toggle placeholder">
@@ -25,16 +25,13 @@ const { navWidth } = Astro.props;
 	</div>
 
 	<div class="notifications">
-		<img src="./assets/icons/notifications.svg" alt="Notification icon" />
+		<a href="#">
+			<img src="./assets/icons/notifications.svg" alt="Notification icon" />
+		</a>
 	</div>
 </nav>
 
-<style is:global lang="scss" define:vars={{ navWidth }}>
-	:root {
-		--nav-icon-width: 40px;
-		--nav-vert-padding: 25px;
-	}
-
+<style is:global lang="scss">
 	#nav-toggle:checked + main {
 		grid-template-columns: 0px auto;
 	}
@@ -43,36 +40,39 @@ const { navWidth } = Astro.props;
 		display: none;
 	}
 
-	.nav-toggle.functional {
-		position: fixed;
-		left: calc((var(--navWidth) - var(--nav-icon-width)) / 2);
-		top: 25px;
-		width: var(--nav-icon-width);
-		z-index: 100;
-	}
-
 	nav {
+		$icon-width: 40px;
+		$vert-padding: 25px;
+
 		grid-area: nav;
 		position: sticky;
 		top: 0;
 		display: flex;
 		flex-direction: column;
 		row-gap: 60px;
-		padding: var(--nav-vert-padding) 0;
+		padding: $vert-padding 0;
 		align-items: center;
 		justify-content: space-between;
 		overflow-y: auto;
-		height: calc(100vh - var(--nav-vert-padding) * 2);
-		height: calc(100dvh - var(--nav-vert-padding) * 2);
-		// fix for shift at end of page scroll (Google Chrome)
-		margin-bottom: -1px;
+		height: calc(100vh - $vert-padding * 2);
+		height: calc(100dvh - $vert-padding * 2);
+
+		.nav-toggle.functional {
+			position: fixed;
+			left: calc((var(--nav-width) - $icon-width) / 2);
+			top: 25px;
+			z-index: 100;
+			width: $icon-width;
+		}
 
 		.nav-toggle.placeholder {
 			opacity: 0;
 		}
 
 		img {
-			width: var(--nav-icon-width);
+			width: $icon-width;
+			cursor: pointer;
+
 			@media (prefers-color-scheme: dark) {
 				filter: invert(0.95);
 			}
