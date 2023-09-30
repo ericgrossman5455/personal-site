@@ -45,22 +45,22 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 <style is:global lang="scss">
 	:root {
-		$bg-layer-base: #dedede;
-		$glyph-standard: #4b4b4b;
+		--bg-layer-base: #dedede;
+		--glyph-standard: #4b4b4b;
 
-		background-color: $bg-layer-base;
-		color: $glyph-standard;
+		background-color: var(--bg-layer-base);
+		color: var(--glyph-standard);
 
 		scroll-behavior: smooth;
 		color-scheme: light dark;
 		font-family: sans-serif;
 
 		@media (prefers-color-scheme: dark) {
-			$bg-layer-base: #212024;
-			$glyph-standard: #e1e1e1;
+			--bg-layer-base: #212024;
+			--glyph-standard: #e1e1e1;
 
-			background-color: $bg-layer-base;
-			color: $glyph-standard;
+			background-color: var(--bg-layer-base);
+			color: var(--glyph-standard);
 		}
 	}
 
