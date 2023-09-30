@@ -1,7 +1,7 @@
 <footer>
 	<div class="footer-content">
 		<p>
-			© Designed &amp; Developed by Eric Grossman
+			Copyright © <span id="current-year"></span> | Designed &amp; Developed by Eric Grossman
 			<br />
 			 This site is currently being built.
 		</p>
@@ -14,3 +14,8 @@
 		background-color: rgb(138, 138, 138);
 	}
 </style>
+
+<script>
+	const currentYear = new Date().getFullYear().toString();
+	document.querySelector("#current-year").textContent = currentYear;
+</script>
