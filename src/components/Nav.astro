@@ -1,28 +1,36 @@
+---
+import { Icon } from 'astro-icon';
+---
+
 <nav>
-	<label class="nav-toggle functional" for="nav-toggle" tabindex="0">
-		<img src="./assets/icons/hamburger_menu.svg" alt="Navbar menu icon" />
+	<label
+		class="nav-toggle functional"
+		for="nav-toggle"
+		aria-label="Toggle navigation sidebar"
+		tabindex="0">
+		<Icon name="hamburger_menu" />
 	</label>
 	<div class="nav-toggle placeholder">
-		<img src="./assets/icons/hamburger_menu.svg" role="presentation" />
+		<Icon name="hamburger_menu" />
 	</div>
 
 	<div class="directory">
-		<a href="#" aria-label="Go to Home page">
-			<img src="./assets/icons/home.svg" title="Home" alt="Home page icon" />
+		<a href="#" title="Home" aria-label="Go to Home page">
+			<Icon name="home" />
 		</a>
 
-		<a href="#" aria-label="Go to Journal page">
-			<img src="./assets/icons/journal.svg" title="Journal" alt="Journal page icon" />
+		<a href="#" title="Journal" aria-label="Go to Journal page">
+			<Icon name="journal" />
 		</a>
 
-		<a href="#" aria-label="Go to About page">
-			<img src="./assets/icons/about.svg" title="About" alt="About page icon" />
+		<a href="#" title="About" aria-label="Go to About page">
+			<Icon name="about" />
 		</a>
 	</div>
 
 	<div class="notifications">
-		<a href="#">
-			<img src="./assets/icons/notifications.svg" alt="Notification icon" />
+		<a href="#" title="Notifications" aria-label="Open Notifications pane">
+			<Icon name="notifications" />
 		</a>
 	</div>
 </nav>
@@ -45,7 +53,7 @@
 		top: 0;
 		display: flex;
 		flex-direction: column;
-		row-gap: 60px;
+		row-gap: 65px;
 		padding: $vert-padding 0;
 		align-items: center;
 		justify-content: space-between;
@@ -65,13 +73,14 @@
 			opacity: 0;
 		}
 
-		img {
-			width: $icon-width;
-			cursor: pointer;
+		a {
+			line-height: 0;
+		}
 
-			@media (prefers-color-scheme: dark) {
-				filter: invert(0.95);
-			}
+		svg {
+			width: $icon-width;
+			fill: var(--glyph-standard);
+			cursor: pointer;
 		}
 
 		.directory {
