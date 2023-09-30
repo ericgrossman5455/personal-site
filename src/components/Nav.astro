@@ -1,7 +1,3 @@
----
-const { navWidth } = Astro.props;
----
-
 <nav>
 	<label class="nav-toggle functional" for="nav-toggle" tabindex="0">
 		<img src="./assets/icons/hamburger_menu.svg" alt="Navbar menu icon" />
@@ -11,15 +7,15 @@ const { navWidth } = Astro.props;
 	</div>
 
 	<div class="directory">
-		<a href="#">
+		<a href="#" aria-label="Go to Home page">
 			<img src="./assets/icons/home.svg" title="Home" alt="Home page icon" />
 		</a>
 
-		<a href="#">
+		<a href="#" aria-label="Go to Journal page">
 			<img src="./assets/icons/journal.svg" title="Journal" alt="Journal page icon" />
 		</a>
 
-		<a href="#">
+		<a href="#" aria-label="Go to About page">
 			<img src="./assets/icons/about.svg" title="About" alt="About page icon" />
 		</a>
 	</div>
@@ -41,8 +37,8 @@ const { navWidth } = Astro.props;
 	}
 
 	nav {
-		$icon-width: 40px;
-		$vert-padding: 25px;
+		$icon-width: 35px;
+		$vert-padding: 20px;
 
 		grid-area: nav;
 		position: sticky;
@@ -60,7 +56,7 @@ const { navWidth } = Astro.props;
 		.nav-toggle.functional {
 			position: fixed;
 			left: calc((var(--nav-width) - $icon-width) / 2);
-			top: 25px;
+			top: $vert-padding;
 			z-index: 100;
 			width: $icon-width;
 		}
