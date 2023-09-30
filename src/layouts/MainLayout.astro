@@ -3,6 +3,7 @@ import Footer from '../components/Footer.astro';
 import Nav from '../components/Nav.astro';
 
 const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
+const navWidth = '80px';
 ---
 
 <!doctype html>
@@ -35,17 +36,14 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	<body>
 		<input id="nav-toggle" type="checkbox" />
 		<main>
-			<label class="nav-toggle functional" for="nav-toggle">
-				<img src="./assets/icons/hamburger_menu.svg" alt="Navbar menu icon" />
-			</label>
-			<Nav />
+			<Nav navWidth={navWidth} />
 			<slot>LOREM IPSUM</slot>
 			<Footer />
 		</main>
 	</body>
 </html>
 
-<style is:global lang="scss">
+<style is:global lang="scss" define:vars={{navWidth}}>
 	:root {
 		$bg-layer-base: #dedede;
 		$glyph-standard: #4b4b4b;
@@ -66,7 +64,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 	main {
 		display: grid;
-		grid-template-columns: 85px 1fr;
+		grid-template-columns: var(--navWidth) 1fr;
 		grid-template-rows: 1fr auto;
 		grid-template-areas:
 			'nav content'
