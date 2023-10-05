@@ -1,5 +1,7 @@
 ---
 import { Icon } from 'astro-icon';
+
+import navData from '../data/navData';
 ---
 
 <nav>
@@ -15,17 +17,17 @@ import { Icon } from 'astro-icon';
 	</div>
 
 	<div class="directory">
-		<a href="#" title="Home" aria-label="Go to Home page">
-			<Icon name="home" />
-		</a>
-
-		<a href="#" title="Journal" aria-label="Go to Journal page">
-			<Icon name="journal" />
-		</a>
-
-		<a href="#" title="About" aria-label="Go to About page">
-			<Icon name="about" />
-		</a>
+		{
+			navData.map((page) => (
+				<a
+					href={page.path}
+					title={page.name}
+					aria-label={`Go to ${page.name} page`}
+					data-navLink>
+					<Icon name={page.name.toLowerCase()} />
+				</a>
+			))
+		}
 	</div>
 
 	<div class="notifications">
@@ -87,6 +89,37 @@ import { Icon } from 'astro-icon';
 			display: flex;
 			flex-direction: column;
 			row-gap: 25px;
+
+			svg {
+				opacity: 0.5;
+			}
+
+			[aria-current]:not([aria-current='false']) {
+				opacity: 1;
+				position: relative;
+
+				svg {
+				opacity: 1;
+				}
+
+				&:after {
+					content: '';
+					position: absolute;
+					right: 51px;
+					height: 100%;
+					border-left: 1px solid var(--glyph-standard);;
+				}
+			}
 		}
 	}
 </style>
+
+<script>
+	const navLinks = document.querySelectorAll('[data-navLink]');
+
+	navLinks.forEach((link) => {
+		if (link.getAttribute('href') === window.location.pathname) {
+			link.setAttribute('aria-current', 'page');
+		}
+	});
+</script>
