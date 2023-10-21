@@ -34,12 +34,11 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	</head>
 
 	<body>
-		<input id="nav-toggle" type="checkbox" />
+		<Nav />
 		<main>
-			<Nav />
 			<slot>LOREM IPSUM</slot>
-			<Footer />
 		</main>
+		<Footer />
 	</body>
 </html>
 
@@ -64,14 +63,14 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		}
 	}
 
-	main {
-		--nav-width: 70px;
+	body {
+		--nav-width: 60px;
 
 		display: grid;
 		grid-template-columns: var(--nav-width) 1fr;
 		grid-template-rows: 1fr auto;
 		grid-template-areas:
-			'nav content'
+			'nav main'
 			'nav footer';
 		transition: grid-template-columns ease-in-out 200ms;
 	}

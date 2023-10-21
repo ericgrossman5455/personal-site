@@ -5,13 +5,9 @@ import navData from '../data/navData';
 ---
 
 <nav>
-	<label
-		class="nav-toggle functional"
-		for="nav-toggle"
-		aria-label="Toggle navigation sidebar"
-		tabindex="0">
+	<button class="nav-toggle functional" title="Menu" aria-label="Toggle menu visibility" tabindex="0">
 		<Icon name="hamburger_menu" />
-	</label>
+	</button>
 	<div class="nav-toggle placeholder">
 		<Icon name="hamburger_menu" />
 	</div>
@@ -30,21 +26,15 @@ import navData from '../data/navData';
 		}
 	</div>
 
-	<div class="notifications">
-		<a href="#" title="Notifications" aria-label="Open Notifications pane">
-			<Icon name="notifications" />
-		</a>
-	</div>
+	<button class="notifications" title="Notifications" aria-label="Open Notifications pane">
+		<Icon name="notifications" />
+	</button>
 </nav>
 
 <style is:global lang="scss">
-	#nav-toggle:checked + main {
-		grid-template-columns: 0px auto;
-	}
-
-	#nav-toggle {
-		display: none;
-	}
+	// #nav-toggle:checked + main {
+	// 	grid-template-columns: 0px auto;
+	// }
 
 	nav {
 		$icon-width: 35px;
@@ -60,6 +50,7 @@ import navData from '../data/navData';
 		align-items: center;
 		justify-content: space-between;
 		overflow-y: auto;
+		line-height: 0;
 		height: calc(100vh - $vert-padding * 2);
 		height: calc(100dvh - $vert-padding * 2);
 
@@ -67,7 +58,7 @@ import navData from '../data/navData';
 			position: fixed;
 			left: calc((var(--nav-width) - $icon-width) / 2);
 			top: $vert-padding;
-			z-index: 100;
+			z-index: 9999;
 			width: $icon-width;
 		}
 
@@ -75,14 +66,13 @@ import navData from '../data/navData';
 			opacity: 0;
 		}
 
-		a {
-			line-height: 0;
-		}
-
 		svg {
 			width: $icon-width;
 			fill: var(--glyph-standard);
-			cursor: pointer;
+		}
+
+		button {
+			line-height: 0;
 		}
 
 		.directory {
@@ -118,7 +108,7 @@ import navData from '../data/navData';
 
 				// inactive pages
 				&:not([aria-current]) {
-					opacity: 0.4;
+					opacity: 0.5;
 
 					&:hover:after {
 						left: calc($left-position + 3px);
