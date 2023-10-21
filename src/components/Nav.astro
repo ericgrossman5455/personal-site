@@ -90,24 +90,39 @@ import navData from '../data/navData';
 			flex-direction: column;
 			row-gap: 25px;
 
-			svg {
-				opacity: 0.5;
-			}
-
-			[aria-current]:not([aria-current='false']) {
-				opacity: 1;
+			[data-navLink] {
+				$left-position: calc((var(--nav-width) - $icon-width) / -2);
 				position: relative;
-
-				svg {
-				opacity: 1;
-				}
 
 				&:after {
 					content: '';
 					position: absolute;
-					right: 51px;
+					left: calc($left-position - 1px);
 					height: 100%;
-					border-left: 1px solid var(--glyph-standard);;
+					border-left: 1px solid var(--glyph-standard);
+					transition: left 200ms ease-out;
+				}
+
+				// current page
+				&:is([aria-current]) {
+					opacity: 1;
+
+					&:after {
+						left: calc($left-position + 3px);
+					}
+
+					&:hover:after {
+						left: calc($left-position + 4px);
+					}
+				}
+
+				// inactive pages
+				&:not([aria-current]) {
+					opacity: 0.4;
+
+					&:hover:after {
+						left: calc($left-position + 3px);
+					}
 				}
 			}
 		}
