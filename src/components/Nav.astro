@@ -4,11 +4,11 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<nav>
-	<button class="nav-toggle functional" title="Menu" aria-label="Toggle menu visibility" tabindex="0">
+<nav aria-expanded="true">
+	<button class="nav-toggle" title="Navigation" aria-label="Toggle navigation panel">
 		<Icon name="hamburger_menu" />
 	</button>
-	<div class="nav-toggle placeholder">
+	<div class="placeholder">
 		<Icon name="hamburger_menu" />
 	</div>
 
@@ -26,16 +26,12 @@ import navData from '../data/navData';
 		}
 	</div>
 
-	<button class="notifications" title="Notifications" aria-label="Open Notifications pane">
+	<button class="notifications" title="Notifications" aria-label="Open Notifications pane" data-navLink>
 		<Icon name="notifications" />
 	</button>
 </nav>
 
 <style is:global lang="scss">
-	// #nav-toggle:checked + main {
-	// 	grid-template-columns: 0px auto;
-	// }
-
 	nav {
 		$icon-width: 35px;
 		$vert-padding: 20px;
@@ -54,7 +50,7 @@ import navData from '../data/navData';
 		height: calc(100vh - $vert-padding * 2);
 		height: calc(100dvh - $vert-padding * 2);
 
-		.nav-toggle.functional {
+		.nav-toggle {
 			position: fixed;
 			left: calc((var(--nav-width) - $icon-width) / 2);
 			top: $vert-padding;
@@ -62,7 +58,7 @@ import navData from '../data/navData';
 			width: $icon-width;
 		}
 
-		.nav-toggle.placeholder {
+		.placeholder {
 			opacity: 0;
 		}
 
@@ -80,14 +76,14 @@ import navData from '../data/navData';
 			flex-direction: column;
 			row-gap: 25px;
 
-			[data-navLink] {
-				$left-position: calc((var(--nav-width) - $icon-width) / -2);
+			a {
+				$flush-left: calc((var(--nav-width) - $icon-width) / -2);
 				position: relative;
 
 				&:after {
 					content: '';
 					position: absolute;
-					left: calc($left-position - 1px);
+					left: calc($flush-left - 1px);
 					height: 100%;
 					border-left: 1px solid var(--glyph-standard);
 					transition: left 200ms ease-out;
@@ -98,11 +94,11 @@ import navData from '../data/navData';
 					opacity: 1;
 
 					&:after {
-						left: calc($left-position + 3px);
+						left: calc($flush-left + 3px);
 					}
 
 					&:hover:after {
-						left: calc($left-position + 4px);
+						left: calc($flush-left + 4px);
 					}
 				}
 
@@ -111,7 +107,7 @@ import navData from '../data/navData';
 					opacity: 0.5;
 
 					&:hover:after {
-						left: calc($left-position + 3px);
+						left: calc($flush-left + 3px);
 					}
 				}
 			}
@@ -125,6 +121,25 @@ import navData from '../data/navData';
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
+		}
+	});
+
+	const navToggle = document.querySelector('.nav-toggle');
+	const nav = document.querySelector('nav');
+
+	navToggle.addEventListener('click', () => {
+		const ariaExpanded = nav.getAttribute('aria-expanded');
+
+		if (ariaExpanded === 'false') {
+			nav.setAttribute('aria-expanded', 'true');
+			navLinks.forEach((link) => {
+				link.removeAttribute('tabindex');
+			});
+		} else {
+			nav.setAttribute('aria-expanded', 'false');
+			navLinks.forEach((link) => {
+				link.setAttribute('tabindex', '-1');
+			});
 		}
 	});
 </script>
