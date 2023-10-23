@@ -4,8 +4,9 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<nav aria-expanded="true">
-	<button class="nav-toggle" title="Navigation" aria-label="Toggle navigation panel">
+<nav id="primary-nav" aria-expanded="true">
+	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="primary-nav">
+		<span class="visually-hidden">Navigation</span>
 		<Icon name="hamburger_menu" />
 	</button>
 	<div class="placeholder">
@@ -15,23 +16,24 @@ import navData from '../data/navData';
 	<div class="directory">
 		{
 			navData.map((page) => (
-				<a
-					href={page.path}
-					title={page.name}
-					aria-label={`Go to ${page.name} page`}
-					data-navLink>
+				<a href={page.path} title={page.name} aria-label={page.name} data-navLink>
+					<span class="visually-hidden">{page.name}</span>
 					<Icon name={page.name.toLowerCase()} />
 				</a>
 			))
 		}
 	</div>
 
-	<button class="notifications" title="Notifications" aria-label="Open Notifications pane" data-navLink>
+	<button class="notifications" title="Notifications" aria-label="Notifications" data-navLink>
+		<span class="visually-hidden">Notifications</span>
 		<Icon name="notifications" />
 	</button>
 </nav>
 
 <style is:global lang="scss">
+	:root {
+		--nav-width: 70px;
+	}
 	nav {
 		$icon-width: 35px;
 		$vert-padding: 20px;
@@ -94,11 +96,11 @@ import navData from '../data/navData';
 					opacity: 1;
 
 					&:after {
-						left: calc($flush-left + 3px);
+						left: calc($flush-left + 4px);
 					}
 
 					&:hover:after {
-						left: calc($flush-left + 4px);
+						left: calc($flush-left + 5px);
 					}
 				}
 
@@ -107,7 +109,7 @@ import navData from '../data/navData';
 					opacity: 0.5;
 
 					&:hover:after {
-						left: calc($flush-left + 3px);
+						left: calc($flush-left + 4px);
 					}
 				}
 			}
@@ -117,28 +119,31 @@ import navData from '../data/navData';
 
 <script>
 	const navLinks = document.querySelectorAll('[data-navLink]');
+	const navToggle = document.querySelector('.nav-toggle');
+	const nav = document.getElementById('primary-nav');
 
+	// add aria-current attribute to current page icon
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
 		}
 	});
 
-	const navToggle = document.querySelector('.nav-toggle');
-	const nav = document.querySelector('nav');
-
+	// toggle aria-expanded, aria-hidden, and tabindex when nav is toggled
 	navToggle.addEventListener('click', () => {
-		const ariaExpanded = nav.getAttribute('aria-expanded');
+		const isAriaExpanded = nav.getAttribute('aria-expanded');
 
-		if (ariaExpanded === 'false') {
+		if (isAriaExpanded === 'false') {
 			nav.setAttribute('aria-expanded', 'true');
 			navLinks.forEach((link) => {
 				link.removeAttribute('tabindex');
+				link.removeAttribute('aria-hidden');
 			});
 		} else {
 			nav.setAttribute('aria-expanded', 'false');
 			navLinks.forEach((link) => {
 				link.setAttribute('tabindex', '-1');
+				link.setAttribute('aria-hidden', 'true');
 			});
 		}
 	});
