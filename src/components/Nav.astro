@@ -4,60 +4,67 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<nav id="primary-nav" aria-expanded="true">
+<div class="nav-wrap" data-disableAnim aria-expanded="true">
 	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="primary-nav">
 		<span class="visually-hidden">Navigation</span>
 		<Icon name="hamburger_menu" />
 	</button>
-	<div class="placeholder">
-		<Icon name="hamburger_menu" />
-	</div>
 
-	<div class="directory">
-		{
-			navData.map((page) => (
-				<a href={page.path} title={page.name} aria-label={page.name} data-navLink>
-					<span class="visually-hidden">{page.name}</span>
-					<Icon name={page.name.toLowerCase()} />
-				</a>
-			))
-		}
-	</div>
+	<nav id="primary-nav">
+		<div class="placeholder">
+			<Icon name="hamburger_menu" />
+		</div>
 
-	<button class="notifications" title="Notifications" aria-label="Notifications" data-navLink>
-		<span class="visually-hidden">Notifications</span>
-		<Icon name="notifications" />
-	</button>
-</nav>
+		<div class="directory">
+			{
+				navData.map((page) => (
+					<a href={page.path} title={page.name} aria-label={page.name} data-navLink>
+						<span class="visually-hidden">{page.name}</span>
+						<Icon name={page.name.toLowerCase()} />
+					</a>
+				))
+			}
+		</div>
+
+		<button class="notifications" title="Notifications" aria-label="Notifications" data-navLink>
+			<span class="visually-hidden">Notifications</span>
+			<Icon name="notifications" />
+		</button>
+	</nav>
+</div>
 
 <style is:global lang="scss">
 	:root {
 		--nav-width: 70px;
 	}
-	nav {
+
+	.nav-wrap {
 		$icon-width: 35px;
 		$vert-padding: 20px;
-
 		grid-area: nav;
 		position: sticky;
 		top: 0;
-		display: flex;
-		flex-direction: column;
-		row-gap: 65px;
-		padding: $vert-padding 0;
-		align-items: center;
-		justify-content: space-between;
-		overflow-y: auto;
-		line-height: 0;
-		height: calc(100vh - $vert-padding * 2);
-		height: calc(100dvh - $vert-padding * 2);
+		height: calc(100vh);
+		height: calc(100dvh);
 
 		.nav-toggle {
 			position: fixed;
 			left: calc((var(--nav-width) - $icon-width) / 2);
 			top: $vert-padding;
 			z-index: 9999;
-			width: $icon-width;
+		}
+
+		nav {
+			display: flex;
+			flex-direction: column;
+			row-gap: 65px;
+			padding: $vert-padding 0;
+			align-items: center;
+			justify-content: space-between;
+			overflow-y: auto;
+			line-height: 0;
+			height: calc(100vh - $vert-padding * 2);
+			height: calc(100dvh - $vert-padding * 2);
 		}
 
 		.placeholder {
@@ -120,31 +127,69 @@ import navData from '../data/navData';
 <script>
 	const navLinks = document.querySelectorAll('[data-navLink]');
 	const navToggle = document.querySelector('.nav-toggle');
+	const navWrap = document.querySelector('.nav-wrap');
 	const nav = document.getElementById('primary-nav');
 
-	// add aria-current attribute to current page icon
+	// add aria-current attribute to current page anchor tag in nav
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
 		}
 	});
 
-	// toggle aria-expanded, aria-hidden, and tabindex when nav is toggled
-	navToggle.addEventListener('click', () => {
-		const isAriaExpanded = nav.getAttribute('aria-expanded');
+	const setCollapsedNavAttributes = () => {
+		const navAnimDuration =
+			Number(
+				window
+					.getComputedStyle(document.querySelector('body'))
+					.getPropertyValue('transition-duration')
+					.replace(/[^0-9\.]+/g, '')
+			) * 1000;
 
-		if (isAriaExpanded === 'false') {
-			nav.setAttribute('aria-expanded', 'true');
-			navLinks.forEach((link) => {
-				link.removeAttribute('tabindex');
-				link.removeAttribute('aria-hidden');
-			});
+		setTimeout(() => {
+			nav.classList.add('display-none');
+		}, navAnimDuration);
+
+		navWrap.setAttribute('aria-expanded', 'false');
+		nav.setAttribute('aria-hidden', 'true');
+	};
+
+	const setExpandedNavAttributes = () => {
+		navWrap.setAttribute('aria-expanded', 'true');
+		nav.removeAttribute('aria-hidden');
+		nav.classList.remove('display-none');
+	};
+
+	// conditions for when nav attributes should adopt expanded/collapsed states
+	const attributeToggler = (setNavState) => {
+		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+
+		if (setNavState == 'collapseNav') {
+			setCollapsedNavAttributes();
+		} else if (setNavState == 'expandNav') {
+			setExpandedNavAttributes();
+		} else if (isNavExpanded === 'false') {
+			setExpandedNavAttributes();
 		} else {
-			nav.setAttribute('aria-expanded', 'false');
-			navLinks.forEach((link) => {
-				link.setAttribute('tabindex', '-1');
-				link.setAttribute('aria-hidden', 'true');
-			});
+			setCollapsedNavAttributes();
 		}
-	});
+	};
+
+	const mediaQueryHandler = () => {
+		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+
+		// removes data-disableAnim attribute to enable nav animations | related: 1
+		setTimeout(() => {
+			navWrap.removeAttribute('data-disableAnim');
+		}, 0);
+
+		if (document.body.clientWidth <= 600 && isNavExpanded === 'true') {
+			attributeToggler('collapseNav');
+			console.log(1)
+		}
+	};
+
+	navToggle.addEventListener('click', attributeToggler);
+	window.addEventListener('resize', mediaQueryHandler);
+	window.addEventListener('load', mediaQueryHandler);
 </script>
