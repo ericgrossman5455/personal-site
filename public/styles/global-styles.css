@@ -25,3 +25,7 @@
 	width: auto !important;
 	white-space: normal !important;
 }
+
+.display-none {
+	display: none !important;
+}
