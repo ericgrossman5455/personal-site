@@ -130,6 +130,7 @@ import navData from '../data/navData';
 	const navWrap = document.querySelector('.nav-wrap');
 	const nav = document.getElementById('primary-nav');
 	const main = document.querySelector('main');
+	const contentWrap = document.getElementById('content-wrap');
 	const mobileBreakPoint = 600;
 
 	// add aria-current attribute to current page anchor tag in nav
@@ -153,7 +154,10 @@ import navData from '../data/navData';
 	function setExpandedNavAttributes() {
 		if (document.body.clientWidth <= mobileBreakPoint) {
 			const mainWidth = main.offsetWidth.toString();
-			main.style.width = `${mainWidth}px`;
+			const mainHeight = main.offsetHeight.toString();
+			contentWrap.style.width = `${mainWidth}px`;
+			main.style.height = `${mainHeight}px`;
+			contentWrap.setAttribute('data-disabled', 'true');
 
 			window.addEventListener('scroll', throttle(mobileNavAutoCollapse, 1000));
 			main.addEventListener('click', attributeToggler);
@@ -178,7 +182,10 @@ import navData from '../data/navData';
 
 			if (document.body.clientWidth <= mobileBreakPoint) {
 				main.style.removeProperty('width');
+				contentWrap.removeAttribute('data-disabled');
 				main.removeEventListener('click', attributeToggler);
+				contentWrap.style.removeProperty('width');
+			main.style.removeProperty('height');
 			}
 		}, navAnimDuration);
 
