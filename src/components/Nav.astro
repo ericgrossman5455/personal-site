@@ -4,13 +4,13 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<div class="nav-wrap" data-disableAnim aria-expanded="true">
-	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="primary-nav">
+<nav data-disable-anim aria-expanded="true">
+	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
 		<span class="visually-hidden">Navigation</span>
 		<Icon name="hamburger_menu" />
 	</button>
 
-	<nav id="primary-nav">
+	<div id="nav-panel">
 		<div class="placeholder">
 			<Icon name="hamburger_menu" />
 		</div>
@@ -18,7 +18,7 @@ import navData from '../data/navData';
 		<div class="directory">
 			{
 				navData.map((page) => (
-					<a href={page.path} title={page.name} aria-label={page.name} data-navLink>
+					<a href={page.path} title={page.name} aria-label={page.name} data-nav-link>
 						<span class="visually-hidden">{page.name}</span>
 						<Icon name={page.name.toLowerCase()} />
 					</a>
@@ -26,21 +26,22 @@ import navData from '../data/navData';
 			}
 		</div>
 
-		<button class="notifications" title="Notifications" aria-label="Notifications" data-navLink>
+		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
 			<span class="visually-hidden">Notifications</span>
 			<Icon name="notifications" />
 		</button>
-	</nav>
-</div>
+	</div>
+</nav>
 
 <style is:global lang="scss">
 	:root {
 		--nav-width: 70px;
 	}
 
-	.nav-wrap {
+	nav {
 		$icon-width: 35px;
 		$vert-padding: 20px;
+
 		grid-area: nav;
 		position: sticky;
 		top: 0;
@@ -54,7 +55,7 @@ import navData from '../data/navData';
 			z-index: 9999;
 		}
 
-		nav {
+		#nav-panel {
 			display: flex;
 			flex-direction: column;
 			row-gap: 15px;
@@ -126,10 +127,10 @@ import navData from '../data/navData';
 </style>
 
 <script>
-	const navLinks = document.querySelectorAll('[data-navLink]');
+	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const navToggle = document.querySelector('.nav-toggle');
-	const navWrap = document.querySelector('.nav-wrap');
-	const nav = document.getElementById('primary-nav');
+	const nav = document.querySelector('nav');
+	const navPanel = document.getElementById('nav-panel');
 	const main = document.querySelector('main');
 	const freezeElements = document.querySelectorAll('[data-nav-freeze]');
 	const mobileBreakPoint = 600;
@@ -166,9 +167,9 @@ import navData from '../data/navData';
 			main.addEventListener('click', attributeToggler);
 		}
 
-		navWrap.setAttribute('aria-expanded', 'true');
-		nav.removeAttribute('aria-hidden');
-		nav.classList.remove('display-none');
+		nav.setAttribute('aria-expanded', 'true');
+		navPanel.removeAttribute('aria-hidden');
+		navPanel.classList.remove('display-none');
 	}
 
 	function setCollapsedNavAttributes() {
@@ -181,7 +182,7 @@ import navData from '../data/navData';
 			) * 1000;
 
 		setTimeout(() => {
-			nav.classList.add('display-none');
+			navPanel.classList.add('display-none');
 
 			if (document.body.clientWidth <= mobileBreakPoint) {
 				main.removeEventListener('click', attributeToggler);
@@ -193,13 +194,13 @@ import navData from '../data/navData';
 			}
 		}, navAnimDuration);
 
-		navWrap.setAttribute('aria-expanded', 'false');
-		nav.setAttribute('aria-hidden', 'true');
+		nav.setAttribute('aria-expanded', 'false');
+		navPanel.setAttribute('aria-hidden', 'true');
 	}
 
 	// conditions for when nav attributes should adopt expanded/collapsed states
 	function attributeToggler(setNavState) {
-		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+		const isNavExpanded = nav.getAttribute('aria-expanded');
 
 		if (setNavState == 'collapseNav') {
 			setCollapsedNavAttributes();
@@ -213,11 +214,11 @@ import navData from '../data/navData';
 	}
 
 	function mediaQueryHandler() {
-		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		// removes data-disableAnim attribute to enable nav animations | related: 1
+		// removes data-disable-anim attribute to enable nav animations | related: 1
 		setTimeout(() => {
-			navWrap.removeAttribute('data-disableAnim');
+			nav.removeAttribute('data-disable-anim');
 		}, 0);
 
 		// collapse nav when window shrinks to mobile width
@@ -227,7 +228,7 @@ import navData from '../data/navData';
 	}
 
 	function mobileNavAutoCollapse() {
-		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+		const isNavExpanded = nav.getAttribute('aria-expanded');
 
 		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
 			setCollapsedNavAttributes();

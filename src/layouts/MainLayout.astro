@@ -73,7 +73,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 			'nav main'
 			'nav footer';
 		transition: grid-template-columns ease-in-out 200ms;
-		&:has(.nav-wrap[aria-expanded='false']) {
+		&:has(nav[aria-expanded='false']) {
 			grid-template-columns: 0px 1fr;
 		}
 	}
@@ -89,7 +89,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		overflow-x: hidden;
 
 		@media only screen and (max-width: 600px) {
-			.nav-wrap[aria-expanded='true'] ~ & {
+			nav[aria-expanded='true'] ~ & {
 				user-select: none;
 				-webkit-user-select: none;
 				opacity: 0.2;
@@ -103,9 +103,9 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	}
 
 	// disables unintended nav animations upon mobile page load | related: 1
-	body:has(.nav-wrap[data-disableAnim]),
-	.nav-wrap[data-disableAnim] ~ main,
-	.nav-wrap[data-disableAnim] ~ footer {
+	body:has(nav[data-disable-anim]),
+	nav[data-disable-anim] ~ main,
+	nav[data-disable-anim] ~ footer {
 		transition: none;
 	}
 </style>
