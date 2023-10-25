@@ -72,6 +72,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 			'nav main'
 			'nav footer';
 		transition: grid-template-columns ease-in-out 200ms;
+		overflow-x: hidden;
 
 		&:has(.nav-wrap[aria-expanded='false']) {
 			grid-template-columns: 0px 1fr;
@@ -80,6 +81,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 	main {
 		grid-area: main;
+		overflow-x: hidden;
 	}
 
 	main, footer {
