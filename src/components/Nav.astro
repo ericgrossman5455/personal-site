@@ -57,10 +57,11 @@ import navData from '../data/navData';
 		nav {
 			display: flex;
 			flex-direction: column;
-			row-gap: 65px;
+			row-gap: 15px;
 			padding: $vert-padding 0;
 			align-items: center;
 			justify-content: space-between;
+			overflow-x: hidden;
 			overflow-y: auto;
 			line-height: 0;
 			height: calc(100vh - $vert-padding * 2);
@@ -130,7 +131,7 @@ import navData from '../data/navData';
 	const navWrap = document.querySelector('.nav-wrap');
 	const nav = document.getElementById('primary-nav');
 	const main = document.querySelector('main');
-	const contentWrap = document.getElementById('content-wrap');
+	const freezeElements = document.querySelectorAll('[data-nav-freeze]');
 	const mobileBreakPoint = 600;
 
 	// add aria-current attribute to current page anchor tag in nav
@@ -153,11 +154,13 @@ import navData from '../data/navData';
 
 	function setExpandedNavAttributes() {
 		if (document.body.clientWidth <= mobileBreakPoint) {
-			const mainWidth = main.offsetWidth.toString();
-			const mainHeight = main.offsetHeight.toString();
-			contentWrap.style.width = `${mainWidth}px`;
-			main.style.height = `${mainHeight}px`;
-			contentWrap.setAttribute('data-disabled', 'true');
+			freezeElements.forEach((el) => {
+				const htmlEl = el as HTMLElement;
+				const freezeWidth = htmlEl.offsetWidth.toString();
+				const freezeHeight = htmlEl.offsetHeight.toString();
+				htmlEl.style.width = `${freezeWidth}px`;
+				htmlEl.style.height = `${freezeHeight}px`;
+			});
 
 			window.addEventListener('scroll', throttle(mobileNavAutoCollapse, 1000));
 			main.addEventListener('click', attributeToggler);
@@ -181,11 +184,12 @@ import navData from '../data/navData';
 			nav.classList.add('display-none');
 
 			if (document.body.clientWidth <= mobileBreakPoint) {
-				main.style.removeProperty('width');
-				contentWrap.removeAttribute('data-disabled');
 				main.removeEventListener('click', attributeToggler);
-				contentWrap.style.removeProperty('width');
-			main.style.removeProperty('height');
+				freezeElements.forEach((el) => {
+					const htmlEl = el as HTMLElement;
+					htmlEl.style.removeProperty('height');
+					htmlEl.style.removeProperty('width');
+				});
 			}
 		}, navAnimDuration);
 
@@ -230,7 +234,7 @@ import navData from '../data/navData';
 		}
 	}
 
-	navToggle.addEventListener('click', throttle(attributeToggler, 200));
+	navToggle.addEventListener('click', throttle(attributeToggler, 300));
 	window.addEventListener('resize', mediaQueryHandler);
 	window.addEventListener('load', mediaQueryHandler);
 </script>

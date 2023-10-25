@@ -1,5 +1,5 @@
 <footer>
-	<div class="footer-content">
+	<div data-nav-freeze>
 		<p>
 			Copyright © <span id="current-year"></span> | Designed &amp; Developed by Eric Grossman
 		</p>
@@ -7,7 +7,7 @@
 	</div>
 </footer>
 
-<style lang="scss">
+<style is:global lang="scss">
 	footer {
 		grid-area: footer;
 		background-color: rgb(138, 138, 138);
@@ -18,5 +18,5 @@
 
 <script>
 	const currentYear = new Date().getFullYear().toString();
-	document.querySelector('#current-year').textContent = currentYear;
+	document.getElementById('current-year').textContent = currentYear;
 </script>
