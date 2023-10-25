@@ -127,33 +127,28 @@ import navData from '../data/navData';
 </style>
 
 <script>
-	const navLinks = document.querySelectorAll('[data-nav-link]');
-	const navToggle = document.querySelector('.nav-toggle');
 	const nav = document.querySelector('nav');
+	const navToggle = document.querySelector('.nav-toggle');
 	const navPanel = document.getElementById('nav-panel');
+	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
 	const freezeElements = document.querySelectorAll('[data-nav-freeze]');
 	const mobileBreakPoint = 600;
+	let navAnimTimer;
 
-	// add aria-current attribute to current page anchor tag in nav
+	// add aria-current attribute to anchor tag of current page
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
 		}
 	});
 
-	function throttle(fn, wait) {
-		var time = Date.now();
-
-		return function () {
-			if (time + wait - Date.now() < 0) {
-				fn();
-				time = Date.now();
-			}
-		};
-	}
-
 	function setExpandedNavAttributes() {
+		nav.setAttribute('aria-expanded', 'true');
+		navPanel.removeAttribute('aria-hidden');
+		navPanel.classList.remove('display-none');
+		clearTimeout(navAnimTimer);
+
 		if (document.body.clientWidth <= mobileBreakPoint) {
 			freezeElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
@@ -163,16 +158,15 @@ import navData from '../data/navData';
 				htmlEl.style.height = `${freezeHeight}px`;
 			});
 
-			window.addEventListener('scroll', throttle(mobileNavAutoCollapse, 1000));
+			window.addEventListener('scroll', mediaQueryHandler);
 			main.addEventListener('click', attributeToggler);
 		}
-
-		nav.setAttribute('aria-expanded', 'true');
-		navPanel.removeAttribute('aria-hidden');
-		navPanel.classList.remove('display-none');
 	}
 
 	function setCollapsedNavAttributes() {
+		nav.setAttribute('aria-expanded', 'false');
+		navPanel.setAttribute('aria-hidden', 'true');
+
 		const navAnimDuration =
 			Number(
 				window
@@ -181,32 +175,21 @@ import navData from '../data/navData';
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
 
-		setTimeout(() => {
+		navAnimTimer = setTimeout(() => {
 			navPanel.classList.add('display-none');
 
-			if (document.body.clientWidth <= mobileBreakPoint) {
-				main.removeEventListener('click', attributeToggler);
-				freezeElements.forEach((el) => {
-					const htmlEl = el as HTMLElement;
-					htmlEl.style.removeProperty('height');
-					htmlEl.style.removeProperty('width');
-				});
-			}
+			main.removeEventListener('click', attributeToggler);
+			freezeElements.forEach((el) => {
+				const htmlEl = el as HTMLElement;
+				htmlEl.removeAttribute('style');
+			});
 		}, navAnimDuration);
-
-		nav.setAttribute('aria-expanded', 'false');
-		navPanel.setAttribute('aria-hidden', 'true');
 	}
 
-	// conditions for when nav attributes should adopt expanded/collapsed states
-	function attributeToggler(setNavState) {
+	function attributeToggler() {
 		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		if (setNavState == 'collapseNav') {
-			setCollapsedNavAttributes();
-		} else if (setNavState == 'expandNav') {
-			setExpandedNavAttributes();
-		} else if (isNavExpanded === 'false') {
+		if (isNavExpanded === 'false') {
 			setExpandedNavAttributes();
 		} else {
 			setCollapsedNavAttributes();
@@ -216,26 +199,18 @@ import navData from '../data/navData';
 	function mediaQueryHandler() {
 		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		// removes data-disable-anim attribute to enable nav animations | related: 1
-		setTimeout(() => {
-			nav.removeAttribute('data-disable-anim');
-		}, 0);
-
-		// collapse nav when window shrinks to mobile width
-		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
-			attributeToggler('collapseNav');
-		}
-	}
-
-	function mobileNavAutoCollapse() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
-
+		// collapse nav when window resizes while below mobile breakpoint
 		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
 		}
+
+		// removes data-disable-anim attribute to enable nav animations | related: 1
+		nav.removeAttribute('data-disable-anim');
+
+		window.removeEventListener('scroll', mediaQueryHandler);
 	}
 
-	navToggle.addEventListener('click', throttle(attributeToggler, 300));
+	navToggle.addEventListener('click', attributeToggler);
 	window.addEventListener('resize', mediaQueryHandler);
 	window.addEventListener('load', mediaQueryHandler);
 </script>
