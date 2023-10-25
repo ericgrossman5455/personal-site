@@ -129,6 +129,8 @@ import navData from '../data/navData';
 	const navToggle = document.querySelector('.nav-toggle');
 	const navWrap = document.querySelector('.nav-wrap');
 	const nav = document.getElementById('primary-nav');
+	const main = document.querySelector('main');
+	const mobileBreakPoint = 600;
 
 	// add aria-current attribute to current page anchor tag in nav
 	navLinks.forEach((link) => {
@@ -137,7 +139,32 @@ import navData from '../data/navData';
 		}
 	});
 
-	const setCollapsedNavAttributes = () => {
+	function throttle(fn, wait) {
+		var time = Date.now();
+
+		return function () {
+			if (time + wait - Date.now() < 0) {
+				fn();
+				time = Date.now();
+			}
+		};
+	}
+
+	function setExpandedNavAttributes() {
+		if (document.body.clientWidth <= mobileBreakPoint) {
+			const mainWidth = main.offsetWidth.toString();
+			main.style.width = `${mainWidth}px`;
+
+			window.addEventListener('scroll', throttle(mobileNavAutoCollapse, 1000));
+			main.addEventListener('click', attributeToggler);
+		}
+
+		navWrap.setAttribute('aria-expanded', 'true');
+		nav.removeAttribute('aria-hidden');
+		nav.classList.remove('display-none');
+	}
+
+	function setCollapsedNavAttributes() {
 		const navAnimDuration =
 			Number(
 				window
@@ -148,20 +175,19 @@ import navData from '../data/navData';
 
 		setTimeout(() => {
 			nav.classList.add('display-none');
+
+			if (document.body.clientWidth <= mobileBreakPoint) {
+				main.style.removeProperty('width');
+				main.removeEventListener('click', attributeToggler);
+			}
 		}, navAnimDuration);
 
 		navWrap.setAttribute('aria-expanded', 'false');
 		nav.setAttribute('aria-hidden', 'true');
-	};
-
-	const setExpandedNavAttributes = () => {
-		navWrap.setAttribute('aria-expanded', 'true');
-		nav.removeAttribute('aria-hidden');
-		nav.classList.remove('display-none');
-	};
+	}
 
 	// conditions for when nav attributes should adopt expanded/collapsed states
-	const attributeToggler = (setNavState) => {
+	function attributeToggler(setNavState) {
 		const isNavExpanded = navWrap.getAttribute('aria-expanded');
 
 		if (setNavState == 'collapseNav') {
@@ -173,9 +199,9 @@ import navData from '../data/navData';
 		} else {
 			setCollapsedNavAttributes();
 		}
-	};
+	}
 
-	const mediaQueryHandler = () => {
+	function mediaQueryHandler() {
 		const isNavExpanded = navWrap.getAttribute('aria-expanded');
 
 		// removes data-disableAnim attribute to enable nav animations | related: 1
@@ -183,13 +209,21 @@ import navData from '../data/navData';
 			navWrap.removeAttribute('data-disableAnim');
 		}, 0);
 
-		if (document.body.clientWidth <= 600 && isNavExpanded === 'true') {
+		// collapse nav when window shrinks to mobile width
+		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
 			attributeToggler('collapseNav');
-			console.log(1)
 		}
-	};
+	}
 
-	navToggle.addEventListener('click', attributeToggler);
+	function mobileNavAutoCollapse() {
+		const isNavExpanded = navWrap.getAttribute('aria-expanded');
+
+		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
+			setCollapsedNavAttributes();
+		}
+	}
+
+	navToggle.addEventListener('click', throttle(attributeToggler, 200));
 	window.addEventListener('resize', mediaQueryHandler);
 	window.addEventListener('load', mediaQueryHandler);
 </script>

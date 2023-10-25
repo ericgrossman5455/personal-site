@@ -79,20 +79,29 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 	main {
 		grid-area: main;
-		transition: opacity 700ms;
+	}
+
+	main, footer {
+		transition: opacity 300ms;
 
 		@media only screen and (max-width: 600px) {
 			.nav-wrap[aria-expanded='true'] ~ & {
-				pointer-events: none;
 				user-select: none;
+				-webkit-user-select: none;
 				opacity: 0.2;
+
+				a,
+				button {
+					pointer-events: none;
+				}
 			}
 		}
 	}
 
 	// disables unintended nav animations upon mobile page load | related: 1
 	body:has(.nav-wrap[data-disableAnim]),
-	.nav-wrap[data-disableAnim] ~ main {
+	.nav-wrap[data-disableAnim] ~ main,
+	.nav-wrap[data-disableAnim] ~ footer {
 		transition: none;
 	}
 </style>
