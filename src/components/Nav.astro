@@ -201,19 +201,16 @@ import navData from '../data/navData';
 	}
 
 	function mediaQueryHandler() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
-
-		// collapse nav when window resizes while below mobile breakpoint
-		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
+		if (document.body.clientWidth <= mobileBreakPoint) {
 			setCollapsedNavAttributes();
 		}
-
-		// remove data-disable-anim attribute to enable nav animations | related: 1
-		nav.removeAttribute('data-disable-anim');
 	}
 
 	navToggle.addEventListener('click', attributeToggler);
 	window.addEventListener('resize', mediaQueryHandler);
-	window.addEventListener('load', mediaQueryHandler);
+	document.addEventListener('DOMContentLoaded', mediaQueryHandler);
+	document.addEventListener('DOMContentLoaded', () => {
+		nav.removeAttribute('data-disable-anim');
+	});
 	screen.orientation.addEventListener('change', mediaQueryHandler);
 </script>
