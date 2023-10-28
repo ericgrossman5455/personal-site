@@ -10,7 +10,7 @@ import navData from '../data/navData';
 		<Icon name="hamburger_menu" />
 	</button>
 
-	<div id="nav-panel">
+	<div id="nav-panel" class="">
 		<div class="placeholder">
 			<Icon name="hamburger_menu" />
 		</div>
@@ -150,6 +150,10 @@ import navData from '../data/navData';
 		clearTimeout(navAnimTimer);
 
 		if (document.body.clientWidth <= mobileBreakPoint) {
+			window.addEventListener('scroll', mediaQueryHandler);
+			main.addEventListener('click', attributeToggler);
+
+			// freeze non-nav element dimensions so they are pushed off-screen
 			freezeElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
 				const freezeWidth = htmlEl.offsetWidth.toString();
@@ -157,9 +161,6 @@ import navData from '../data/navData';
 				htmlEl.style.width = `${freezeWidth}px`;
 				htmlEl.style.height = `${freezeHeight}px`;
 			});
-
-			window.addEventListener('scroll', mediaQueryHandler);
-			main.addEventListener('click', attributeToggler);
 		}
 	}
 
@@ -167,6 +168,10 @@ import navData from '../data/navData';
 		nav.setAttribute('aria-expanded', 'false');
 		navPanel.setAttribute('aria-hidden', 'true');
 
+		window.removeEventListener('scroll', mediaQueryHandler);
+		main.removeEventListener('click', attributeToggler);
+
+		// wait until nav closing animation finishes to remove nav content and unfreeze non-nav elements
 		const navAnimDuration =
 			Number(
 				window
@@ -178,7 +183,6 @@ import navData from '../data/navData';
 		navAnimTimer = setTimeout(() => {
 			navPanel.classList.add('display-none');
 
-			main.removeEventListener('click', attributeToggler);
 			freezeElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
 				htmlEl.removeAttribute('style');
@@ -189,10 +193,10 @@ import navData from '../data/navData';
 	function attributeToggler() {
 		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		if (isNavExpanded === 'false') {
-			setExpandedNavAttributes();
-		} else {
+		if (isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
+		} else {
+			setExpandedNavAttributes();
 		}
 	}
 
@@ -204,13 +208,12 @@ import navData from '../data/navData';
 			setCollapsedNavAttributes();
 		}
 
-		// removes data-disable-anim attribute to enable nav animations | related: 1
+		// remove data-disable-anim attribute to enable nav animations | related: 1
 		nav.removeAttribute('data-disable-anim');
-
-		window.removeEventListener('scroll', mediaQueryHandler);
 	}
 
 	navToggle.addEventListener('click', attributeToggler);
 	window.addEventListener('resize', mediaQueryHandler);
 	window.addEventListener('load', mediaQueryHandler);
+	screen.orientation.addEventListener('change', mediaQueryHandler);
 </script>
