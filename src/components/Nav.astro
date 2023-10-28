@@ -201,7 +201,9 @@ import navData from '../data/navData';
 	}
 
 	function mediaQueryHandler() {
-		if (document.body.clientWidth <= mobileBreakPoint) {
+		const isNavExpanded = nav.getAttribute('aria-expanded');
+
+		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
 		}
 	}
