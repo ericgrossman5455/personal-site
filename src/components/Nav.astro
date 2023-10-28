@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<nav data-disable-anim aria-expanded="true">
+<nav aria-expanded="true">
 	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
 		<span class="visually-hidden">Navigation</span>
 		<Icon name="hamburger_menu" />
@@ -36,6 +36,7 @@ import navData from '../data/navData';
 <style is:global lang="scss">
 	:root {
 		--nav-width: 70px;
+		--nav-anim-duration: 300ms;
 	}
 
 	nav {
@@ -134,6 +135,13 @@ import navData from '../data/navData';
 	const main = document.querySelector('main');
 	const freezeElements = document.querySelectorAll('[data-nav-freeze]');
 	const mobileBreakPoint = 600;
+	const navAnimDuration =
+		Number(
+			window
+				.getComputedStyle(document.querySelector('body'))
+				.getPropertyValue('transition-duration')
+				.replace(/[^0-9\.]+/g, '')
+		) * 1000;
 	let navAnimTimer;
 
 	// add aria-current attribute to anchor tag of current page
@@ -171,15 +179,7 @@ import navData from '../data/navData';
 		window.removeEventListener('scroll', mediaQueryHandler);
 		main.removeEventListener('click', attributeToggler);
 
-		// wait until nav closing animation finishes to remove nav content and unfreeze non-nav elements
-		const navAnimDuration =
-			Number(
-				window
-					.getComputedStyle(document.querySelector('body'))
-					.getPropertyValue('transition-duration')
-					.replace(/[^0-9\.]+/g, '')
-			) * 1000;
-
+		// wait until nav closing anim finishes to remove nav content and unfreeze non-nav elements
 		navAnimTimer = setTimeout(() => {
 			navPanel.classList.add('display-none');
 
@@ -206,11 +206,18 @@ import navData from '../data/navData';
 		}
 	}
 
+	function initialStates() {
+		// disables unintended nav animations upon mobile page load | ref:1
+		nav.setAttribute('data-disable-anim', 'true');
+		setTimeout(() => {
+			nav.removeAttribute('data-disable-anim');
+		}, 0);
+
+		mediaQueryHandler();
+	}
+
 	navToggle.addEventListener('click', attributeToggler);
 	window.addEventListener('resize', mediaQueryHandler);
-	document.addEventListener('DOMContentLoaded', mediaQueryHandler);
-	document.addEventListener('DOMContentLoaded', () => {
-		nav.removeAttribute('data-disable-anim');
-	});
+	document.addEventListener('DOMContentLoaded', initialStates);
 	screen.orientation.addEventListener('change', mediaQueryHandler);
 </script>
