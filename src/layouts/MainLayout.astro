@@ -36,7 +36,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	<body>
 		<Nav />
 		<main>
-			<section data-nav-freeze>
+			<section data-non-nav-container>
 				<slot>LOREM IPSUM</slot>
 			</section>
 		</main>
@@ -80,12 +80,13 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 	main {
 		grid-area: main;
-		margin-top: 80px;
+		padding-top: 80px;
 	}
 
 	main,
 	footer {
 		transition: opacity var(--nav-anim-duration);
+		animation: mount ease-out var(--nav-anim-duration);
 		overflow-x: hidden;
 
 		@media only screen and (max-width: 600px) {

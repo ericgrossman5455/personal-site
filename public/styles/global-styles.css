@@ -29,3 +29,31 @@
 .display-none {
 	display: none !important;
 }
+
+@keyframes dismount {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.anim-dismount {
+	animation: dismount ease-out var(--nav-anim-duration) forwards;
+}
+
+@keyframes mount {
+	0% {
+		transform: translateX(10px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.anim-mount {
+	animation: mount ease-out var(--nav-anim-duration);
+}

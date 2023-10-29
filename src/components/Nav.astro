@@ -10,7 +10,7 @@ import navData from '../data/navData';
 		<Icon name="hamburger_menu" />
 	</button>
 
-	<div id="nav-panel" class="">
+	<div id="nav-panel" data-hide-on-load class="">
 		<div class="placeholder">
 			<Icon name="hamburger_menu" />
 		</div>
@@ -68,6 +68,12 @@ import navData from '../data/navData';
 			line-height: 0;
 			height: calc(100vh - $vert-padding * 2);
 			height: calc(100dvh - $vert-padding * 2);
+
+			@media only screen and (max-width: 600px) {
+				&[data-hide-on-load] {
+					display: none;
+				}
+			}
 		}
 
 		.placeholder {
@@ -104,6 +110,7 @@ import navData from '../data/navData';
 				// current page
 				&:is([aria-current]) {
 					opacity: 1;
+					cursor: e-resize;
 
 					&:after {
 						left: calc($flush-left + 4px);
@@ -128,12 +135,13 @@ import navData from '../data/navData';
 </style>
 
 <script>
+	const body = document.querySelector('body');
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
 	const navPanel = document.getElementById('nav-panel');
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
-	const freezeElements = document.querySelectorAll('[data-nav-freeze]');
+	const nonNavElements = document.querySelectorAll('[data-non-nav-container]');
 	const mobileBreakPoint = 600;
 	const navAnimDuration =
 		Number(
@@ -162,7 +170,7 @@ import navData from '../data/navData';
 			main.addEventListener('click', attributeToggler);
 
 			// freeze non-nav element dimensions so they are pushed off-screen
-			freezeElements.forEach((el) => {
+			nonNavElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
 				const freezeWidth = htmlEl.offsetWidth.toString();
 				const freezeHeight = htmlEl.offsetHeight.toString();
@@ -172,9 +180,14 @@ import navData from '../data/navData';
 		}
 	}
 
-	function setCollapsedNavAttributes() {
-		nav.setAttribute('aria-expanded', 'false');
-		navPanel.setAttribute('aria-hidden', 'true');
+	function setCollapsedNavAttributes(reason = '') {
+		if (reason === 'navLinkClick') {
+			// collapse nav without triggering other animations via attributes
+			body.style.gridTemplateColumns = '0px 1fr';
+		} else {
+			nav.setAttribute('aria-expanded', 'false');
+			navPanel.setAttribute('aria-hidden', 'true');
+		}
 
 		window.removeEventListener('scroll', mediaQueryHandler);
 		main.removeEventListener('click', attributeToggler);
@@ -183,7 +196,7 @@ import navData from '../data/navData';
 		navAnimTimer = setTimeout(() => {
 			navPanel.classList.add('display-none');
 
-			freezeElements.forEach((el) => {
+			nonNavElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
 				htmlEl.removeAttribute('style');
 			});
@@ -208,18 +221,59 @@ import navData from '../data/navData';
 		}
 	}
 
-	function initialStates() {
+	function mount() {
+		mediaQueryHandler();
+
 		// disables unintended nav animations upon mobile page load | ref:1
 		nav.setAttribute('data-disable-anim', 'true');
 		setTimeout(() => {
 			nav.removeAttribute('data-disable-anim');
 		}, 0);
+		navPanel.removeAttribute('data-hide-on-load');
+	}
 
-		mediaQueryHandler();
+	function dismount(e) {
+		e.preventDefault();
+		const linkHref = e.target.closest('a').getAttribute('href');
+
+		if (linkHref === window.location.pathname) {
+			if (document.body.clientWidth <= mobileBreakPoint) {
+			setCollapsedNavAttributes();
+			return;
+			} else {
+				return;
+			}
+		}
+
+		navLinks.forEach((link) => {
+		if (link.getAttribute('href') === linkHref) {
+			link.setAttribute('aria-current', 'page');
+		} else {
+			link.removeAttribute('aria-current');
+		}
+	});
+
+		nonNavElements.forEach((nonNavElement) => {
+			const htmlEl = nonNavElement as HTMLElement;
+			htmlEl.classList.add('anim-dismount');
+		});
+		
+
+		if (document.body.clientWidth <= mobileBreakPoint) {
+			setCollapsedNavAttributes('navLinkClick');
+			setTimeout(() => {
+				window.location.href = linkHref;
+			}, navAnimDuration);
+		} else {
+			window.location.href = linkHref;
+		}
 	}
 
 	navToggle.addEventListener('click', attributeToggler);
+	navLinks.forEach((link) => {
+		link.addEventListener('click', dismount);
+	});
+	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('resize', mediaQueryHandler);
-	document.addEventListener('DOMContentLoaded', initialStates);
 	screen.orientation.addEventListener('change', mediaQueryHandler);
 </script>
