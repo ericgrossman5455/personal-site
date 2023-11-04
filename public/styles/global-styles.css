@@ -30,7 +30,7 @@
 	display: none !important;
 }
 
-@keyframes dismount {
+@keyframes unmount {
 	0% {
 		opacity: 1;
 	}
@@ -39,8 +39,8 @@
 	}
 }
 
-.anim-dismount {
-	animation: dismount ease-out var(--nav-anim-duration) forwards;
+.anim-unmount {
+	animation: unmount ease-out var(--nav-anim-duration) forwards;
 }
 
 @keyframes mount {
