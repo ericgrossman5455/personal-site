@@ -10,7 +10,7 @@ import navData from '../data/navData';
 		<Icon name="hamburger_menu" />
 	</button>
 
-	<div id="nav-panel" data-hide-on-load class="">
+	<div id="nav-panel" data-hide-on-mount class="">
 		<div class="placeholder">
 			<Icon name="hamburger_menu" />
 		</div>
@@ -35,13 +35,31 @@ import navData from '../data/navData';
 
 <style is:global lang="scss">
 	:root {
-		--nav-width: 70px;
 		--nav-anim-duration: 300ms;
 	}
 
 	nav {
+		$nav-width: 70px;
 		$icon-width: 35px;
 		$vert-padding: 20px;
+		width: 70px;
+		transition: width ease-in-out var(--nav-anim-duration);
+
+		&[aria-expanded='false'] {
+			width: 0px;
+		}
+
+		// disables unintended mobile nav animations/flicker | ref:1
+		@media only screen and (max-width: 600px) {
+			&[data-disable-mount-anim] {
+				transition: none;
+				width: 0.01px;
+			}
+
+			#nav-panel[data-hide-on-mount] {
+				display: none;
+			}
+		}
 
 		grid-area: nav;
 		position: sticky;
@@ -51,7 +69,7 @@ import navData from '../data/navData';
 
 		.nav-toggle {
 			position: fixed;
-			left: calc((var(--nav-width) - $icon-width) / 2);
+			left: calc(($nav-width - $icon-width) / 2);
 			top: $vert-padding;
 			z-index: 9999;
 		}
@@ -68,12 +86,6 @@ import navData from '../data/navData';
 			line-height: 0;
 			height: calc(100vh - $vert-padding * 2);
 			height: calc(100dvh - $vert-padding * 2);
-
-			@media only screen and (max-width: 600px) {
-				&[data-hide-on-load] {
-					display: none;
-				}
-			}
 		}
 
 		.placeholder {
@@ -95,7 +107,7 @@ import navData from '../data/navData';
 			row-gap: 25px;
 
 			a {
-				$flush-left: calc((var(--nav-width) - $icon-width) / -2);
+				$flush-left: calc(($nav-width - $icon-width) / -2);
 				position: relative;
 
 				&:after {
@@ -110,7 +122,6 @@ import navData from '../data/navData';
 				// current page
 				&:is([aria-current]) {
 					opacity: 1;
-					cursor: e-resize;
 
 					&:after {
 						left: calc($flush-left + 4px);
@@ -135,7 +146,6 @@ import navData from '../data/navData';
 </style>
 
 <script>
-	const body = document.querySelector('body');
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
 	const navPanel = document.getElementById('nav-panel');
@@ -146,16 +156,17 @@ import navData from '../data/navData';
 	const navAnimDuration =
 		Number(
 			window
-				.getComputedStyle(document.querySelector('body'))
+				.getComputedStyle(document.querySelector('nav'))
 				.getPropertyValue('transition-duration')
 				.replace(/[^0-9\.]+/g, '')
 		) * 1000;
 	let navAnimTimer;
 
-	// add aria-current attribute to anchor tag of current page
+	// add aria-current attribute/styling to anchor tag of current page
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
+			link.setAttribute('aria-label', 'scroll to top');
 		}
 	});
 
@@ -182,8 +193,8 @@ import navData from '../data/navData';
 
 	function setCollapsedNavAttributes(reason = '') {
 		if (reason === 'navLinkClick') {
-			// collapse nav without triggering other animations via attributes
-			body.style.gridTemplateColumns = '0px 1fr';
+			// collapse nav without triggering other animations via attributes in else
+			nav.style.width = '0px';
 		} else {
 			nav.setAttribute('aria-expanded', 'false');
 			navPanel.setAttribute('aria-hidden', 'true');
@@ -224,54 +235,61 @@ import navData from '../data/navData';
 	function mount() {
 		mediaQueryHandler();
 
-		// disables unintended nav animations upon mobile page load | ref:1
-		nav.setAttribute('data-disable-anim', 'true');
+		// disables unintended mobile nav animations/flicker | ref:1
+		nav.setAttribute('data-disable-mount-anim', '');
 		setTimeout(() => {
-			nav.removeAttribute('data-disable-anim');
+			nav.removeAttribute('data-disable-mount-anim');
 		}, 0);
-		navPanel.removeAttribute('data-hide-on-load');
+		navPanel.removeAttribute('data-hide-on-mount');
 	}
 
-	function dismount(e) {
+	function unmount(e) {
 		e.preventDefault();
-		const linkHref = e.target.closest('a').getAttribute('href');
+		const destinationHref = e.target.closest('a').getAttribute('href');
 
-		if (linkHref === window.location.pathname) {
+		// scroll to top and end function if current page is selected
+		if (destinationHref === window.location.pathname) {
 			if (document.body.clientWidth <= mobileBreakPoint) {
-			setCollapsedNavAttributes();
-			return;
+				setCollapsedNavAttributes();
+				navAnimTimer = setTimeout(() => {
+					window.scrollTo(0, 0);
+				}, navAnimDuration);
+				return;
 			} else {
+				window.scrollTo(0, 0);
 				return;
 			}
 		}
 
+		// add aria-current attribute/styling to anchor tag of destination page immediately upon selection
 		navLinks.forEach((link) => {
-		if (link.getAttribute('href') === linkHref) {
-			link.setAttribute('aria-current', 'page');
-		} else {
-			link.removeAttribute('aria-current');
-		}
-	});
+			if (link.getAttribute('href') === destinationHref) {
+				link.setAttribute('aria-current', 'page');
+			} else {
+				link.removeAttribute('aria-current');
+			}
+		});
 
+		// add unmount animation to non-nav elements
 		nonNavElements.forEach((nonNavElement) => {
 			const htmlEl = nonNavElement as HTMLElement;
-			htmlEl.classList.add('anim-dismount');
+			htmlEl.classList.add('anim-unmount');
 		});
-		
 
+		// direct browser to destination href
 		if (document.body.clientWidth <= mobileBreakPoint) {
 			setCollapsedNavAttributes('navLinkClick');
 			setTimeout(() => {
-				window.location.href = linkHref;
+				window.location.href = destinationHref;
 			}, navAnimDuration);
 		} else {
-			window.location.href = linkHref;
+			window.location.href = destinationHref;
 		}
 	}
 
 	navToggle.addEventListener('click', attributeToggler);
 	navLinks.forEach((link) => {
-		link.addEventListener('click', dismount);
+		link.addEventListener('click', unmount);
 	});
 	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('resize', mediaQueryHandler);

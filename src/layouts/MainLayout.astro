@@ -67,15 +67,11 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 	body {
 		display: grid;
-		grid-template-columns: var(--nav-width) 1fr;
+		grid-template-columns: auto 1fr;
 		grid-template-rows: 1fr auto;
 		grid-template-areas:
 			'nav main'
 			'nav footer';
-		transition: grid-template-columns ease-in-out var(--nav-anim-duration);
-		&:has(nav[aria-expanded='false']) {
-			grid-template-columns: 0px 1fr;
-		}
 	}
 
 	main {
@@ -101,12 +97,5 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 				}
 			}
 		}
-	}
-
-	// disables unintended nav animations upon mobile page load | ref:1
-	body:has(nav[data-disable-anim]),
-	nav[data-disable-anim] ~ main,
-	nav[data-disable-anim] ~ footer {
-		transition: none;
 	}
 </style>
