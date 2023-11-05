@@ -132,6 +132,10 @@ import navData from '../data/navData';
 				&:not([aria-current]) {
 					opacity: 0.5;
 
+					&:focus {
+						opacity: 1;
+					}
+
 					&:hover:after {
 						left: calc($flush-left + 4px);
 					}
@@ -162,7 +166,7 @@ import navData from '../data/navData';
 	let navAnimDuration;
 	let navAnimTimer;
 
-	// add aria-current attribute/styling to anchor tag of current page
+	// add aria-current attribute/styling to nav link of current page
 	navLinks.forEach((link) => {
 		if (link.getAttribute('href') === window.location.pathname) {
 			link.setAttribute('aria-current', 'page');
@@ -174,10 +178,11 @@ import navData from '../data/navData';
 		nav.setAttribute('aria-expanded', 'true');
 		navPanel.removeAttribute('aria-hidden');
 		navPanel.classList.remove('display-none');
+		clearTimeout(navAnimTimer);
 
-		// mobile: freeze non-nav element dimensions so they are pushed off-screen
+		// mobile: freeze non-nav elements dimensions so they are pushed offscreen
 		if (document.body.clientWidth <= mobileBreakPoint) {
-			window.addEventListener('scroll', mediaQueryHandler);
+			window.addEventListener('scroll', attributeToggler);
 			main.addEventListener('click', attributeToggler);
 
 			nonNavElements.forEach((el) => {
@@ -187,25 +192,13 @@ import navData from '../data/navData';
 				htmlEl.style.width = `${freezeWidth}px`;
 				htmlEl.style.height = `${freezeHeight}px`;
 			});
-		} else {
-			// desktop: ensure elements never freeze
-			nonNavElements.forEach((el) => {
-				const htmlEl = el as HTMLElement;
-				htmlEl.removeAttribute('style');
-			});
 		}
 	}
 
-	function setCollapsedNavAttributes(reason = '') {
-		if (reason === 'navLinkClick') {
-			// collapse nav without triggering other animations via attributes in else
-			nav.style.width = '0px';
-		} else {
-			nav.setAttribute('aria-expanded', 'false');
-			navPanel.setAttribute('aria-hidden', 'true');
-		}
-
-		window.removeEventListener('scroll', mediaQueryHandler);
+	function setCollapsedNavAttributes() {
+		nav.setAttribute('aria-expanded', 'false');
+		navPanel.setAttribute('aria-hidden', 'true');
+		window.removeEventListener('scroll', attributeToggler);
 		main.removeEventListener('click', attributeToggler);
 
 		// wait until nav closing anim finishes to remove nav content and unfreeze non-nav elements
@@ -221,7 +214,6 @@ import navData from '../data/navData';
 
 	function attributeToggler() {
 		const isNavExpanded = nav.getAttribute('aria-expanded');
-		clearTimeout(navAnimTimer);
 
 		if (isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
@@ -231,11 +223,17 @@ import navData from '../data/navData';
 	}
 
 	function mediaQueryHandler() {
-		clearTimeout(navAnimTimer);
+		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		if (document.body.clientWidth <= mobileBreakPoint) {
+		// unfreeze non-nav elements
+		nonNavElements.forEach((el) => {
+			const htmlEl = el as HTMLElement;
+			htmlEl.removeAttribute('style');
+		});
+
+		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
-		} else if (document.body.clientWidth >= mobileBreakPoint) {
+		} else if (document.body.clientWidth >= mobileBreakPoint && isNavExpanded === 'false') {
 			setExpandedNavAttributes();
 		}
 	}
@@ -264,15 +262,6 @@ import navData from '../data/navData';
 			}
 		}
 
-		// add aria-current attribute/styling to anchor tag of destination page immediately upon selection
-		navLinks.forEach((link) => {
-			if (link.getAttribute('href') === destinationHref) {
-				link.setAttribute('aria-current', 'page');
-			} else {
-				link.removeAttribute('aria-current');
-			}
-		});
-
 		// add unmount animation to non-nav elements
 		nonNavElements.forEach((nonNavElement) => {
 			const htmlEl = nonNavElement as HTMLElement;
@@ -281,7 +270,15 @@ import navData from '../data/navData';
 
 		// direct browser to destination href
 		if (document.body.clientWidth <= mobileBreakPoint) {
-			setCollapsedNavAttributes('navLinkClick');
+			nav.style.width = '0px';
+			// mobile: add aria-current attribute/styling to destination nav link immediately upon selection
+			navLinks.forEach((link) => {
+				if (link.getAttribute('href') === destinationHref) {
+					link.setAttribute('aria-current', 'page');
+				} else {
+					link.removeAttribute('aria-current');
+				}
+			});
 			setTimeout(() => {
 				window.location.href = destinationHref;
 			}, navAnimDuration);
@@ -290,11 +287,10 @@ import navData from '../data/navData';
 		}
 	}
 
+	document.addEventListener('DOMContentLoaded', mount);
+	window.addEventListener('resize', mediaQueryHandler);
 	navToggle.addEventListener('click', attributeToggler);
 	navLinks.forEach((link) => {
 		link.addEventListener('click', unmount);
 	});
-	document.addEventListener('DOMContentLoaded', mount);
-	window.addEventListener('resize', mediaQueryHandler);
-	screen.orientation.addEventListener('change', mediaQueryHandler);
 </script>
