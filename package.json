@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "open http://localhost:4321/; astro dev",
+    "dev-windows": "start http://localhost:4321/ & astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
