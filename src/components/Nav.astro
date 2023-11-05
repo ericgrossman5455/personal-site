@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon';
 import navData from '../data/navData';
 ---
 
-<nav aria-expanded="false" data-disable-mount-anim>
+<nav aria-expanded="true" data-disable-mount-anim>
 	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
 		<span class="visually-hidden">Navigation</span>
 		<Icon name="hamburger_menu" />
@@ -49,10 +49,10 @@ import navData from '../data/navData';
 
 		transition: width ease-in-out var(--nav-anim-duration);
 
-		// disable nav anim on desktop mount
-		@media only screen and (min-width: 600px) {
+		// mobile: disable nav anim on mount
+		@media only screen and (max-width: 600px) {
 			&[data-disable-mount-anim] {
-				width: $nav-width;
+				width: 0px
 			}
 		}
 
@@ -64,6 +64,9 @@ import navData from '../data/navData';
 		height: calc(100dvh);
 
 		.nav-toggle {
+			backdrop-filter: blur(5px);
+			-webkit-backdrop-filter: blur(5px);
+			border-radius: 5px;
 			position: fixed;
 			left: calc(($nav-width - $icon-width) / 2);
 			top: $vert-padding;
