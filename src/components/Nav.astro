@@ -26,7 +26,11 @@ import navData from '../data/navData';
 			}
 		</div>
 
-		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
+		<button
+			class="notifications"
+			title="Notifications"
+			aria-label="Notifications"
+			data-nav-link>
 			<span class="visually-hidden">Notifications</span>
 			<Icon name="notifications" />
 		</button>
@@ -42,17 +46,15 @@ import navData from '../data/navData';
 		$nav-width: 70px;
 		$icon-width: 35px;
 		$vert-padding: 20px;
+		transition: width ease-in-out var(--nav-anim-duration);
 
 		&[aria-expanded='false'] {
 			width: 0px;
 		}
 
-		transition: width ease-in-out var(--nav-anim-duration);
-
-		// mobile: disable nav anim on mount
 		@media only screen and (max-width: 600px) {
 			&[data-disable-mount-anim] {
-				width: 0px
+				width: 0px;
 			}
 		}
 
@@ -154,8 +156,12 @@ import navData from '../data/navData';
 	const navPanel = document.getElementById('nav-panel');
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
-	const nonNavElements = document.querySelectorAll('[data-non-nav-container]');
-	const mobileBreakPoint = 600;
+	const nonNavElements = document.querySelectorAll('[data-content-container]');
+
+	let areNonNavElementsFrozen = false;
+	let screenWidth;
+	let navAnimDuration;
+	let navAnimTimer;
 
 	function getNavAnimDuration() {
 		navAnimDuration =
@@ -166,8 +172,6 @@ import navData from '../data/navData';
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
 	}
-	let navAnimDuration;
-	let navAnimTimer;
 
 	// add aria-current attribute/styling to nav link of current page
 	navLinks.forEach((link) => {
@@ -178,16 +182,32 @@ import navData from '../data/navData';
 	});
 
 	function setExpandedNavAttributes() {
+		clearTimeout(navAnimTimer);
 		nav.setAttribute('aria-expanded', 'true');
 		navPanel.removeAttribute('aria-hidden');
 		navPanel.classList.remove('display-none');
-		clearTimeout(navAnimTimer);
 
-		// mobile: freeze non-nav elements dimensions so they are pushed offscreen
-		if (document.body.clientWidth <= mobileBreakPoint) {
+		if (screenWidth === 'narrow') {
+			freezeNonNavElements();
+		}
+	}
+
+	function setCollapsedNavAttributes() {
+		nav.setAttribute('aria-expanded', 'false');
+		navPanel.setAttribute('aria-hidden', 'true');
+		freezeNonNavElements('thaw');
+
+		navAnimTimer = setTimeout(() => {
+			navPanel.classList.add('display-none');
+		}, navAnimDuration);
+	}
+
+	function freezeNonNavElements(action = '') {
+		if (action === '') {
 			window.addEventListener('scroll', attributeToggler);
 			main.addEventListener('click', attributeToggler);
 
+			// freeze non-nav elements dimensions so they can be pushed offscreen | ref 1
 			nonNavElements.forEach((el) => {
 				const htmlEl = el as HTMLElement;
 				const freezeWidth = htmlEl.offsetWidth.toString();
@@ -195,24 +215,19 @@ import navData from '../data/navData';
 				htmlEl.style.width = `${freezeWidth}px`;
 				htmlEl.style.height = `${freezeHeight}px`;
 			});
+			areNonNavElementsFrozen = true;
+		} else if (action === 'thaw') {
+			window.removeEventListener('scroll', attributeToggler);
+			main.removeEventListener('click', attributeToggler);
+
+			navAnimTimer = setTimeout(() => {
+				nonNavElements.forEach((el) => {
+					const htmlEl = el as HTMLElement;
+					htmlEl.removeAttribute('style');
+				});
+			}, navAnimDuration);
+			areNonNavElementsFrozen = false;
 		}
-	}
-
-	function setCollapsedNavAttributes() {
-		nav.setAttribute('aria-expanded', 'false');
-		navPanel.setAttribute('aria-hidden', 'true');
-		window.removeEventListener('scroll', attributeToggler);
-		main.removeEventListener('click', attributeToggler);
-
-		// wait until nav closing anim finishes to remove nav content and unfreeze non-nav elements
-		navAnimTimer = setTimeout(() => {
-			navPanel.classList.add('display-none');
-
-			nonNavElements.forEach((el) => {
-				const htmlEl = el as HTMLElement;
-				htmlEl.removeAttribute('style');
-			});
-		}, navAnimDuration);
 	}
 
 	function attributeToggler() {
@@ -228,16 +243,23 @@ import navData from '../data/navData';
 	function mediaQueryHandler() {
 		const isNavExpanded = nav.getAttribute('aria-expanded');
 
-		// unfreeze non-nav elements
-		nonNavElements.forEach((el) => {
-			const htmlEl = el as HTMLElement;
-			htmlEl.removeAttribute('style');
-		});
+		if (document.body.clientWidth <= 600) {
+			screenWidth = 'narrow';
+		} else {
+			screenWidth = 'wide';
+		}
 
-		if (document.body.clientWidth <= mobileBreakPoint && isNavExpanded === 'true') {
+		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
-		} else if (document.body.clientWidth >= mobileBreakPoint && isNavExpanded === 'false') {
-			setExpandedNavAttributes();
+		}
+
+		if (screenWidth === 'wide') {
+			if (areNonNavElementsFrozen === true) {
+				freezeNonNavElements('thaw');
+			}
+			if (isNavExpanded === 'false') {
+				setExpandedNavAttributes();
+			}
 		}
 	}
 
@@ -247,13 +269,13 @@ import navData from '../data/navData';
 		getNavAnimDuration();
 	}
 
-	function unmount(e) {
+	function navLinkClickHandler(e) {
 		e.preventDefault();
 		const destinationHref = e.target.closest('a').getAttribute('href');
 
-		// scroll to top & exit function if current page is selected
+		// scroll to top & end function if current page is selected
 		if (destinationHref === window.location.pathname) {
-			if (document.body.clientWidth <= mobileBreakPoint) {
+			if (screenWidth === 'narrow') {
 				setCollapsedNavAttributes();
 				navAnimTimer = setTimeout(() => {
 					window.scrollTo(0, 0);
@@ -265,35 +287,36 @@ import navData from '../data/navData';
 			}
 		}
 
+		// add aria-current attribute/styling to destination nav link immediately upon selection
+		navLinks.forEach((link) => {
+			if (link.getAttribute('href') === destinationHref) {
+				link.setAttribute('aria-current', 'page');
+			} else {
+				link.removeAttribute('aria-current');
+			}
+		});
+
+		// collapse nav w/o triggering other animations via setCollapsedNavAttributes()
+		if (screenWidth === 'narrow') {
+			nav.style.width = '0px';
+		}
+
 		// add unmount animation to non-nav elements
-		nonNavElements.forEach((nonNavElement) => {
-			const htmlEl = nonNavElement as HTMLElement;
+		nonNavElements.forEach((el) => {
+			const htmlEl = el as HTMLElement;
 			htmlEl.classList.add('anim-unmount');
 		});
 
 		// direct browser to destination href
-		if (document.body.clientWidth <= mobileBreakPoint) {
-			nav.style.width = '0px';
-			// mobile: add aria-current attribute/styling to destination nav link immediately upon selection
-			navLinks.forEach((link) => {
-				if (link.getAttribute('href') === destinationHref) {
-					link.setAttribute('aria-current', 'page');
-				} else {
-					link.removeAttribute('aria-current');
-				}
-			});
-			setTimeout(() => {
-				window.location.href = destinationHref;
-			}, navAnimDuration);
-		} else {
+		setTimeout(() => {
 			window.location.href = destinationHref;
-		}
+		}, navAnimDuration);
 	}
 
 	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('resize', mediaQueryHandler);
 	navToggle.addEventListener('click', attributeToggler);
 	navLinks.forEach((link) => {
-		link.addEventListener('click', unmount);
+		link.addEventListener('click', navLinkClickHandler);
 	});
 </script>
