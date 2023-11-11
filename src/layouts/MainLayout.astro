@@ -34,13 +34,13 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	</head>
 
 	<body>
-		<Nav />
-		<main>
-			<section data-content-container>
+		<div id="primary-grid">
+			<Nav />
+			<main>
 				<slot>LOREM IPSUM</slot>
-			</section>
-		</main>
-		<Footer />
+			</main>
+			<Footer />
+		</div>
 	</body>
 </html>
 
@@ -52,10 +52,12 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		background-color: var(--bg-layer-base);
 		color: var(--glyph-standard);
 		-webkit-tap-highlight-color: #4b4b4b48;
-
-		scroll-behavior: smooth;
+		
 		color-scheme: light dark;
 		font-family: sans-serif;
+	
+		scroll-behavior: smooth;
+		overflow-x: clip;
 
 		@media (prefers-color-scheme: dark) {
 			--bg-layer-base: #212024;
@@ -67,7 +69,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		}
 	}
 
-	body {
+	#primary-grid {
 		display: grid;
 		grid-template-columns: auto 1fr;
 		grid-template-rows: 1fr auto;
@@ -76,18 +78,25 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 			'nav footer';
 	}
 
+	body {
+		overflow-x: clip;
+	}
+
 	main {
 		grid-area: main;
-		padding-top: 80px;
+	}
+
+	footer {
+		grid-area: footer;
 	}
 
 	main,
 	footer {
 		transition: opacity var(--nav-anim-duration);
-		overflow: hidden;
+		animation: mount ease-out var(--nav-anim-duration);
 
 		@media only screen and (max-width: 600px) {
-			// freeze non-nav elements interaction when nav is expanded | ref 1
+			// freeze content elements' interaction when nav is expanded | rel:1
 			nav[aria-expanded='true'] ~ & {
 				user-select: none;
 				-webkit-user-select: none;
@@ -99,9 +108,5 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 				}
 			}
 		}
-	}
-
-	[data-content-container] {
-		animation: mount ease-out var(--nav-anim-duration);
 	}
 </style>

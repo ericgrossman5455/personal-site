@@ -31,16 +31,13 @@
 }
 
 @keyframes unmount {
-	0% {
-		opacity: 1;
-	}
 	100% {
 		opacity: 0;
 	}
 }
 
 .anim-unmount {
-	animation: unmount ease-out var(--nav-anim-duration) forwards !important;
+	animation: unmount ease-out var(--nav-anim-duration) forwards;
 }
 
 @keyframes mount {

@@ -1,18 +1,23 @@
 <footer>
-	<section data-content-container>
-		<p>
-			Copyright © <span id="current-year"></span> | Designed &amp; Developed by Eric Grossman
-		</p>
-		<p>This site is currently being built.</p>
-	</section>
+		<div class="content-wrapper">
+			<p>Copyright © <span id="current-year"></span></p>
+			<p>Designed &amp; Developed by Eric Grossman</p>
+			<p>This site is currently being built.</p>
+		</div>
 </footer>
 
 <style is:global lang="scss">
 	footer {
-		grid-area: footer;
-		background-color: rgb(138, 138, 138);
-		padding: 20px;
-		text-align: center;
+		padding: 10px;
+	
+		.content-wrapper {
+			margin: 0 auto;
+			max-width: 600px;
+			border: 1px solid var(--glyph-standard);
+			background-color: rgb(255, 140, 0);
+			text-align: center;
+			padding: 10px;
+		}
 	}
 </style>
 

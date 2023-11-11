@@ -26,11 +26,7 @@ import navData from '../data/navData';
 			}
 		</div>
 
-		<button
-			class="notifications"
-			title="Notifications"
-			aria-label="Notifications"
-			data-nav-link>
+		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
 			<span class="visually-hidden">Notifications</span>
 			<Icon name="notifications" />
 		</button>
@@ -151,17 +147,24 @@ import navData from '../data/navData';
 </style>
 
 <script>
+	const primaryGrid = document.querySelector('#primary-grid') as HTMLElement;
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
 	const navPanel = document.getElementById('nav-panel');
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
-	const nonNavElements = document.querySelectorAll('[data-content-container]');
+	const footer = document.querySelector('footer');
 
-	let areNonNavElementsFrozen = false;
+	let isContentFrozen = false;
 	let screenWidth;
 	let navAnimDuration;
 	let navAnimTimer;
+
+	function mount() {
+		mediaQueryHandler();
+		nav.removeAttribute('data-disable-mount-anim');
+		getNavAnimDuration();
+	}
 
 	function getNavAnimDuration() {
 		navAnimDuration =
@@ -188,45 +191,37 @@ import navData from '../data/navData';
 		navPanel.classList.remove('display-none');
 
 		if (screenWidth === 'narrow') {
-			freezeNonNavElements();
+			freezeContent();
 		}
 	}
 
 	function setCollapsedNavAttributes() {
 		nav.setAttribute('aria-expanded', 'false');
 		navPanel.setAttribute('aria-hidden', 'true');
-		freezeNonNavElements('thaw');
+		freezeContent('thaw');
 
 		navAnimTimer = setTimeout(() => {
 			navPanel.classList.add('display-none');
 		}, navAnimDuration);
 	}
 
-	function freezeNonNavElements(action = '') {
+	function freezeContent(action = '') {
 		if (action === '') {
 			window.addEventListener('scroll', attributeToggler);
 			main.addEventListener('click', attributeToggler);
 
-			// freeze non-nav elements dimensions so they can be pushed offscreen | ref 1
-			nonNavElements.forEach((el) => {
-				const htmlEl = el as HTMLElement;
-				const freezeWidth = htmlEl.offsetWidth.toString();
-				const freezeHeight = htmlEl.offsetHeight.toString();
-				htmlEl.style.width = `${freezeWidth}px`;
-				htmlEl.style.height = `${freezeHeight}px`;
-			});
-			areNonNavElementsFrozen = true;
+			// freeze content elements' dimensions | rel:1
+			const freezeWidth = main.scrollWidth.toString();
+			primaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
+			isContentFrozen = true;
 		} else if (action === 'thaw') {
 			window.removeEventListener('scroll', attributeToggler);
 			main.removeEventListener('click', attributeToggler);
 
 			navAnimTimer = setTimeout(() => {
-				nonNavElements.forEach((el) => {
-					const htmlEl = el as HTMLElement;
-					htmlEl.removeAttribute('style');
-				});
+				primaryGrid.removeAttribute('style');
 			}, navAnimDuration);
-			areNonNavElementsFrozen = false;
+			isContentFrozen = false;
 		}
 	}
 
@@ -254,19 +249,13 @@ import navData from '../data/navData';
 		}
 
 		if (screenWidth === 'wide') {
-			if (areNonNavElementsFrozen === true) {
-				freezeNonNavElements('thaw');
+			if (isContentFrozen === true) {
+				freezeContent('thaw');
 			}
 			if (isNavExpanded === 'false') {
 				setExpandedNavAttributes();
 			}
 		}
-	}
-
-	function mount() {
-		mediaQueryHandler();
-		nav.removeAttribute('data-disable-mount-anim');
-		getNavAnimDuration();
 	}
 
 	function navLinkClickHandler(e) {
@@ -301,11 +290,9 @@ import navData from '../data/navData';
 			nav.style.width = '0px';
 		}
 
-		// add unmount animation to non-nav elements
-		nonNavElements.forEach((el) => {
-			const htmlEl = el as HTMLElement;
-			htmlEl.classList.add('anim-unmount');
-		});
+		// trigger unmount animation for content
+		main.classList.add('anim-unmount');
+		footer.classList.add('anim-unmount');
 
 		// direct browser to destination href
 		setTimeout(() => {
