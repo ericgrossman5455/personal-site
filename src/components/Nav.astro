@@ -213,10 +213,15 @@ import navData from '../data/navData';
 			// freeze content elements' dimensions | rel:1
 			const freezeWidth = main.scrollWidth.toString();
 			primaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
+			main.setAttribute('aria-hidden', 'true');
+			footer.setAttribute('aria-hidden', 'true');
 			isContentFrozen = true;
 		} else if (action === 'thaw') {
 			window.removeEventListener('scroll', attributeToggler);
 			main.removeEventListener('click', attributeToggler);
+
+			main.removeAttribute('aria-hidden');
+			footer.removeAttribute('aria-hidden');
 
 			navAnimTimer = setTimeout(() => {
 				primaryGrid.removeAttribute('style');
