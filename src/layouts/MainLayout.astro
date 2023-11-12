@@ -97,7 +97,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 
 		@media only screen and (max-width: 600px) {
 			// freeze content elements' interaction when nav is expanded | rel:1
-			nav[aria-expanded='true'] ~ & {
+			&[aria-hidden='true'] {
 				user-select: none;
 				-webkit-user-select: none;
 				opacity: 0.2;
