@@ -37,7 +37,7 @@
 }
 
 .anim-unmount {
-	animation: unmount ease-out var(--nav-anim-duration) forwards;
+	animation: unmount ease-out var(--nav-anim-duration) forwards !important;
 }
 
 @keyframes mount {
