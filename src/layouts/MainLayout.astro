@@ -52,10 +52,10 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		background-color: var(--bg-layer-base);
 		color: var(--glyph-standard);
 		-webkit-tap-highlight-color: #4b4b4b48;
-		
+
 		color-scheme: light dark;
 		font-family: sans-serif;
-	
+
 		scroll-behavior: smooth;
 		overflow-x: clip;
 
@@ -83,11 +83,11 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	}
 
 	main {
-		grid-area: main;
+		grid-area: &;
 	}
 
 	footer {
-		grid-area: footer;
+		grid-area: &;
 	}
 
 	main,

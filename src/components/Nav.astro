@@ -160,12 +160,6 @@ import navData from '../data/navData';
 	let navAnimDuration;
 	let navAnimTimer;
 
-	function mount() {
-		mediaQueryHandler();
-		nav.removeAttribute('data-disable-mount-anim');
-		getNavAnimDuration();
-	}
-
 	function getNavAnimDuration() {
 		navAnimDuration =
 			Number(
@@ -251,8 +245,7 @@ import navData from '../data/navData';
 		if (screenWidth === 'wide') {
 			if (isContentFrozen === true) {
 				freezeContent('thaw');
-			}
-			if (isNavExpanded === 'false') {
+			} else if (isNavExpanded === 'false') {
 				setExpandedNavAttributes();
 			}
 		}
@@ -298,6 +291,12 @@ import navData from '../data/navData';
 		setTimeout(() => {
 			window.location.href = destinationHref;
 		}, navAnimDuration);
+	}
+
+	function mount() {
+		mediaQueryHandler();
+		nav.removeAttribute('data-disable-mount-anim');
+		getNavAnimDuration();
 	}
 
 	document.addEventListener('DOMContentLoaded', mount);
