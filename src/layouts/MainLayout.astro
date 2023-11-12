@@ -36,7 +36,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	<body>
 		<div id="primary-grid">
 			<Nav />
-			<main>
+			<main data-content-container>
 				<slot>LOREM IPSUM</slot>
 			</main>
 			<Footer />
@@ -93,7 +93,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 	main,
 	footer {
 		transition: opacity var(--nav-anim-duration);
-		animation: mount ease-out var(--nav-anim-duration);
+		// animation: mount ease-out var(--nav-anim-duration);
 
 		@media only screen and (max-width: 600px) {
 			// freeze content elements' interaction when nav is expanded | rel:1
@@ -108,5 +108,9 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 				}
 			}
 		}
+	}
+
+	[data-content-container] {
+		animation: mount ease-out var(--nav-anim-duration);
 	}
 </style>
