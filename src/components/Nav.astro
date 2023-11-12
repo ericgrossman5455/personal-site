@@ -160,12 +160,6 @@ import navData from '../data/navData';
 	let navAnimDuration;
 	let navAnimTimer;
 
-	function mount() {
-		mediaQueryHandler();
-		nav.removeAttribute('data-disable-mount-anim');
-		getNavAnimDuration();
-	}
-
 	function getNavAnimDuration() {
 		navAnimDuration =
 			Number(
@@ -255,6 +249,12 @@ import navData from '../data/navData';
 				setExpandedNavAttributes();
 			}
 		}
+	}
+
+	function mount() {
+		mediaQueryHandler();
+		nav.removeAttribute('data-disable-mount-anim');
+		getNavAnimDuration();
 	}
 
 	function navLinkClickHandler(e) {
