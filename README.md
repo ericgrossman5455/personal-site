@@ -7,4 +7,5 @@ I'm humbled that you're interested in this code. I'm using the Astro framework t
 | :------------------------ | :----------------------------------------------- |
 | `npm install`             | Installs dependencies                            |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run dev-windows`     | Same as `npm run dev`, but for Windows OS        |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |

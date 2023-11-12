@@ -1,0 +1,308 @@
+---
+import { Icon } from 'astro-icon';
+
+import navData from '../data/navData';
+---
+
+<nav aria-expanded="true" data-disable-mount-anim>
+	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
+		<span class="visually-hidden">Navigation</span>
+		<Icon name="hamburger_menu" />
+	</button>
+
+	<div id="nav-panel" class="">
+		<div class="placeholder">
+			<Icon name="hamburger_menu" />
+		</div>
+
+		<div class="directory">
+			{
+				navData.map((page) => (
+					<a href={page.path} title={page.name} aria-label={page.name} data-nav-link>
+						<span class="visually-hidden">{page.name}</span>
+						<Icon name={page.name.toLowerCase()} />
+					</a>
+				))
+			}
+		</div>
+
+		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
+			<span class="visually-hidden">Notifications</span>
+			<Icon name="notifications" />
+		</button>
+	</div>
+</nav>
+
+<style is:global lang="scss">
+	:root {
+		--nav-anim-duration: 300ms;
+	}
+
+	nav {
+		$nav-width: 70px;
+		$icon-width: 35px;
+		$vert-padding: 20px;
+		transition: width ease-in-out var(--nav-anim-duration);
+
+		&[aria-expanded='false'] {
+			width: 0px;
+		}
+
+		@media only screen and (max-width: 600px) {
+			&[data-disable-mount-anim] {
+				width: 0px;
+			}
+		}
+
+		grid-area: nav;
+		position: sticky;
+		top: 0;
+		width: $nav-width;
+		height: calc(100vh);
+		height: calc(100dvh);
+
+		.nav-toggle {
+			backdrop-filter: blur(5px);
+			-webkit-backdrop-filter: blur(5px);
+			border-radius: 5px;
+			position: fixed;
+			left: calc(($nav-width - $icon-width) / 2);
+			top: $vert-padding;
+			z-index: 9999;
+		}
+
+		#nav-panel {
+			display: flex;
+			flex-direction: column;
+			row-gap: 15px;
+			padding: $vert-padding 0;
+			align-items: center;
+			justify-content: space-between;
+			overflow-x: hidden;
+			overflow-y: auto;
+			line-height: 0;
+			height: calc(100vh - $vert-padding * 2);
+			height: calc(100dvh - $vert-padding * 2);
+		}
+
+		.placeholder {
+			opacity: 0;
+		}
+
+		svg {
+			width: $icon-width;
+			fill: var(--glyph-standard);
+		}
+
+		button {
+			line-height: 0;
+		}
+
+		.directory {
+			display: flex;
+			flex-direction: column;
+			row-gap: 25px;
+
+			a {
+				$flush-left: calc(($nav-width - $icon-width) / -2);
+				position: relative;
+
+				&:after {
+					content: '';
+					position: absolute;
+					left: calc($flush-left - 1px);
+					height: 100%;
+					border-left: 1px solid var(--glyph-standard);
+					transition: left 200ms ease-out;
+				}
+
+				// current page
+				&:is([aria-current]) {
+					opacity: 1;
+
+					&:after {
+						left: calc($flush-left + 4px);
+					}
+
+					&:hover:after {
+						left: calc($flush-left + 5px);
+					}
+				}
+
+				// inactive pages
+				&:not([aria-current]) {
+					opacity: 0.5;
+
+					&:focus {
+						opacity: 1;
+					}
+
+					&:hover:after {
+						left: calc($flush-left + 4px);
+					}
+				}
+			}
+		}
+	}
+</style>
+
+<script>
+	const primaryGrid = document.querySelector('#primary-grid') as HTMLElement;
+	const nav = document.querySelector('nav');
+	const navToggle = document.querySelector('.nav-toggle');
+	const navPanel = document.getElementById('nav-panel');
+	const navLinks = document.querySelectorAll('[data-nav-link]');
+	const main = document.querySelector('main');
+	const footer = document.querySelector('footer');
+
+	let isContentFrozen = false;
+	let screenWidth;
+	let navAnimDuration;
+	let navAnimTimer;
+
+	function mount() {
+		mediaQueryHandler();
+		nav.removeAttribute('data-disable-mount-anim');
+		getNavAnimDuration();
+	}
+
+	function getNavAnimDuration() {
+		navAnimDuration =
+			Number(
+				window
+					.getComputedStyle(document.querySelector('nav'))
+					.getPropertyValue('transition-duration')
+					.replace(/[^0-9\.]+/g, '')
+			) * 1000;
+	}
+
+	// add aria-current attribute/styling to nav link of current page
+	navLinks.forEach((link) => {
+		if (link.getAttribute('href') === window.location.pathname) {
+			link.setAttribute('aria-current', 'page');
+			link.setAttribute('aria-label', 'scroll to top');
+		}
+	});
+
+	function setExpandedNavAttributes() {
+		clearTimeout(navAnimTimer);
+		nav.setAttribute('aria-expanded', 'true');
+		navPanel.removeAttribute('aria-hidden');
+		navPanel.classList.remove('display-none');
+
+		if (screenWidth === 'narrow') {
+			freezeContent();
+		}
+	}
+
+	function setCollapsedNavAttributes() {
+		nav.setAttribute('aria-expanded', 'false');
+		navPanel.setAttribute('aria-hidden', 'true');
+		freezeContent('thaw');
+
+		navAnimTimer = setTimeout(() => {
+			navPanel.classList.add('display-none');
+		}, navAnimDuration);
+	}
+
+	function freezeContent(action = '') {
+		if (action === '') {
+			window.addEventListener('scroll', attributeToggler);
+			main.addEventListener('click', attributeToggler);
+
+			// freeze content elements' dimensions | rel:1
+			const freezeWidth = main.scrollWidth.toString();
+			primaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
+			isContentFrozen = true;
+		} else if (action === 'thaw') {
+			window.removeEventListener('scroll', attributeToggler);
+			main.removeEventListener('click', attributeToggler);
+
+			navAnimTimer = setTimeout(() => {
+				primaryGrid.removeAttribute('style');
+			}, navAnimDuration);
+			isContentFrozen = false;
+		}
+	}
+
+	function attributeToggler() {
+		const isNavExpanded = nav.getAttribute('aria-expanded');
+
+		if (isNavExpanded === 'true') {
+			setCollapsedNavAttributes();
+		} else {
+			setExpandedNavAttributes();
+		}
+	}
+
+	function mediaQueryHandler() {
+		const isNavExpanded = nav.getAttribute('aria-expanded');
+
+		if (document.body.clientWidth <= 600) {
+			screenWidth = 'narrow';
+		} else {
+			screenWidth = 'wide';
+		}
+
+		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
+			setCollapsedNavAttributes();
+		}
+
+		if (screenWidth === 'wide') {
+			if (isContentFrozen === true) {
+				freezeContent('thaw');
+			} else if (isNavExpanded === 'false') {
+				setExpandedNavAttributes();
+			}
+		}
+	}
+
+	function navLinkClickHandler(e) {
+		e.preventDefault();
+		const destinationHref = e.target.closest('a').getAttribute('href');
+
+		// scroll to top & end function if current page is selected
+		if (destinationHref === window.location.pathname) {
+			if (screenWidth === 'narrow') {
+				setCollapsedNavAttributes();
+				navAnimTimer = setTimeout(() => {
+					window.scrollTo(0, 0);
+				}, navAnimDuration);
+				return;
+			} else {
+				window.scrollTo(0, 0);
+				return;
+			}
+		}
+
+		// add aria-current attribute/styling to destination nav link immediately upon selection
+		navLinks.forEach((link) => {
+			if (link.getAttribute('href') === destinationHref) {
+				link.setAttribute('aria-current', 'page');
+			} else {
+				link.removeAttribute('aria-current');
+			}
+		});
+
+		// collapse nav w/o triggering other animations via setCollapsedNavAttributes()
+		if (screenWidth === 'narrow') {
+			nav.style.width = '0px';
+		}
+
+		// trigger unmount animation for content
+		main.classList.add('anim-unmount');
+		footer.classList.add('anim-unmount');
+
+		// direct browser to destination href
+		setTimeout(() => {
+			window.location.href = destinationHref;
+		}, navAnimDuration);
+	}
+
+	document.addEventListener('DOMContentLoaded', mount);
+	window.addEventListener('resize', mediaQueryHandler);
+	navToggle.addEventListener('click', attributeToggler);
+	navLinks.forEach((link) => {
+		link.addEventListener('click', navLinkClickHandler);
+	});
+</script>

@@ -1,24 +1,56 @@
 /* CSS DOCUMENT */
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block;}body{line-height:1;}ol, ul{list-style:none;}blockquote, q{quotes:none;}blockquote:before, blockquote:after,q:before, q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}img{width:100%;}
-
-:root {
-	scroll-behavior: smooth;
-	color-scheme: light dark;
-	font-family: depot-new-web, sans-serif;
-	background-color: var(--bg-layer-base);
-
-	--bg-layer-base: #e1e1e1;
-
-	--glyph-standard: #4b4b4b;
+/* credit to codepen.io/ffoodd for visually-hidden styling */
+.visually-hidden {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important;
+	height: 0px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 0px !important;
+	white-space: nowrap !important;
+}
+.visually-hidden-focusable:focus,
+.visually-hidden-focusable:active {
+	clip: auto !important;
+	-webkit-clip-path: none !important;
+	clip-path: none !important;
+	height: auto !important;
+	margin: auto !important;
+	overflow: visible !important;
+	width: auto !important;
+	white-space: normal !important;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
+.display-none {
+	display: none !important;
+}
 
-	--bg-layer-base: #212024;
-
-	--glyph-standard: #e1e1e1;
-
+@keyframes unmount {
+	100% {
+		opacity: 0;
 	}
+}
+
+.anim-unmount {
+	animation: unmount ease-out var(--nav-anim-duration) forwards;
+}
+
+@keyframes mount {
+	0% {
+		transform: translateX(10px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.anim-mount {
+	animation: mount ease-out var(--nav-anim-duration);
 }
