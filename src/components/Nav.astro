@@ -160,10 +160,53 @@ import navData from '../data/navData';
 	let navAnimDuration;
 	let navAnimTimer;
 
+	document.addEventListener('DOMContentLoaded', mount);
+	window.addEventListener('pageshow', cacheCheck);
+	window.addEventListener('resize', mediaQueryHandler);
+	navToggle.addEventListener('click', attributeToggler);
+	navLinks.forEach((link) => {
+		link.addEventListener('click', navLinkClickHandler);
+	});
+
 	function mount() {
+		setCurrentNavLink();
 		mediaQueryHandler();
 		nav.removeAttribute('data-disable-mount-anim');
 		getNavAnimDuration();
+	}
+
+	function setCurrentNavLink() {
+		navLinks.forEach((link) => {
+			if (link.getAttribute('href') === window.location.pathname) {
+				link.setAttribute('aria-current', 'page');
+				link.setAttribute('aria-label', 'scroll to top');
+			} else {
+				link.removeAttribute('aria-current');
+				link.removeAttribute('aria-label');
+			}
+		});
+	}
+
+	function mediaQueryHandler() {
+		const isNavExpanded = nav.getAttribute('aria-expanded');
+
+		if (document.body.clientWidth <= 600) {
+			screenWidth = 'narrow';
+		} else {
+			screenWidth = 'wide';
+		}
+
+		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
+			setCollapsedNavAttributes();
+		}
+
+		if (screenWidth === 'wide') {
+			if (isContentFrozen === true) {
+				freezeContent('thaw');
+			} else if (isNavExpanded === 'false') {
+				setExpandedNavAttributes();
+			}
+		}
 	}
 
 	function getNavAnimDuration() {
@@ -175,14 +218,6 @@ import navData from '../data/navData';
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
 	}
-
-	// add aria-current attribute/styling to nav link of current page
-	navLinks.forEach((link) => {
-		if (link.getAttribute('href') === window.location.pathname) {
-			link.setAttribute('aria-current', 'page');
-			link.setAttribute('aria-label', 'scroll to top');
-		}
-	});
 
 	function setExpandedNavAttributes() {
 		clearTimeout(navAnimTimer);
@@ -240,28 +275,6 @@ import navData from '../data/navData';
 		}
 	}
 
-	function mediaQueryHandler() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
-
-		if (document.body.clientWidth <= 600) {
-			screenWidth = 'narrow';
-		} else {
-			screenWidth = 'wide';
-		}
-
-		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
-			setCollapsedNavAttributes();
-		}
-
-		if (screenWidth === 'wide') {
-			if (isContentFrozen === true) {
-				freezeContent('thaw');
-			} else if (isNavExpanded === 'false') {
-				setExpandedNavAttributes();
-			}
-		}
-	}
-
 	function navLinkClickHandler(e) {
 		e.preventDefault();
 		const destinationHref = e.target.closest('a').getAttribute('href');
@@ -304,10 +317,16 @@ import navData from '../data/navData';
 		}, navAnimDuration);
 	}
 
-	document.addEventListener('DOMContentLoaded', mount);
-	window.addEventListener('resize', mediaQueryHandler);
-	navToggle.addEventListener('click', attributeToggler);
-	navLinks.forEach((link) => {
-		link.addEventListener('click', navLinkClickHandler);
-	});
+	function cacheCheck(e) {
+		if (!e.persisted) {
+			return;
+		} else {
+			// remove cached styling from previous unmount
+			setCurrentNavLink();
+			mediaQueryHandler();
+			main.classList.remove('anim-unmount');
+			footer.classList.remove('anim-unmount');
+			nav.removeAttribute('style');
+		}
+	}
 </script>
