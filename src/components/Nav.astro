@@ -180,6 +180,9 @@ import navData from '../data/navData';
 			if (link.getAttribute('href') === window.location.pathname) {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
+			} else {
+				link.removeAttribute('aria-current');
+				link.removeAttribute('aria-label');
 			}
 		});
 	}
