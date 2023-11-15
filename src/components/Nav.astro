@@ -160,10 +160,50 @@ import navData from '../data/navData';
 	let navAnimDuration;
 	let navAnimTimer;
 
+	document.addEventListener('DOMContentLoaded', mount);
+	window.addEventListener('pageshow', cacheCheck);
+	window.addEventListener('resize', mediaQueryHandler);
+	navToggle.addEventListener('click', attributeToggler);
+	navLinks.forEach((link) => {
+		link.addEventListener('click', navLinkClickHandler);
+	});
+
 	function mount() {
+		setCurrentNavLink();
 		mediaQueryHandler();
 		nav.removeAttribute('data-disable-mount-anim');
 		getNavAnimDuration();
+	}
+
+	function setCurrentNavLink() {
+		navLinks.forEach((link) => {
+			if (link.getAttribute('href') === window.location.pathname) {
+				link.setAttribute('aria-current', 'page');
+				link.setAttribute('aria-label', 'scroll to top');
+			}
+		});
+	}
+
+	function mediaQueryHandler() {
+		const isNavExpanded = nav.getAttribute('aria-expanded');
+
+		if (document.body.clientWidth <= 600) {
+			screenWidth = 'narrow';
+		} else {
+			screenWidth = 'wide';
+		}
+
+		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
+			setCollapsedNavAttributes();
+		}
+
+		if (screenWidth === 'wide') {
+			if (isContentFrozen === true) {
+				freezeContent('thaw');
+			} else if (isNavExpanded === 'false') {
+				setExpandedNavAttributes();
+			}
+		}
 	}
 
 	function getNavAnimDuration() {
@@ -175,14 +215,6 @@ import navData from '../data/navData';
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
 	}
-
-	// add aria-current attribute/styling to nav link of current page
-	navLinks.forEach((link) => {
-		if (link.getAttribute('href') === window.location.pathname) {
-			link.setAttribute('aria-current', 'page');
-			link.setAttribute('aria-label', 'scroll to top');
-		}
-	});
 
 	function setExpandedNavAttributes() {
 		clearTimeout(navAnimTimer);
@@ -240,31 +272,8 @@ import navData from '../data/navData';
 		}
 	}
 
-	function mediaQueryHandler() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
-
-		if (document.body.clientWidth <= 600) {
-			screenWidth = 'narrow';
-		} else {
-			screenWidth = 'wide';
-		}
-
-		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
-			setCollapsedNavAttributes();
-		}
-
-		if (screenWidth === 'wide') {
-			if (isContentFrozen === true) {
-				freezeContent('thaw');
-			} else if (isNavExpanded === 'false') {
-				setExpandedNavAttributes();
-			}
-		}
-	}
-
 	function navLinkClickHandler(e) {
 		e.preventDefault();
-		window.addEventListener('beforeunload', unmount);
 		const destinationHref = e.target.closest('a').getAttribute('href');
 
 		// scroll to top & end function if current page is selected
@@ -295,22 +304,24 @@ import navData from '../data/navData';
 			nav.style.width = '0px';
 		}
 
+		// trigger unmount animation for content
+		main.classList.add('anim-unmount');
+		footer.classList.add('anim-unmount');
+
 		// direct browser to destination href
 		setTimeout(() => {
 			window.location.href = destinationHref;
 		}, navAnimDuration);
 	}
 
-	function unmount() {
-		// trigger unmount animation for content
-		main.classList.add('anim-unmount');
-		footer.classList.add('anim-unmount');
+	function cacheCheck(e) {
+		if (!e.persisted) {
+			return;
+		} else {
+			// remove unmount animations/styling if page is loaded from cache
+			main.classList.remove('anim-unmount');
+			footer.classList.remove('anim-unmount');
+			nav.removeAttribute('style');
+		}
 	}
-
-	document.addEventListener('DOMContentLoaded', mount);
-	window.addEventListener('resize', mediaQueryHandler);
-	navToggle.addEventListener('click', attributeToggler);
-	navLinks.forEach((link) => {
-		link.addEventListener('click', navLinkClickHandler);
-	});
 </script>
