@@ -318,7 +318,9 @@ import navData from '../data/navData';
 		if (!e.persisted) {
 			return;
 		} else {
-			// remove unmount animations/styling if page is loaded from cache
+			// remove cached styling from previous unmount
+			setCurrentNavLink();
+			mediaQueryHandler();
 			main.classList.remove('anim-unmount');
 			footer.classList.remove('anim-unmount');
 			nav.removeAttribute('style');
