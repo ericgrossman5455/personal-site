@@ -264,6 +264,7 @@ import navData from '../data/navData';
 
 	function navLinkClickHandler(e) {
 		e.preventDefault();
+		window.addEventListener('beforeunload', unmount);
 		const destinationHref = e.target.closest('a').getAttribute('href');
 
 		// scroll to top & end function if current page is selected
@@ -294,14 +295,16 @@ import navData from '../data/navData';
 			nav.style.width = '0px';
 		}
 
-		// trigger unmount animation for content
-		main.classList.add('anim-unmount');
-		footer.classList.add('anim-unmount');
-
 		// direct browser to destination href
 		setTimeout(() => {
 			window.location.href = destinationHref;
 		}, navAnimDuration);
+	}
+
+	function unmount() {
+		// trigger unmount animation for content
+		main.classList.add('anim-unmount');
+		footer.classList.add('anim-unmount');
 	}
 
 	document.addEventListener('DOMContentLoaded', mount);
