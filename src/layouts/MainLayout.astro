@@ -108,4 +108,41 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 			}
 		}
 	}
+
+	@font-face {
+		font-family: 'Poltawski';
+		font-weight: 800;
+		src: url('../../public/fonts/Poltawski-Nowy-Bold.woff2') format(woff2);
+	}
+
+	@font-face {
+		font-family: 'Poltawski Italic';
+		font-style: italic; 
+		font-weight: 800;
+		src: url('../../public/fonts/Poltawski-Nowy-Bold-Italic.woff2') format(woff2);
+	}
+
+	@font-face {
+		font-family: 'Poltawski';
+		font-weight: 600;
+		src: url('../../public/fonts/Poltawski-Nowy-SemiBold.woff2') format(woff2);
+	}
+
+	@font-face {
+		font-family: 'Poltawski Italic';
+		font-style: italic;
+		font-weight: 600;
+		src: url('../../public/fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format(woff2);
+	}
+
+	h1 {
+		font-family: 'Poltawski', serif;
+		font-size: 100px;
+		font-weight: 800;
+
+		i, em {
+			font-family: 'Poltawski Italic', serif;
+		}
+	}
+
 </style>
