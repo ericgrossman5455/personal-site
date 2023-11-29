@@ -12,6 +12,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/styles/global-reset.css" />
+		<link rel="stylesheet" type="text/css" href="/styles/global-typography.css" />
 		<link rel="stylesheet" type="text/css" href="/styles/global-styles.css" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
@@ -106,42 +107,6 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum' } = Astro.props;
 					pointer-events: none;
 				}
 			}
-		}
-	}
-
-	@font-face {
-		font-family: 'Poltawski';
-		font-weight: 800;
-		src: url('../../public/fonts/Poltawski-Nowy-Bold.woff2') format(woff2);
-	}
-
-	@font-face {
-		font-family: 'Poltawski Italic';
-		font-style: italic; 
-		font-weight: 800;
-		src: url('../../public/fonts/Poltawski-Nowy-Bold-Italic.woff2') format(woff2);
-	}
-
-	@font-face {
-		font-family: 'Poltawski';
-		font-weight: 600;
-		src: url('../../public/fonts/Poltawski-Nowy-SemiBold.woff2') format(woff2);
-	}
-
-	@font-face {
-		font-family: 'Poltawski Italic';
-		font-style: italic;
-		font-weight: 600;
-		src: url('../../public/fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format(woff2);
-	}
-
-	h1 {
-		font-family: 'Poltawski', serif;
-		font-size: 100px;
-		font-weight: 800;
-
-		i, em {
-			font-family: 'Poltawski Italic', serif;
 		}
 	}
 
