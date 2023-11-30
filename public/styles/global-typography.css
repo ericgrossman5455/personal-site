@@ -84,12 +84,27 @@
 	src: url('../fonts/EB-Garamond-Italic.woff2') format(woff2);
 }
 
+@font-face {
+	font-family: 'PT Mono';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/PT-Mono.woff2') format(woff2);
+}
+
 h1 {
 	font-family: 'Poltawski', serif;
 	font-size: 100px;
 	font-weight: 800;
 	line-height: .93;
-	font-style: italic;
+	/* font-style: italic; */
+}
+
+h2 {
+	font-family: 'PT Mono';
+	font-size: 14px;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	padding-left: 3px;
 }
 
 p {
