@@ -2,13 +2,17 @@
 import { Icon } from 'astro-icon';
 
 import navData from '../data/navData';
+import Crumbs from './Crumbs.astro';
 ---
 
 <nav aria-expanded="true" data-disable-mount-anim>
-	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
-		<span class="visually-hidden">Navigation</span>
-		<Icon name="hamburger_menu" />
-	</button>
+	<div class="top-bar">
+		<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
+			<span class="visually-hidden">Navigation</span>
+			<Icon name="hamburger_menu" />
+		</button>
+		<Crumbs />
+	</div>
 
 	<div id="nav-panel" class="">
 		<div class="placeholder">
@@ -61,14 +65,19 @@ import navData from '../data/navData';
 			}
 		}
 
-		.nav-toggle {
-			backdrop-filter: blur(5px);
-			-webkit-backdrop-filter: blur(5px);
-			border-radius: 5px;
+		.top-bar {
+			z-index: 99;
 			position: fixed;
-			left: calc(($nav-width - $icon-width) / 2);
-			top: $vert-padding;
-			z-index: 9999;
+			display: flex;
+			margin-top: $vert-padding;
+			margin-left: calc(($nav-width - $icon-width) / 2);
+			backdrop-filter: blur(3px);
+			-webkit-backdrop-filter: blur(3px);
+			border-radius: 5px;
+
+			.nav-toggle {
+				z-index: 100;
+			}
 		}
 
 		#nav-panel {
