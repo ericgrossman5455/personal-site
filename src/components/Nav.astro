@@ -42,6 +42,13 @@ import navData from '../data/navData';
 		$nav-width: 70px;
 		$icon-width: 35px;
 		$vert-padding: 20px;
+
+		grid-area: nav;
+		position: sticky;
+		top: 0;
+		width: $nav-width;
+		height: calc(100vh);
+		height: calc(100dvh);
 		transition: width ease-in-out var(--nav-anim-duration);
 
 		&[aria-expanded='false'] {
@@ -53,13 +60,6 @@ import navData from '../data/navData';
 				width: 0px;
 			}
 		}
-
-		grid-area: nav;
-		position: sticky;
-		top: 0;
-		width: $nav-width;
-		height: calc(100vh);
-		height: calc(100dvh);
 
 		.nav-toggle {
 			backdrop-filter: blur(5px);
