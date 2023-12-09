@@ -3,6 +3,8 @@ import { Icon } from 'astro-icon';
 
 import navData from '../data/navData';
 import Crumbs from './Crumbs.astro';
+
+const { crumbs } = Astro.props;
 ---
 
 <nav aria-expanded="true" data-disable-mount-anim>
@@ -11,7 +13,7 @@ import Crumbs from './Crumbs.astro';
 			<span class="visually-hidden">Navigation</span>
 			<Icon name="hamburger_menu" />
 		</button>
-		<Crumbs />
+		<Crumbs crumbs={crumbs} />
 	</div>
 
 	<div id="nav-panel" class="">
@@ -37,11 +39,13 @@ import Crumbs from './Crumbs.astro';
 	</div>
 </nav>
 
-<style is:global lang="scss">
+<style is:global>
 	:root {
 		--nav-anim-duration: 300ms;
 	}
+</style>
 
+<style lang="scss">
 	nav {
 		$nav-width: 70px;
 		$icon-width: 35px;
@@ -54,6 +58,7 @@ import Crumbs from './Crumbs.astro';
 		height: calc(100vh);
 		height: calc(100dvh);
 		transition: width ease-in-out var(--nav-anim-duration);
+		z-index: 100;
 
 		&[aria-expanded='false'] {
 			width: 0px;
@@ -74,10 +79,6 @@ import Crumbs from './Crumbs.astro';
 			backdrop-filter: blur(3px);
 			-webkit-backdrop-filter: blur(3px);
 			border-radius: 5px;
-
-			.nav-toggle {
-				z-index: 100;
-			}
 		}
 
 		#nav-panel {
@@ -156,7 +157,7 @@ import Crumbs from './Crumbs.astro';
 </style>
 
 <script>
-	const primaryGrid = document.querySelector('#primary-grid') as HTMLElement;
+	const primaryGrid = document.getElementById('primary-grid');
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
 	const navPanel = document.getElementById('nav-panel');

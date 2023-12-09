@@ -1,8 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+const manualCrumbs = [
+  {
+    text: "journal",
+    href: "#",
+  }
+];
 ---
 
-<MainLayout title="Journal | Eric Grossman" description="Eric Grossman's Journal home page">
+<MainLayout title="Journal | Eric Grossman" description="Eric Grossman's Journal home page" crumbs={manualCrumbs}>
 	<article>
 		<h2>a demonstration</h2>
 		<h1>Journal.</h1>
