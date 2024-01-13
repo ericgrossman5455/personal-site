@@ -164,6 +164,7 @@ const { crumbs } = Astro.props;
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
 	const footer = document.querySelector('footer');
+	const crumbs = document.querySelector('.crumbs')
 
 	let isContentFrozen = false;
 	let screenWidth;
@@ -320,6 +321,7 @@ const { crumbs } = Astro.props;
 		// trigger unmount animation for content
 		main.classList.add('anim-unmount');
 		footer.classList.add('anim-unmount');
+		crumbs.classList.add('anim-unmount');
 
 		// direct browser to destination href
 		setTimeout(() => {
