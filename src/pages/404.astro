@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 
-const manualCrumbs = [
+const customCrumbs = [
 	{
 		text: 'home',
 		href: '/',
@@ -16,7 +16,7 @@ const manualCrumbs = [
 <MainLayout
 	title="Page not found | Eric Grossman"
 	description="404 error fallback page"
-	crumbs={manualCrumbs}>
+	crumbs={customCrumbs}>
 	<div class="narration doh">
 		<h1>d’oh, 404.</h1>
 		<p>Welp... this page is missing.</p>

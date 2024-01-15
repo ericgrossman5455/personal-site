@@ -16,7 +16,7 @@ const { crumbs } = Astro.props;
 				viewBox="0 0 24 24"
 				fill="none"
 				stroke="currentColor"
-				stroke-width="2"
+				stroke-width="1.5"
 				stroke-linecap="round"
 				stroke-linejoin="round">
 				<polyline points="9 18 15 12 9 6"></polyline>
@@ -25,13 +25,17 @@ const { crumbs } = Astro.props;
 	</h2>
 </div>
 
-<style lang="scss">
+<style lang="scss" is:global>
 	.crumbs {
+		.c-breadcrumbs__link {
+			font-size: 14px;
+		}
+
 		max-width: 50vw;
 		margin-left: 10px;
 		padding: 0 10px;
 		display: flex;
 		align-items: center;
-		animation: mount ease-out var(--nav-anim-duration) .15s backwards;
+		animation: mount ease-out var(--nav-anim-duration) 0.15s backwards;
 	}
 </style>

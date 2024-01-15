@@ -164,7 +164,7 @@ const { crumbs } = Astro.props;
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
 	const footer = document.querySelector('footer');
-	const crumbs = document.querySelector('.crumbs')
+	const crumbs = document.querySelector('.crumbs');
 
 	let isContentFrozen = false;
 	let screenWidth;
@@ -188,12 +188,17 @@ const { crumbs } = Astro.props;
 
 	function setCurrentNavLink() {
 		navLinks.forEach((link) => {
-			if (link.getAttribute('href') === window.location.pathname) {
+			if (link.getAttribute('href') === '/' && window.location.pathname === '/') {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
-			} else {
-				link.removeAttribute('aria-current');
-				link.removeAttribute('aria-label');
+			}
+
+			if (
+				window.location.pathname.includes(link.getAttribute('href')) &&
+				link.getAttribute('href') !== '/'
+			) {
+				link.setAttribute('aria-current', 'page');
+				link.setAttribute('aria-label', 'scroll to top');
 			}
 		});
 	}
