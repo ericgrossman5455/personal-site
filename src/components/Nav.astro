@@ -11,14 +11,14 @@ const { crumbs } = Astro.props;
 	<div class="top-bar">
 		<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
 			<span class="visually-hidden">Navigation</span>
-			<Icon name="hamburger_menu" />
+			<Icon name="nav_toggle" />
 		</button>
 		<Crumbs crumbs={crumbs} />
 	</div>
 
 	<div id="nav-panel" class="">
 		<div class="placeholder">
-			<Icon name="hamburger_menu" />
+			<Icon name="nav_toggle" />
 		</div>
 
 		<div class="directory">
@@ -34,7 +34,7 @@ const { crumbs } = Astro.props;
 
 		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
 			<span class="visually-hidden">Notifications</span>
-			<Icon name="notifications" />
+			<Icon name="chat_unread" />
 		</button>
 	</div>
 </nav>
@@ -102,6 +102,7 @@ const { crumbs } = Astro.props;
 		svg {
 			width: $icon-width;
 			fill: var(--glyph-standard);
+			
 		}
 
 		button {
