@@ -1,5 +1,5 @@
 ---
-import MainLayout from '../../layouts/MainLayout.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
 
 const customCrumbs = [
   {
@@ -8,6 +8,10 @@ const customCrumbs = [
   },
 	{
     text: 'test',
+    href: "/journal/test",
+  },
+	{
+    text: 'test 2',
     href: "#",
   }
 ];
@@ -16,7 +20,7 @@ const customCrumbs = [
 <MainLayout title="Test | Eric Grossman" crumbs={customCrumbs} >
 	<article>
 		<h2>Lorem</h2>
-		<h1>Test.</h1>
+		<h1>Test 2.</h1>
 		<p>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero sit
 			aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident
@@ -24,7 +28,6 @@ const customCrumbs = [
 			elit. Alias perferendis blanditiis libero sit aperiam similique sunt architecto numquam neque ea.
 			Aspernatur, nesciunt! Repellendus provident ipsa minima molestias inventore rerum numquam!
 		</p>
-		<a href="/journal/subfolder/test-2">test 2</a>
 		<p>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero sit
 			aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident
