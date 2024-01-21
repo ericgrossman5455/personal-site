@@ -8,15 +8,12 @@ const customCrumbs = [
 	},
 	{
 		text: 'page not found',
-		href: '#'
+		href: '#',
 	},
 ];
 ---
 
-<MainLayout
-	title="Page not found | Eric Grossman"
-	description="404 error fallback page"
-	crumbs={customCrumbs}>
+<MainLayout title="404 | Eric Grossman" description="Missing page fallback" crumbs={customCrumbs}>
 	<div class="narration doh">
 		<h1>d’oh, 404.</h1>
 		<p>Welp... this page is missing.</p>
