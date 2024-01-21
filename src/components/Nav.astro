@@ -32,9 +32,9 @@ const { crumbs } = Astro.props;
 			}
 		</div>
 
-		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
-			<span class="visually-hidden">Notifications</span>
-			<Icon name="chat_unread" />
+		<button class="contact" title="Contact" aria-label="Contact methods" data-nav-link>
+			<span class="visually-hidden">Contact methods</span>
+			<Icon name="contact" />
 		</button>
 	</div>
 </nav>
@@ -102,7 +102,7 @@ const { crumbs } = Astro.props;
 		svg {
 			width: $icon-width;
 			fill: var(--glyph-standard);
-			
+			stroke: none;
 		}
 
 		button {
