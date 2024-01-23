@@ -2,17 +2,23 @@
 import { Icon } from 'astro-icon';
 
 import navData from '../data/navData';
+import Crumbs from './Crumbs.astro';
+
+const { crumbs } = Astro.props;
 ---
 
 <nav aria-expanded="true" data-disable-mount-anim>
-	<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
-		<span class="visually-hidden">Navigation</span>
-		<Icon name="hamburger_menu" />
-	</button>
+	<div class="top-bar">
+		<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
+			<span class="visually-hidden">Navigation</span>
+			<Icon name="nav_toggle" />
+		</button>
+		<Crumbs crumbs={crumbs} />
+	</div>
 
 	<div id="nav-panel" class="">
 		<div class="placeholder">
-			<Icon name="hamburger_menu" />
+			<Icon name="nav_toggle" />
 		</div>
 
 		<div class="directory">
@@ -26,18 +32,20 @@ import navData from '../data/navData';
 			}
 		</div>
 
-		<button class="notifications" title="Notifications" aria-label="Notifications" data-nav-link>
-			<span class="visually-hidden">Notifications</span>
-			<Icon name="notifications" />
+		<button class="contact" title="Contact" aria-label="Contact methods" data-nav-link>
+			<span class="visually-hidden">Contact methods</span>
+			<Icon name="contact" />
 		</button>
 	</div>
 </nav>
 
-<style is:global lang="scss">
+<style is:global>
 	:root {
 		--nav-anim-duration: 300ms;
 	}
+</style>
 
+<style lang="scss">
 	nav {
 		$nav-width: 70px;
 		$icon-width: 35px;
@@ -50,6 +58,7 @@ import navData from '../data/navData';
 		height: calc(100vh);
 		height: calc(100dvh);
 		transition: width ease-in-out var(--nav-anim-duration);
+		z-index: 100;
 
 		&[aria-expanded='false'] {
 			width: 0px;
@@ -61,14 +70,15 @@ import navData from '../data/navData';
 			}
 		}
 
-		.nav-toggle {
-			backdrop-filter: blur(5px);
-			-webkit-backdrop-filter: blur(5px);
-			border-radius: 5px;
+		.top-bar {
+			z-index: 99;
 			position: fixed;
-			left: calc(($nav-width - $icon-width) / 2);
+			display: flex;
 			top: $vert-padding;
-			z-index: 9999;
+			left: calc(($nav-width - $icon-width) / 2);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border-radius: 5px;
 		}
 
 		#nav-panel {
@@ -92,6 +102,7 @@ import navData from '../data/navData';
 		svg {
 			width: $icon-width;
 			fill: var(--glyph-standard);
+			stroke: none;
 		}
 
 		button {
@@ -147,9 +158,10 @@ import navData from '../data/navData';
 </style>
 
 <script>
-	const primaryGrid = document.querySelector('#primary-grid') as HTMLElement;
+	const primaryGrid = document.getElementById('primary-grid');
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
+	const crumbs = document.querySelector('.crumbs');
 	const navPanel = document.getElementById('nav-panel');
 	const navLinks = document.querySelectorAll('[data-nav-link]');
 	const main = document.querySelector('main');
@@ -177,12 +189,17 @@ import navData from '../data/navData';
 
 	function setCurrentNavLink() {
 		navLinks.forEach((link) => {
-			if (link.getAttribute('href') === window.location.pathname) {
+			if (link.getAttribute('href') === '/' && window.location.pathname === '/') {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
-			} else {
-				link.removeAttribute('aria-current');
-				link.removeAttribute('aria-label');
+			}
+
+			if (
+				window.location.pathname.includes(link.getAttribute('href')) &&
+				link.getAttribute('href') !== '/'
+			) {
+				link.setAttribute('aria-current', 'page');
+				link.setAttribute('aria-label', 'scroll to top');
 			}
 		});
 	}
@@ -310,6 +327,7 @@ import navData from '../data/navData';
 		// trigger unmount animation for content
 		main.classList.add('anim-unmount');
 		footer.classList.add('anim-unmount');
+		crumbs.classList.add('anim-unmount');
 
 		// direct browser to destination href
 		setTimeout(() => {

@@ -1,24 +1,34 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+const customCrumbs = [
+	{
+		text: 'home',
+		href: '/',
+	},
+	{
+		text: 'page not found',
+		href: '#',
+	},
+];
 ---
 
-<MainLayout title="Page not found | Eric Grossman" description="404 error fallback page">
+<MainLayout title="404 | Eric Grossman" description="Missing page fallback" crumbs={customCrumbs}>
 	<div class="narration doh">
 		<h1>d’oh, 404.</h1>
 		<p>Welp... this page is missing.</p>
 		<p>
-			If you have a moment, please use the report button below to let Eric know about this
-			problem. Thank you kind&nbsp;human.
+			If you have a moment, please use the report button below to let Eric know about this problem.
+			Thank you kind&nbsp;human.
 		</p>
 	</div>
 
 	<div class="homer">
 		<img
-			src="https://eric-grossman.com/assets/404/homer-404.png"
+			src="/assets/404/homer-404.png"
 			alt="Homer Simpson smacking his forehead in disappointment."
 		/>
 	</div>
 </MainLayout>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

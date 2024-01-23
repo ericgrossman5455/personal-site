@@ -1,0 +1,55 @@
+---
+import { Breadcrumbs } from 'astro-breadcrumbs';
+
+import 'astro-breadcrumbs/breadcrumbs.css';
+const { crumbs } = Astro.props;
+---
+
+<div class="crumbs">
+	<h2>
+		<Breadcrumbs indexText="Home" crumbs={crumbs}>
+			<svg
+				slot="separator"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round">
+				<polyline points="9 18 15 12 9 6"></polyline>
+			</svg>
+		</Breadcrumbs>
+	</h2>
+</div>
+
+<style lang="scss" is:global>
+	.crumbs {
+		$anim-delay: 0.4s;
+
+		max-width: 50vw;
+		margin-left: 8px;
+		padding: 0 10px;
+		display: flex;
+		align-items: center;
+
+		.c-breadcrumbs__link {
+			font-size: 14px;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		.c-breadcrumbs__crumb:last-child {
+			animation: slide-right ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s) backwards;
+		}
+
+		.c-breadcrumbs__crumb:nth-last-child(2) .c-breadcrumbs__separator {
+			animation: slide-right ease-out var(--nav-anim-duration) $anim-delay backwards;
+		}
+
+	}
+</style>

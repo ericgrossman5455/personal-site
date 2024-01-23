@@ -1,11 +1,26 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
+
+const customCrumbs = [
+  {
+    text: "journal",
+    href: "/journal/",
+  },
+	{
+    text: 'test',
+    href: "/journal/test",
+  },
+	{
+    text: 'test 2',
+    href: "#",
+  }
+];
 ---
 
-<MainLayout title="Journal | Eric Grossman" description="Eric Grossman's Journal home page">
+<MainLayout title="Test | Eric Grossman" crumbs={customCrumbs} >
 	<article>
-		<h2>a demonstration</h2>
-		<h1>Journal.</h1>
+		<h2>Lorem</h2>
+		<h1>Test 2.</h1>
 		<p>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero sit
 			aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident
@@ -47,4 +62,11 @@ import MainLayout from '../layouts/MainLayout.astro';
 			padding: 30px 0;
 		}
 	}
+
+	// Why does this work only when is:global, yet it doesn't affect any other page?
+		// nav > ol > li:nth-child(1) {
+		// 	display: none;
+		// }
+	
+
 </style>

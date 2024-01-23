@@ -1,8 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+const customCrumbs = [
+  {
+    text: "home",
+    href: "#",
+  }
+];
 ---
 
-<MainLayout title="Home | Eric Grossman" description="Eric Grossman's home page">
+<MainLayout title="Home | Eric Grossman" description="Eric Grossman's home page" crumbs={customCrumbs}>
 	<article>
 		<h2>a demonstration</h2>
 		<h1>Home.</h1>

@@ -37,7 +37,7 @@
 }
 
 .anim-unmount {
-	animation: unmount ease-out var(--nav-anim-duration) forwards;
+	animation: unmount ease-out var(--nav-anim-duration) forwards !important;
 }
 
 @keyframes mount {
@@ -53,4 +53,15 @@
 
 .anim-mount {
 	animation: mount ease-out var(--nav-anim-duration);
+}
+
+@keyframes slide-right {
+	0% {
+		transform: translateX(-10px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
