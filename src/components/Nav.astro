@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
 
 import navData from '../data/navData';
 import Crumbs from './Crumbs.astro';
@@ -100,9 +100,8 @@ const { crumbs } = Astro.props;
 		}
 
 		svg {
-			width: $icon-width;
-			fill: var(--glyph-standard);
-			stroke: none;
+			font-size: $icon-width;
+			color: var(--glyph-standard);
 		}
 
 		button {
@@ -121,6 +120,7 @@ const { crumbs } = Astro.props;
 				&:after {
 					content: '';
 					position: absolute;
+					top: 0;
 					left: calc($flush-left - 1px);
 					height: 100%;
 					border-left: 1px solid var(--glyph-standard);
@@ -345,9 +345,10 @@ const { crumbs } = Astro.props;
 			// remove cached styling from previous unmount
 			setCurrentNavLink();
 			mediaQueryHandler();
+			nav.removeAttribute('style');
 			main.classList.remove('anim-unmount');
 			footer.classList.remove('anim-unmount');
-			nav.removeAttribute('style');
+			crumbs.classList.remove('anim-unmount');
 		}
 	}
 </script>
