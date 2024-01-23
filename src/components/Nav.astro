@@ -236,6 +236,7 @@ const { crumbs } = Astro.props;
 					.getPropertyValue('transition-duration')
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
+			console.log("navAnimDuration: " + navAnimDuration)
 	}
 
 	function setExpandedNavAttributes() {
