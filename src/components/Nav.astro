@@ -236,7 +236,6 @@ const { crumbs } = Astro.props;
 					.getPropertyValue('transition-duration')
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
-			console.log("navAnimDuration: " + navAnimDuration)
 	}
 
 	function setExpandedNavAttributes() {
@@ -345,9 +344,10 @@ const { crumbs } = Astro.props;
 			// remove cached styling from previous unmount
 			setCurrentNavLink();
 			mediaQueryHandler();
+			nav.removeAttribute('style');
 			main.classList.remove('anim-unmount');
 			footer.classList.remove('anim-unmount');
-			nav.removeAttribute('style');
+			crumbs.classList.remove('anim-unmount');
 		}
 	}
 </script>
