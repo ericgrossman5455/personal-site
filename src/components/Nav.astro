@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
 
 import navData from '../data/navData';
 import Crumbs from './Crumbs.astro';
@@ -100,9 +100,8 @@ const { crumbs } = Astro.props;
 		}
 
 		svg {
-			width: $icon-width;
-			fill: var(--glyph-standard);
-			stroke: none;
+			font-size: $icon-width;
+			color: var(--glyph-standard);
 		}
 
 		button {
