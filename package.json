@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "open http://localhost:4321/; astro dev",
     "dev-windows": "start http://localhost:4321/ & astro dev",
-    "start": "astro dev",
+    "preview": "astro build; astro preview",
     "build": "astro build",
-    "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
