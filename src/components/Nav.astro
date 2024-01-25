@@ -75,8 +75,11 @@ const { crumbs } = Astro.props;
 			z-index: 99;
 			position: fixed;
 			display: flex;
+			max-width: 600px;
 			top: $vert-padding;
 			left: calc(($nav-width - $icon-width) / 2);
+			margin-right: calc(($nav-width - $icon-width) / 2);
+			padding-left: 3px;
 			backdrop-filter: blur(10px);
 			-webkit-backdrop-filter: blur(10px);
 			border-radius: 5px;
@@ -160,37 +163,55 @@ const { crumbs } = Astro.props;
 
 <script>
 	import { browserDetect } from '../../public/scripts/global-scripts.js';
-	const primaryGrid = document.getElementById('primary-grid');
-	const nav = document.querySelector('nav');
-	const navToggle = document.querySelector('.nav-toggle');
-	const crumbs = document.querySelector('.crumbs');
-	const navPanel = document.getElementById('nav-panel');
-	const navLinks = document.querySelectorAll('[data-nav-link]');
-	const main = document.querySelector('main');
-	const footer = document.querySelector('footer');
 
-	let isContentFrozen = false;
-	let screenWidth;
-	let navAnimDuration;
-	let navAnimTimer;
+	const PrimaryGrid = document.getElementById('primary-grid');
+	const Nav = document.querySelector('nav');
+	const NavToggle = document.querySelector('.nav-toggle');
+	const Crumbs = document.querySelector('.crumbs');
+	const NavPanel = document.getElementById('nav-panel');
+	const NavLinks = document.querySelectorAll('[data-nav-link]');
+	const Main = document.querySelector('main');
+	const Footer = document.querySelector('footer');
+	const AllLinks = document.querySelectorAll('a');
+
+	let _isContentFrozen = false;
+	let _screenWidth;
+	let _navAnimDuration;
+	let _navAnimTimer;
+	let _isNavExpanded;
 
 	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('pageshow', cacheCheck);
-	window.addEventListener('resize', mediaQueryHandler);
-	navToggle.addEventListener('click', attributeToggler);
-	navLinks.forEach((link) => {
-		link.addEventListener('click', navLinkClickHandler);
-	});
+
+	function bindEvents() {
+		window.addEventListener('resize', mediaQueryHandler);
+		NavToggle.addEventListener('click', attributeToggler);
+		NavLinks.forEach((link) => {
+			link.addEventListener('click', navLinkClickHandler);
+		});
+
+		const NavLinksArray = Array.from(NavLinks);
+		AllLinks.forEach((link) => {
+			if (
+				!NavLinksArray.includes(link) &&
+				!link.hasAttribute('data-disable-unmount-anim') &&
+				link.getAttribute('href') != '#'
+			) {
+				link.addEventListener('click', genericLinkHandler);
+			}
+		});
+	}
 
 	function mount() {
 		setCurrentNavLink();
 		mediaQueryHandler();
-		nav.removeAttribute('data-disable-mount-anim');
+		Nav.removeAttribute('data-disable-mount-anim');
 		getNavAnimDuration();
+		bindEvents();
 	}
 
 	function setCurrentNavLink() {
-		navLinks.forEach((link) => {
+		NavLinks.forEach((link) => {
 			link.removeAttribute('aria-current');
 			link.removeAttribute('aria-label');
 
@@ -210,92 +231,93 @@ const { crumbs } = Astro.props;
 	}
 
 	function mediaQueryHandler() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
+		_isNavExpanded = Nav.getAttribute('aria-expanded');
 
 		if (document.body.clientWidth <= 600) {
-			screenWidth = 'narrow';
+			_screenWidth = 'narrow';
 		} else {
-			screenWidth = 'wide';
+			_screenWidth = 'wide';
 		}
 
-		if (screenWidth === 'narrow' && isNavExpanded === 'true') {
+		if (_screenWidth === 'narrow' && _isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
+			return;
 		}
 
-		if (screenWidth === 'wide') {
-			if (isContentFrozen === true) {
+		if (_screenWidth === 'wide') {
+			if (_isContentFrozen === true) {
 				freezeContent('thaw');
-			} else if (isNavExpanded === 'false') {
+			} else if (_isNavExpanded === 'false') {
 				setExpandedNavAttributes();
 			}
 		}
 	}
 
 	function getNavAnimDuration() {
-		navAnimDuration =
+		_navAnimDuration =
 			Number(
 				window
-					.getComputedStyle(document.querySelector('nav'))
+					.getComputedStyle(Nav)
 					.getPropertyValue('transition-duration')
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
 
-			// fix for Safari bug | rel:1
-			if( browserDetect() === 'safari') {
-				navAnimDuration = 300}
-			
+		// fix for Safari bug | rel:1
+		if (browserDetect() === 'safari') {
+			_navAnimDuration = 300;
+		}
 	}
 
 	function setExpandedNavAttributes() {
-		clearTimeout(navAnimTimer);
-		nav.setAttribute('aria-expanded', 'true');
-		navPanel.removeAttribute('aria-hidden');
-		navPanel.classList.remove('display-none');
+		clearTimeout(_navAnimTimer);
+		Nav.setAttribute('aria-expanded', 'true');
+		NavPanel.removeAttribute('aria-hidden');
+		NavPanel.classList.remove('display-none');
 
-		if (screenWidth === 'narrow') {
+		if (_screenWidth === 'narrow') {
 			freezeContent();
 		}
 	}
 
 	function setCollapsedNavAttributes() {
-		nav.setAttribute('aria-expanded', 'false');
-		navPanel.setAttribute('aria-hidden', 'true');
+		Nav.setAttribute('aria-expanded', 'false');
+		NavPanel.setAttribute('aria-hidden', 'true');
 		freezeContent('thaw');
 
-		navAnimTimer = setTimeout(() => {
-			navPanel.classList.add('display-none');
-		}, navAnimDuration);
+		_navAnimTimer = setTimeout(() => {
+			NavPanel.classList.add('display-none');
+		}, _navAnimDuration);
 	}
 
 	function freezeContent(action = '') {
 		if (action === '') {
 			window.addEventListener('scroll', attributeToggler);
-			main.addEventListener('click', attributeToggler);
+			Main.addEventListener('click', attributeToggler);
 
 			// freeze content elements' dimensions
-			const freezeWidth = main.scrollWidth.toString();
-			primaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
-			main.setAttribute('aria-hidden', 'true');
-			footer.setAttribute('aria-hidden', 'true');
-			isContentFrozen = true;
+			const freezeWidth = Main.scrollWidth.toString();
+			PrimaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
+			Main.setAttribute('aria-hidden', 'true');
+			Footer.setAttribute('aria-hidden', 'true');
+			_isContentFrozen = true;
 		} else if (action === 'thaw') {
 			window.removeEventListener('scroll', attributeToggler);
-			main.removeEventListener('click', attributeToggler);
+			Main.removeEventListener('click', attributeToggler);
 
-			main.removeAttribute('aria-hidden');
-			footer.removeAttribute('aria-hidden');
+			Main.removeAttribute('aria-hidden');
+			Footer.removeAttribute('aria-hidden');
 
-			navAnimTimer = setTimeout(() => {
-				primaryGrid.removeAttribute('style');
-			}, navAnimDuration);
-			isContentFrozen = false;
+			_navAnimTimer = setTimeout(() => {
+				PrimaryGrid.removeAttribute('style');
+			}, _navAnimDuration);
+			_isContentFrozen = false;
 		}
 	}
 
 	function attributeToggler() {
-		const isNavExpanded = nav.getAttribute('aria-expanded');
+		_isNavExpanded = Nav.getAttribute('aria-expanded');
 
-		if (isNavExpanded === 'true') {
+		if (_isNavExpanded === 'true') {
 			setCollapsedNavAttributes();
 		} else {
 			setExpandedNavAttributes();
@@ -308,11 +330,11 @@ const { crumbs } = Astro.props;
 
 		// scroll to top & end function if current page is selected
 		if (destinationHref === window.location.pathname) {
-			if (screenWidth === 'narrow') {
+			if (_screenWidth === 'narrow') {
 				setCollapsedNavAttributes();
-				navAnimTimer = setTimeout(() => {
+				_navAnimTimer = setTimeout(() => {
 					window.scrollTo(0, 0);
-				}, navAnimDuration);
+				}, _navAnimDuration);
 				return;
 			} else {
 				window.scrollTo(0, 0);
@@ -321,7 +343,7 @@ const { crumbs } = Astro.props;
 		}
 
 		// add aria-current attribute/styling to destination nav link immediately upon selection
-		navLinks.forEach((link) => {
+		NavLinks.forEach((link) => {
 			if (link.getAttribute('href') === destinationHref) {
 				link.setAttribute('aria-current', 'page');
 			} else {
@@ -330,32 +352,46 @@ const { crumbs } = Astro.props;
 		});
 
 		// collapse nav w/o triggering other animations caused by setCollapsedNavAttributes()
-		if (screenWidth === 'narrow') {
-			nav.style.width = '0px';
+		if (_screenWidth === 'narrow') {
+			Nav.style.width = '0px';
 		}
 
 		// trigger unmount animation for content
-		main.classList.add('anim-unmount');
-		footer.classList.add('anim-unmount');
-		crumbs.classList.add('anim-unmount');
+		Main.classList.add('anim-unmount');
+		Footer.classList.add('anim-unmount');
+		Crumbs.classList.add('anim-unmount');
 
 		// direct browser to destination href
 		setTimeout(() => {
 			window.location.href = destinationHref;
-		}, navAnimDuration);
+		}, _navAnimDuration);
+	}
+
+	function genericLinkHandler(e) {
+		e.preventDefault();
+		const destinationHref = e.target.closest('a').getAttribute('href');
+
+		// trigger unmount animation for content
+		Main.classList.add('anim-unmount');
+		Footer.classList.add('anim-unmount');
+
+		// direct browser to destination href
+		setTimeout(() => {
+			window.location.href = destinationHref;
+		}, _navAnimDuration);
 	}
 
 	function cacheCheck(e) {
 		if (!e.persisted) {
 			return;
-		} else {
-			// remove cached styling from previous unmount
-			setCurrentNavLink();
-			mediaQueryHandler();
-			nav.removeAttribute('style');
-			main.classList.remove('anim-unmount');
-			footer.classList.remove('anim-unmount');
-			crumbs.classList.remove('anim-unmount');
 		}
+
+		// remove cached styling from previous unmount
+		setCurrentNavLink();
+		mediaQueryHandler();
+		Nav.removeAttribute('style');
+		Main.classList.remove('anim-unmount');
+		Footer.classList.remove('anim-unmount');
+		Crumbs.classList.remove('anim-unmount');
 	}
 </script>
