@@ -24,8 +24,8 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 		<meta name="application-name" content="Eric Grossman" />
 		<meta name="msapplication-TileColor" content="#212024" />
 		<meta name="msapplication-config" content="/favicons/browserconfig.xml" />
-		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#DEDEDE" />
-		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#212024" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#e3e3e3" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#3c3c3c" />
 		<meta name="color-scheme" content="light dark" />
 		<meta name="generator" content={Astro.generator} />
 
@@ -47,7 +47,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 
 <style is:global lang="scss">
 	:root {
-		--bg-layer-base: #dedede;
+		--bg-layer-base: #e3e3e3;
 		--glyph-standard: #4b4b4b;
 
 		background-color: var(--bg-layer-base);
@@ -61,8 +61,8 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 		overflow-x: clip;
 
 		@media (prefers-color-scheme: dark) {
-			--bg-layer-base: #212024;
-			--glyph-standard: #e1e1e1;
+			--bg-layer-base: #3c3c3c;
+			--glyph-standard: #f3f3f3;
 
 			background-color: var(--bg-layer-base);
 			color: var(--glyph-standard);
@@ -93,8 +93,8 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 
 	main,
 	footer {
-		transition: opacity var(--nav-anim-duration);
 		animation: mount ease-out var(--nav-anim-duration);
+		transition: opacity var(--nav-anim-duration);
 
 		@media only screen and (max-width: 600px) {
 			&[aria-hidden='true'] {
@@ -109,5 +109,4 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 			}
 		}
 	}
-
 </style>
