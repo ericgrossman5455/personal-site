@@ -41,6 +41,7 @@ const { crumbs } = Astro.props;
 
 <style is:global>
 	:root {
+		/* update value in JS too for Safari bug | rel:1 */
 		--nav-anim-duration: 300ms;
 	}
 </style>
@@ -158,6 +159,7 @@ const { crumbs } = Astro.props;
 </style>
 
 <script>
+	import { browserDetect } from '../../public/scripts/global-scripts.js';
 	const primaryGrid = document.getElementById('primary-grid');
 	const nav = document.querySelector('nav');
 	const navToggle = document.querySelector('.nav-toggle');
@@ -237,6 +239,11 @@ const { crumbs } = Astro.props;
 					.getPropertyValue('transition-duration')
 					.replace(/[^0-9\.]+/g, '')
 			) * 1000;
+
+			// fix for Safari bug | rel:1
+			if( browserDetect() === 'safari') {
+				navAnimDuration = 300}
+			
 	}
 
 	function setExpandedNavAttributes() {
@@ -265,7 +272,7 @@ const { crumbs } = Astro.props;
 			window.addEventListener('scroll', attributeToggler);
 			main.addEventListener('click', attributeToggler);
 
-			// freeze content elements' dimensions | rel:1
+			// freeze content elements' dimensions
 			const freezeWidth = main.scrollWidth.toString();
 			primaryGrid.style.gridTemplateColumns = `auto ${freezeWidth}px`;
 			main.setAttribute('aria-hidden', 'true');

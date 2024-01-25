@@ -8,3 +8,18 @@ export function throttle(fn, wait) {
 		}
 	};
 }
+
+export function browserDetect() {
+	let isChrome = navigator.userAgent.indexOf('Chrome') > -1;
+	let isFireFox = navigator.userAgent.indexOf('Firefox') > -1;
+	let isSafari = navigator.userAgent.indexOf('Safari') > -1;
+	if (isChrome && isSafari) isSafari = false;
+
+	return isChrome
+		? 'chrome'
+		: isFireFox
+		? 'fireFox'
+		: isSafari
+		? 'safari'
+		: 'unknown browser';
+}
