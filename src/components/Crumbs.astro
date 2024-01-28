@@ -51,5 +51,9 @@ const { crumbs } = Astro.props;
 			animation: slide-right ease-out var(--nav-anim-duration) $anim-delay backwards;
 		}
 
+		.anim-crumb-unmount.c-breadcrumbs__crumb,
+		.c-breadcrumbs__crumb[data-clicked-crumb] .c-breadcrumbs__separator {
+			animation: slide-left ease-out var(--nav-anim-duration) 0.1s forwards;
+		}
 	}
 </style>

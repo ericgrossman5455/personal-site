@@ -32,7 +32,7 @@ const { crumbs } = Astro.props;
 			}
 		</div>
 
-		<button class="contact" title="Contact" aria-label="Contact methods" data-nav-link>
+		<button class="contact" title="Contact" aria-label="Contact methods">
 			<span class="visually-hidden">Contact methods</span>
 			<Icon name="contact" />
 		</button>
@@ -211,19 +211,18 @@ const { crumbs } = Astro.props;
 	}
 
 	function setCurrentNavLink() {
+		const currentLocation = window.location.pathname;
+
 		NavLinks.forEach((link) => {
+			const linkDestination = link.getAttribute('href');
+			// clear attributes incase of caching leftovers
 			link.removeAttribute('aria-current');
 			link.removeAttribute('aria-label');
 
-			if (link.getAttribute('href') === '/' && window.location.pathname === '/') {
+			if (linkDestination === '/' && currentLocation === '/') {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
-			}
-
-			if (
-				window.location.pathname.includes(link.getAttribute('href')) &&
-				link.getAttribute('href') !== '/'
-			) {
+			} else if (currentLocation.includes(linkDestination) && linkDestination !== '/') {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
 			}
@@ -326,10 +325,10 @@ const { crumbs } = Astro.props;
 
 	function navLinkClickHandler(e) {
 		e.preventDefault();
-		const destinationHref = e.target.closest('a').getAttribute('href');
+		const linkDestination = e.target.closest('a').getAttribute('href');
 
 		// scroll to top & end function if current page is selected
-		if (destinationHref === window.location.pathname) {
+		if (linkDestination === window.location.pathname) {
 			if (_screenWidth === 'narrow') {
 				setCollapsedNavAttributes();
 				_navAnimTimer = setTimeout(() => {
@@ -344,7 +343,7 @@ const { crumbs } = Astro.props;
 
 		// add aria-current attribute/styling to destination nav link immediately upon selection
 		NavLinks.forEach((link) => {
-			if (link.getAttribute('href') === destinationHref) {
+			if (link.getAttribute('href') === linkDestination) {
 				link.setAttribute('aria-current', 'page');
 			} else {
 				link.removeAttribute('aria-current');
@@ -356,29 +355,58 @@ const { crumbs } = Astro.props;
 			Nav.style.width = '0px';
 		}
 
-		// trigger unmount animation for content
-		Main.classList.add('anim-unmount');
-		Footer.classList.add('anim-unmount');
-		Crumbs.classList.add('anim-unmount');
+		unmountAnimations(e, linkDestination);
 
 		// direct browser to destination href
 		setTimeout(() => {
-			window.location.href = destinationHref;
+			window.location.href = linkDestination;
 		}, _navAnimDuration);
 	}
 
 	function genericLinkHandler(e) {
 		e.preventDefault();
-		const destinationHref = e.target.closest('a').getAttribute('href');
+		const linkDestination = e.target.closest('a').getAttribute('href');
 
+		unmountAnimations(e, linkDestination);
+
+		// direct browser to destination href
+		setTimeout(() => {
+			window.location.href = linkDestination;
+		}, _navAnimDuration);
+	}
+
+	function unmountAnimations(e, linkDestination) {
 		// trigger unmount animation for content
 		Main.classList.add('anim-unmount');
 		Footer.classList.add('anim-unmount');
 
-		// direct browser to destination href
-		setTimeout(() => {
-			window.location.href = destinationHref;
-		}, _navAnimDuration);
+		// TO-DO: add comments throughout rest of fn(), rename, optimize
+		let crumbLinks = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
+		let crumbLinksArray = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
+
+		// fade crumbs too if going to root of different section
+		let navHrefs = [];
+		for (let i = 0; i < NavLinks.length; i++) {
+			navHrefs.push(NavLinks[i].getAttribute('href'));
+		}
+		if (
+			navHrefs.some((href) => href === linkDestination) &&
+			!e.target.closest('a').classList.contains('c-breadcrumbs__link')
+		) {
+			Crumbs.classList.add('anim-unmount');
+		} else if (e.target.closest('a').classList.contains('c-breadcrumbs__link')) {
+			let clickedCrumbIndex;
+			crumbLinksArray.forEach((link) => {
+				if (link.getAttribute('href') === linkDestination) {
+					clickedCrumbIndex = crumbLinksArray.indexOf(link);
+					crumbLinks[clickedCrumbIndex].parentElement.setAttribute('data-clicked-crumb', '');
+				}
+			});
+
+			for (let i = clickedCrumbIndex + 1; i < crumbLinksArray.length; i++) {
+				crumbLinks[i].parentElement.classList.add('anim-crumb-unmount');
+			}
+		}
 	}
 
 	function cacheCheck(e) {
