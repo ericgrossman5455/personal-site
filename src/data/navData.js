@@ -5,11 +5,11 @@ const navData = [
 	},
 	{
 		name: 'Journal',
-		path: '/journal/',
+		path: '/journal',
 	},
 	{
 		name: 'About',
-		path: '/about/',
+		path: '/about',
 	},
 ];
 
