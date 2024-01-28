@@ -181,23 +181,15 @@ const { crumbs } = Astro.props;
 	let _isNavExpanded;
 
 	document.addEventListener('DOMContentLoaded', mount);
-	window.addEventListener('pageshow', cacheCheck);
+	// TODO: see if necessary
+	// window.addEventListener('pageshow', cacheCheck);
 
 	function bindEvents() {
 		window.addEventListener('resize', mediaQueryHandler);
 		NavToggle.addEventListener('click', attributeToggler);
-		NavLinks.forEach((link) => {
-			link.addEventListener('click', navLinkClickHandler);
-		});
-
-		const NavLinksArray = Array.from(NavLinks);
 		AllLinks.forEach((link) => {
-			if (
-				!NavLinksArray.includes(link) &&
-				!link.hasAttribute('data-disable-unmount-anim') &&
-				link.getAttribute('href') != '#'
-			) {
-				link.addEventListener('click', genericLinkHandler);
+			if (!link.hasAttribute('data-disable-link-handler') && link.getAttribute('href') != '#') {
+				link.addEventListener('click', allLinkHandler);
 			}
 		});
 	}
@@ -216,8 +208,9 @@ const { crumbs } = Astro.props;
 		NavLinks.forEach((link) => {
 			const linkDestination = link.getAttribute('href');
 			// clear attributes incase of caching leftovers
-			link.removeAttribute('aria-current');
-			link.removeAttribute('aria-label');
+			// TODO: see if removeAttribute are necessary
+			// link.removeAttribute('aria-current');
+			// link.removeAttribute('aria-label');
 
 			if (linkDestination === '/' && currentLocation === '/') {
 				link.setAttribute('aria-current', 'page');
@@ -323,39 +316,47 @@ const { crumbs } = Astro.props;
 		}
 	}
 
-	function navLinkClickHandler(e) {
+	function allLinkHandler(e) {
 		e.preventDefault();
 		const linkDestination = e.target.closest('a').getAttribute('href');
+		const linkType = e.target.closest('a').hasAttribute('data-nav-link')
+			? 'nav'
+			: e.target.closest('a').classList.contains('c-breadcrumbs__link')
+			? 'crumb'
+			: null;
 
-		// scroll to top & end function if current page is selected
-		if (linkDestination === window.location.pathname) {
-			if (_screenWidth === 'narrow') {
-				setCollapsedNavAttributes();
-				_navAnimTimer = setTimeout(() => {
+		// TODO: switch to switch?
+		if (linkType === 'nav') {
+			// scroll to top & end function if current page is selected
+			if (linkDestination === window.location.pathname) {
+				if (_screenWidth === 'narrow') {
+					setCollapsedNavAttributes();
+					_navAnimTimer = setTimeout(() => {
+						window.scrollTo(0, 0);
+					}, _navAnimDuration);
+					return;
+				} else {
 					window.scrollTo(0, 0);
-				}, _navAnimDuration);
-				return;
-			} else {
-				window.scrollTo(0, 0);
-				return;
+					return;
+				}
+			}
+
+			// immediately transfer aria-current attribute/styling to clicked nav link
+			NavLinks.forEach((link) => {
+				if (link.getAttribute('href') === linkDestination) {
+					link.setAttribute('aria-current', 'page');
+				} else {
+					link.removeAttribute('aria-current');
+				}
+			});
+
+			// collapse nav w/o triggering other animations caused by setCollapsedNavAttributes()
+			if (_screenWidth === 'narrow') {
+				Nav.style.width = '0px';
 			}
 		}
 
-		// add aria-current attribute/styling to destination nav link immediately upon selection
-		NavLinks.forEach((link) => {
-			if (link.getAttribute('href') === linkDestination) {
-				link.setAttribute('aria-current', 'page');
-			} else {
-				link.removeAttribute('aria-current');
-			}
-		});
-
-		// collapse nav w/o triggering other animations caused by setCollapsedNavAttributes()
-		if (_screenWidth === 'narrow') {
-			Nav.style.width = '0px';
-		}
-
-		unmountAnimations(e, linkDestination);
+		startUnmountAnim(linkDestination, linkType);
 
 		// direct browser to destination href
 		setTimeout(() => {
@@ -363,63 +364,50 @@ const { crumbs } = Astro.props;
 		}, _navAnimDuration);
 	}
 
-	function genericLinkHandler(e) {
-		e.preventDefault();
-		const linkDestination = e.target.closest('a').getAttribute('href');
-
-		unmountAnimations(e, linkDestination);
-
-		// direct browser to destination href
-		setTimeout(() => {
-			window.location.href = linkDestination;
-		}, _navAnimDuration);
-	}
-
-	function unmountAnimations(e, linkDestination) {
-		// trigger unmount animation for content
+	function startUnmountAnim(linkDestination, linkType) {
+		// add anim-unmount to content
 		Main.classList.add('anim-unmount');
 		Footer.classList.add('anim-unmount');
 
-		// TO-DO: add comments throughout rest of fn(), rename, optimize
-		let crumbLinks = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
-		let crumbLinksArray = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
+		let navLinkHrefs = [];
+		NavLinks.forEach((link) => {
+			navLinkHrefs.push(link.getAttribute('href'));
+		});
 
-		// fade crumbs too if going to root of different section
-		let navHrefs = [];
-		for (let i = 0; i < NavLinks.length; i++) {
-			navHrefs.push(NavLinks[i].getAttribute('href'));
-		}
-		if (
-			navHrefs.some((href) => href === linkDestination) &&
-			!e.target.closest('a').classList.contains('c-breadcrumbs__link')
-		) {
+		// add anim-unmount to all crumbs if going to root of diff section
+		if (navLinkHrefs.some((href) => href === linkDestination) && linkType !== 'crumb') {
 			Crumbs.classList.add('anim-unmount');
-		} else if (e.target.closest('a').classList.contains('c-breadcrumbs__link')) {
+			return;
+		}
+		// add anim-unmount-crumb to crumbs that follow the clicked crumb
+		else if (linkType === 'crumb') {
+			const crumbLinks = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
 			let clickedCrumbIndex;
-			crumbLinksArray.forEach((link) => {
+			crumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
-					clickedCrumbIndex = crumbLinksArray.indexOf(link);
+					clickedCrumbIndex = crumbLinks.indexOf(link);
 					crumbLinks[clickedCrumbIndex].parentElement.setAttribute('data-clicked-crumb', '');
 				}
 			});
 
-			for (let i = clickedCrumbIndex + 1; i < crumbLinksArray.length; i++) {
-				crumbLinks[i].parentElement.classList.add('anim-crumb-unmount');
+			for (let i = clickedCrumbIndex + 1; i < crumbLinks.length; i++) {
+				crumbLinks[i].parentElement.classList.add('anim-unmount-crumb');
 			}
 		}
 	}
 
-	function cacheCheck(e) {
-		if (!e.persisted) {
-			return;
-		}
+	// TODO: see if fn is necessary
+	// function cacheCheck(e) {
+	// 	if (!e.persisted) {
+	// 		return;
+	// 	}
 
-		// remove cached styling from previous unmount
-		setCurrentNavLink();
-		mediaQueryHandler();
-		Nav.removeAttribute('style');
-		Main.classList.remove('anim-unmount');
-		Footer.classList.remove('anim-unmount');
-		Crumbs.classList.remove('anim-unmount');
-	}
+	// 	// remove cached styling from previous unmount
+	// 	setCurrentNavLink();
+	// 	mediaQueryHandler();
+	// 	Nav.removeAttribute('style');
+	// 	Main.classList.remove('anim-unmount');
+	// 	Footer.classList.remove('anim-unmount');
+	// 	Crumbs.classList.remove('anim-unmount');
+	// }
 </script>
