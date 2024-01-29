@@ -79,7 +79,6 @@ const { crumbs } = Astro.props;
 			top: $vert-padding;
 			left: calc(($nav-width - $icon-width) / 2);
 			margin-right: calc(($nav-width - $icon-width) / 2);
-			padding-left: 3px;
 			backdrop-filter: blur(10px);
 			-webkit-backdrop-filter: blur(10px);
 			border-radius: 5px;
@@ -181,8 +180,7 @@ const { crumbs } = Astro.props;
 	let _isNavExpanded;
 
 	document.addEventListener('DOMContentLoaded', mount);
-	// TODO: see if necessary
-	// window.addEventListener('pageshow', cacheCheck);
+	window.addEventListener('pageshow', cacheCheck);
 
 	function bindEvents() {
 		window.addEventListener('resize', mediaQueryHandler);
@@ -396,18 +394,17 @@ const { crumbs } = Astro.props;
 		}
 	}
 
-	// TODO: see if fn is necessary
-	// function cacheCheck(e) {
-	// 	if (!e.persisted) {
-	// 		return;
-	// 	}
+	function cacheCheck(e) {
+		if (!e.persisted) {
+			return;
+		}
 
-	// 	// remove cached styling from previous unmount
-	// 	setCurrentNavLink();
-	// 	mediaQueryHandler();
-	// 	Nav.removeAttribute('style');
-	// 	Main.classList.remove('anim-unmount');
-	// 	Footer.classList.remove('anim-unmount');
-	// 	Crumbs.classList.remove('anim-unmount');
-	// }
+		// remove cached styling from previous unmount
+		setCurrentNavLink();
+		mediaQueryHandler();
+		Nav.removeAttribute('style');
+		Main.classList.remove('anim-unmount');
+		Footer.classList.remove('anim-unmount');
+		Crumbs.classList.remove('anim-unmount');
+	}
 </script>
