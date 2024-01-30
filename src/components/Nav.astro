@@ -178,6 +178,7 @@ const { crumbs } = Astro.props;
 	let _navAnimDuration;
 	let _navAnimTimer;
 	let _isNavExpanded;
+	let _navStateInvoker;
 
 	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('pageshow', cacheCheck);
@@ -198,6 +199,20 @@ const { crumbs } = Astro.props;
 		Nav.removeAttribute('data-disable-mount-anim');
 		getNavAnimDuration();
 		bindEvents();
+	}
+
+	function cacheCheck(e) {
+		if (!e.persisted) {
+			return;
+		}
+
+		// remove cached styling from previous unmount
+		setCurrentNavLink();
+		mediaQueryHandler();
+		Nav.removeAttribute('style');
+		Main.classList.remove('anim-unmount');
+		Footer.classList.remove('anim-unmount');
+		Crumbs.classList.remove('anim-unmount');
 	}
 
 	function setCurrentNavLink() {
@@ -237,7 +252,7 @@ const { crumbs } = Astro.props;
 		if (_screenWidth === 'wide') {
 			if (_isContentFrozen === true) {
 				freezeContent('thaw');
-			} else if (_isNavExpanded === 'false') {
+			} else if (_isNavExpanded === 'false' && _navStateInvoker !== 'user-collapsed') {
 				setExpandedNavAttributes();
 			}
 		}
@@ -258,7 +273,7 @@ const { crumbs } = Astro.props;
 		}
 	}
 
-	function setExpandedNavAttributes() {
+	function setExpandedNavAttributes(invokedBy = 'auto') {
 		clearTimeout(_navAnimTimer);
 		Nav.setAttribute('aria-expanded', 'true');
 		NavPanel.removeAttribute('aria-hidden');
@@ -267,9 +282,10 @@ const { crumbs } = Astro.props;
 		if (_screenWidth === 'narrow') {
 			freezeContent();
 		}
+		_navStateInvoker = `${invokedBy}-expanded`;
 	}
 
-	function setCollapsedNavAttributes() {
+	function setCollapsedNavAttributes(invokedBy = 'auto') {
 		Nav.setAttribute('aria-expanded', 'false');
 		NavPanel.setAttribute('aria-hidden', 'true');
 		freezeContent('thaw');
@@ -277,6 +293,8 @@ const { crumbs } = Astro.props;
 		_navAnimTimer = setTimeout(() => {
 			NavPanel.classList.add('display-none');
 		}, _navAnimDuration);
+
+		_navStateInvoker = `${invokedBy}-collapsed`;
 	}
 
 	function freezeContent(action = '') {
@@ -308,9 +326,9 @@ const { crumbs } = Astro.props;
 		_isNavExpanded = Nav.getAttribute('aria-expanded');
 
 		if (_isNavExpanded === 'true') {
-			setCollapsedNavAttributes();
+			setCollapsedNavAttributes('user');
 		} else {
-			setExpandedNavAttributes();
+			setExpandedNavAttributes('user');
 		}
 	}
 
@@ -354,6 +372,12 @@ const { crumbs } = Astro.props;
 			}
 		}
 
+		// expand nav to match nav state on destination page
+		_isNavExpanded = Nav.getAttribute('aria-expanded');
+		if (_screenWidth === 'wide' && _isNavExpanded === 'false') {
+			setExpandedNavAttributes('auto');
+		}
+
 		startUnmountAnim(linkDestination, linkType);
 
 		// direct browser to destination href
@@ -392,19 +416,5 @@ const { crumbs } = Astro.props;
 				crumbLinks[i].parentElement.classList.add('anim-unmount-crumb');
 			}
 		}
-	}
-
-	function cacheCheck(e) {
-		if (!e.persisted) {
-			return;
-		}
-
-		// remove cached styling from previous unmount
-		setCurrentNavLink();
-		mediaQueryHandler();
-		Nav.removeAttribute('style');
-		Main.classList.remove('anim-unmount');
-		Footer.classList.remove('anim-unmount');
-		Crumbs.classList.remove('anim-unmount');
 	}
 </script>
