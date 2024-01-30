@@ -55,5 +55,12 @@ const { crumbs } = Astro.props;
 		.c-breadcrumbs__crumb[data-clicked-crumb] .c-breadcrumbs__separator {
 			animation: slide-left ease-out var(--nav-anim-duration) 0.1s forwards;
 		}
+
+		&[data-disable-mount-anim] > h2 > nav > ol {
+			.c-breadcrumbs__crumb,
+			.c-breadcrumbs__crumb .c-breadcrumbs__separator {
+				animation: none;
+			}
+		}
 	}
 </style>

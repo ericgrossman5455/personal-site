@@ -199,6 +199,11 @@ const { crumbs } = Astro.props;
 		Nav.removeAttribute('data-disable-mount-anim');
 		getNavAnimDuration();
 		bindEvents();
+
+		if (sessionStorage.getItem('crumbClicked') === 'true') {
+			Crumbs.setAttribute('data-disable-mount-anim', '');
+		}
+		sessionStorage.removeItem('crumbClicked');
 	}
 
 	function cacheCheck(e) {
@@ -415,6 +420,7 @@ const { crumbs } = Astro.props;
 			for (let i = clickedCrumbIndex + 1; i < crumbLinks.length; i++) {
 				crumbLinks[i].parentElement.classList.add('anim-unmount-crumb');
 			}
+			sessionStorage.setItem('crumbClicked', 'true');
 		}
 	}
 </script>
