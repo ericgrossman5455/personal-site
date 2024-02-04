@@ -352,9 +352,7 @@ const { crumbs } = Astro.props;
 			if (linkDestination === window.location.pathname) {
 				if (_screenWidth === 'narrow') {
 					setCollapsedNavAttributes();
-					_navAnimTimer = setTimeout(() => {
-						window.scrollTo(0, 0);
-					}, _navAnimDuration);
+					window.scrollTo(0, 0);
 					return;
 				} else {
 					window.scrollTo(0, 0);
@@ -408,6 +406,7 @@ const { crumbs } = Astro.props;
 		}
 		// add anim-unmount-crumb to crumbs that follow the clicked crumb
 		else if (linkType === 'crumb') {
+			Crumbs.removeAttribute('data-disable-mount-anim')
 			const crumbLinks = Array.from(document.querySelectorAll('.crumb-link'));
 			let clickedCrumbIndex;
 			crumbLinks.forEach((link) => {
