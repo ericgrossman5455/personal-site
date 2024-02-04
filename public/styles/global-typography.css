@@ -104,7 +104,7 @@ h2 {
 	font-size: 14px;
 	letter-spacing: .05em;
 	text-transform: uppercase;
-	padding-left: 3px;
+	/* padding-left: 3px; */
 }
 
 p {
