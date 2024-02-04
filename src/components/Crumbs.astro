@@ -20,9 +20,7 @@ const { crumbs } = Astro.props;
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round">
+							stroke-width="1.7">
 							<polyline points="9 18 15 12 9 6" />
 						</svg>
 					) : null}
@@ -32,7 +30,7 @@ const { crumbs } = Astro.props;
 	</ol>
 </nav>
 
-<style lang="scss" is:global>
+<style lang="scss">
 	.crumbs {
 		$anim-delay: 0.3s;
 
@@ -70,6 +68,7 @@ const { crumbs } = Astro.props;
 			}
 		}
 
+		// mounting animations
 		.crumb:last-child {
 			animation: slide-right ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s) backwards;
 		}
@@ -78,11 +77,13 @@ const { crumbs } = Astro.props;
 			animation: slide-right ease-out var(--nav-anim-duration) $anim-delay backwards;
 		}
 
+		// unmounting animation
 		.anim-unmount-crumb.crumb,
 		.crumb[data-clicked-crumb] .crumb-chevron {
 			animation: slide-left ease-out var(--nav-anim-duration) 0.1s forwards;
 		}
 
+		// disable mount anim when page navigated to via a crumb link
 		&[data-disable-mount-anim] > ol {
 			.crumb,
 			.crumb .crumb-chevron {

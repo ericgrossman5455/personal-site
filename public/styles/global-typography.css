@@ -100,7 +100,7 @@ h1 {
 }
 
 h2 {
-	font-family: 'PT Mono';
+	font-family: 'PT Mono', monospace;
 	font-size: 14px;
 	letter-spacing: .05em;
 	text-transform: uppercase;
