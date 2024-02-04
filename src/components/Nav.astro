@@ -342,7 +342,7 @@ const { crumbs } = Astro.props;
 		const linkDestination = e.target.closest('a').getAttribute('href');
 		const linkType = e.target.closest('a').hasAttribute('data-nav-link')
 			? 'nav'
-			: e.target.closest('a').classList.contains('c-breadcrumbs__link')
+			: e.target.closest('a').classList.contains('crumb-link')
 			? 'crumb'
 			: null;
 
@@ -408,7 +408,7 @@ const { crumbs } = Astro.props;
 		}
 		// add anim-unmount-crumb to crumbs that follow the clicked crumb
 		else if (linkType === 'crumb') {
-			const crumbLinks = Array.from(document.querySelectorAll('.c-breadcrumbs__link'));
+			const crumbLinks = Array.from(document.querySelectorAll('.crumb-link'));
 			let clickedCrumbIndex;
 			crumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
