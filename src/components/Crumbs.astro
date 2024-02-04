@@ -64,26 +64,21 @@ const { crumbs } = Astro.props;
 
 			&-chevron {
 				margin: 0 6px;
-				margin-bottom: .5px;
+				margin-bottom: 0.5px;
 			}
 		}
 
 		// mounting animations
 		.crumb:last-child {
-			animation: slide-right ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s) backwards;
+			animation: fade-in-rightward ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s)
+				backwards;
 		}
 
 		.crumb:nth-last-child(2) .crumb-chevron {
-			animation: slide-right ease-out var(--nav-anim-duration) $anim-delay backwards;
+			animation: fade-in-rightward ease-out var(--nav-anim-duration) $anim-delay backwards;
 		}
 
-		// unmounting animation
-		.anim-unmount-crumb.crumb,
-		.crumb[data-clicked-crumb] .crumb-chevron {
-			animation: slide-left ease-out var(--nav-anim-duration) 0.1s forwards;
-		}
-
-		// disable mount anim when page navigated to via a crumb link
+		// disable mount anim when page navigated to via crumb link | rel:2
 		&[data-disable-mount-anim] > ol {
 			.crumb,
 			.crumb .crumb-chevron {

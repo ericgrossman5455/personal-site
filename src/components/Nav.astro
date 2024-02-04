@@ -200,6 +200,7 @@ const { crumbs } = Astro.props;
 		getNavAnimDuration();
 		bindEvents();
 
+		// attribute used to ensure seamless crumb animation when page navigated to via crumb link | rel:2
 		if (sessionStorage.getItem('crumbClicked') === 'true') {
 			Crumbs.setAttribute('data-disable-mount-anim', '');
 		}
@@ -215,9 +216,9 @@ const { crumbs } = Astro.props;
 		setCurrentNavLink();
 		mediaQueryHandler();
 		Nav.removeAttribute('style');
-		Main.classList.remove('anim-unmount');
-		Footer.classList.remove('anim-unmount');
-		Crumbs.classList.remove('anim-unmount');
+		Main.classList.remove('anim-fade-out');
+		Footer.classList.remove('anim-fade-out');
+		Crumbs.classList.remove('anim-fade-out');
 	}
 
 	function setCurrentNavLink() {
@@ -226,9 +227,8 @@ const { crumbs } = Astro.props;
 		NavLinks.forEach((link) => {
 			const linkDestination = link.getAttribute('href');
 			// clear attributes incase of caching leftovers
-			// TODO: see if removeAttribute are necessary
-			// link.removeAttribute('aria-current');
-			// link.removeAttribute('aria-label');
+			link.removeAttribute('aria-current');
+			link.removeAttribute('aria-label');
 
 			if (linkDestination === '/' && currentLocation === '/') {
 				link.setAttribute('aria-current', 'page');
@@ -390,34 +390,36 @@ const { crumbs } = Astro.props;
 	}
 
 	function startUnmountAnim(linkDestination, linkType) {
-		// add anim-unmount to content
-		Main.classList.add('anim-unmount');
-		Footer.classList.add('anim-unmount');
+		// add anim-fade-out to content
+		Main.classList.add('anim-fade-out');
+		Footer.classList.add('anim-fade-out');
 
 		let navLinkHrefs = [];
 		NavLinks.forEach((link) => {
 			navLinkHrefs.push(link.getAttribute('href'));
 		});
 
-		// add anim-unmount to all crumbs if going to root of diff section
+		// add anim-fade-out to all crumbs if going to root of diff section
 		if (navLinkHrefs.some((href) => href === linkDestination) && linkType !== 'crumb') {
-			Crumbs.classList.add('anim-unmount');
+			Crumbs.classList.add('anim-fade-out');
 			return;
 		}
-		// add anim-unmount-crumb to crumbs that follow the clicked crumb
+		// add anim-fade-out-leftward to crumbs & chevron subsequent to clicked crumb
 		else if (linkType === 'crumb') {
-			Crumbs.removeAttribute('data-disable-mount-anim')
+			Crumbs.removeAttribute('data-disable-mount-anim');
 			const crumbLinks = Array.from(document.querySelectorAll('.crumb-link'));
 			let clickedCrumbIndex;
 			crumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
 					clickedCrumbIndex = crumbLinks.indexOf(link);
-					crumbLinks[clickedCrumbIndex].parentElement.setAttribute('data-clicked-crumb', '');
+					crumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(
+						'anim-fade-out-leftward'
+					);
 				}
 			});
 
 			for (let i = clickedCrumbIndex + 1; i < crumbLinks.length; i++) {
-				crumbLinks[i].parentElement.classList.add('anim-unmount-crumb');
+				crumbLinks[i].parentElement.classList.add('anim-fade-out-leftward');
 			}
 			sessionStorage.setItem('crumbClicked', 'true');
 		}
