@@ -3,7 +3,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
-const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.props;
+const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astro.props;
 ---
 
 <!doctype html>
@@ -93,7 +93,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs } = Astro.pro
 
 	main,
 	footer {
-		animation: mount ease-out var(--nav-anim-duration);
+		animation: fade-in-leftward ease-out var(--nav-anim-duration);
 		transition: opacity var(--nav-anim-duration);
 
 		@media only screen and (max-width: 600px) {

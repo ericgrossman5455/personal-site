@@ -1,0 +1,73 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+
+const crumbs = [
+	{
+		text: 'journal',
+		href: '/journal',
+	},
+	{
+		text: 'test',
+		href: '/journal/test',
+	},
+	{
+		text: 'category',
+		href: '#',
+	},
+];
+---
+
+<MainLayout
+	title="Journal | Eric Grossman"
+	description="Eric Grossman's Journal home page"
+	crumbs={crumbs}>
+	<article>
+		<h2>a demonstration</h2>
+		<h1>Category.</h1>
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero
+			sit aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus
+			provident ipsa minima molestias inventore rerum numquam! Lorem ipsum dolor sit amet
+			consectetur adipisicing elit. Alias perferendis blanditiis libero sit aperiam similique sunt
+			architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident ipsa minima
+			molestias inventore rerum numquam!
+		</p>
+		<a href="/journal/category/test-2">test-2</a>
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero
+			sit aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus
+			provident ipsa minima molestias inventore rerum numquam! Lorem ipsum dolor sit amet
+			consectetur adipisicing elit. Alias perferendis blanditiis libero sit aperiam similique sunt
+			architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident ipsa minima
+			molestias inventore rerum numquam!
+		</p>
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero
+			sit aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus
+			provident ipsa minima molestias inventore rerum numquam! Lorem ipsum dolor sit amet
+			consectetur adipisicing elit. Alias perferendis blanditiis libero sit aperiam similique sunt
+			architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident ipsa minima
+			molestias inventore rerum numquam!
+		</p>
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero
+			sit aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus
+			provident ipsa minima molestias inventore rerum numquam! Lorem ipsum dolor sit amet
+			consectetur adipisicing elit. Alias perferendis blanditiis libero sit aperiam similique sunt
+			architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident ipsa minima
+			molestias inventore rerum numquam!
+		</p>
+	</article>
+</MainLayout>
+
+<style lang="scss">
+	article {
+		padding: 20px;
+		max-width: 60ch;
+		margin: 80px auto;
+
+		p {
+			padding: 30px 0;
+		}
+	}
+</style>

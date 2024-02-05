@@ -1,64 +1,87 @@
 ---
-import { Breadcrumbs } from 'astro-breadcrumbs';
-
-import 'astro-breadcrumbs/breadcrumbs.css';
 const { crumbs } = Astro.props;
 ---
 
-<div class="crumbs">
-	<h2>
-		<Breadcrumbs indexText="Home" crumbs={crumbs}>
-			<svg
-				slot="separator"
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="1.5"
-				stroke-linecap="round"
-				stroke-linejoin="round">
-				<polyline points="9 18 15 12 9 6"></polyline>
-			</svg>
-		</Breadcrumbs>
-	</h2>
-</div>
+<nav class="crumbs" aria-label="breadcrumbs">
+	<ol>
+		{
+			crumbs.map((crumb, index) => (
+				<li class="crumb">
+					<a class="crumb-link" href={crumb.href}>
+						<h2>{crumb.text}</h2>
+					</a>
 
-<style lang="scss" is:global>
+					{index < crumbs.length - 1 ? (
+						<svg
+							class="crumb-chevron"
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.7">
+							<polyline points="9 18 15 12 9 6" />
+						</svg>
+					) : null}
+				</li>
+			))
+		}
+	</ol>
+</nav>
+
+<style lang="scss">
 	.crumbs {
 		$anim-delay: 0.3s;
 
-		margin-left: 8px;
-		padding: 0 10px;
-		display: flex;
-		align-items: center;
+		padding: 3px 10px 3px 18px;
 
-		.c-breadcrumbs__link {
-			font-size: 14px;
+		&,
+		ol,
+		.crumb {
+			display: flex;
+			align-items: center;
+		}
+
+		ol {
+			flex-wrap: wrap;
+		}
+
+		.crumb {
+			z-index: 9999;
+			color: var(--glyph-standard);
 			line-height: 1.3;
+			white-space: nowrap;
 
-			&:hover {
-				text-decoration: underline;
+			a {
+				color: inherit;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			&-chevron {
+				margin: 0 6px;
+				margin-bottom: 0.5px;
 			}
 		}
 
-		.c-breadcrumbs__crumb:last-child {
-			animation: slide-right ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s) backwards;
+		// mounting animations
+		.crumb:last-child {
+			animation: fade-in-rightward ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s)
+				backwards;
 		}
 
-		.c-breadcrumbs__crumb:nth-last-child(2) .c-breadcrumbs__separator {
-			animation: slide-right ease-out var(--nav-anim-duration) $anim-delay backwards;
+		.crumb:nth-last-child(2) .crumb-chevron {
+			animation: fade-in-rightward ease-out var(--nav-anim-duration) $anim-delay backwards;
 		}
 
-		.anim-unmount-crumb.c-breadcrumbs__crumb,
-		.c-breadcrumbs__crumb[data-clicked-crumb] .c-breadcrumbs__separator {
-			animation: slide-left ease-out var(--nav-anim-duration) 0.1s forwards;
-		}
-
-		&[data-disable-mount-anim] > h2 > nav > ol {
-			.c-breadcrumbs__crumb,
-			.c-breadcrumbs__crumb .c-breadcrumbs__separator {
+		// disable mount anim when page navigated to via crumb link | rel:2
+		&[data-disable-mount-anim] > ol {
+			.crumb,
+			.crumb .crumb-chevron {
 				animation: none;
 			}
 		}
