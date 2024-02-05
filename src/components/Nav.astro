@@ -167,6 +167,7 @@ const { crumbs } = Astro.props;
 	const Nav = document.querySelector('nav');
 	const NavToggle = document.querySelector('.nav-toggle');
 	const Crumbs = document.querySelector('.crumbs');
+	const CrumbLinks = Array.from(document.querySelectorAll('.crumb-link'));
 	const NavPanel = document.getElementById('nav-panel');
 	const NavLinks = document.querySelectorAll('[data-nav-link]');
 	const Main = document.querySelector('main');
@@ -187,8 +188,11 @@ const { crumbs } = Astro.props;
 		window.addEventListener('resize', mediaQueryHandler);
 		NavToggle.addEventListener('click', attributeToggler);
 		AllLinks.forEach((link) => {
-			if (!link.hasAttribute('data-disable-link-handler') && link.getAttribute('href') != '#') {
-				link.addEventListener('click', allLinkHandler);
+			if (
+				!link.hasAttribute('data-disable-link-handler') &&
+				!link.getAttribute('href').includes('#')
+			) {
+				link.addEventListener('click', linkHandler);
 			}
 		});
 	}
@@ -257,7 +261,7 @@ const { crumbs } = Astro.props;
 		if (_screenWidth === 'wide') {
 			if (_isContentFrozen === true) {
 				freezeContent('thaw');
-			} else if (_isNavExpanded === 'false' && _navStateInvoker !== 'user-collapsed') {
+			} else if (_isNavExpanded === 'false' && _navStateInvoker === 'auto-collapsed') {
 				setExpandedNavAttributes();
 			}
 		}
@@ -302,8 +306,8 @@ const { crumbs } = Astro.props;
 		_navStateInvoker = `${invokedBy}-collapsed`;
 	}
 
-	function freezeContent(action = '') {
-		if (action === '') {
+	function freezeContent(action = 'freeze') {
+		if (action === 'freeze') {
 			window.addEventListener('scroll', attributeToggler);
 			Main.addEventListener('click', attributeToggler);
 
@@ -337,7 +341,7 @@ const { crumbs } = Astro.props;
 		}
 	}
 
-	function allLinkHandler(e) {
+	function linkHandler(e) {
 		e.preventDefault();
 		const linkDestination = e.target.closest('a').getAttribute('href');
 		const linkType = e.target.closest('a').hasAttribute('data-nav-link')
@@ -346,7 +350,6 @@ const { crumbs } = Astro.props;
 			? 'crumb'
 			: null;
 
-		// TODO: switch to switch?
 		if (linkType === 'nav') {
 			// scroll to top & end function if current page is selected
 			if (linkDestination === window.location.pathname) {
@@ -378,7 +381,7 @@ const { crumbs } = Astro.props;
 		// expand nav to match nav state on destination page
 		_isNavExpanded = Nav.getAttribute('aria-expanded');
 		if (_screenWidth === 'wide' && _isNavExpanded === 'false') {
-			setExpandedNavAttributes('auto');
+			setExpandedNavAttributes();
 		}
 
 		startUnmountAnim(linkDestination, linkType);
@@ -394,33 +397,38 @@ const { crumbs } = Astro.props;
 		Main.classList.add('anim-fade-out');
 		Footer.classList.add('anim-fade-out');
 
-		let navLinkHrefs = [];
-		NavLinks.forEach((link) => {
-			navLinkHrefs.push(link.getAttribute('href'));
-		});
+		// determine if user is going to new section
+		let isGoingToNewSection;
+		let linkDestinationSection = linkDestination.slice(1).split('/', 1)[0];
+		linkDestinationSection === '' ? (linkDestinationSection = 'home') : 'other';
 
-		// add anim-fade-out to all crumbs if going to root of diff section
-		if (navLinkHrefs.some((href) => href === linkDestination) && linkType !== 'crumb') {
-			Crumbs.classList.add('anim-fade-out');
-			return;
+		let currentSection = window.location.pathname.slice(1).split('/', 1)[0];
+		currentSection === '' ? (currentSection = 'home') : 'other';
+
+		if (currentSection !== linkDestinationSection) {
+			isGoingToNewSection = true;
 		}
-		// add anim-fade-out-leftward to crumbs & chevron subsequent to clicked crumb
+
+		// fade out all crumbs if going to new section
+		if (isGoingToNewSection === true || linkType === 'other') {
+			Crumbs.classList.add('anim-fade-out');
+		}
+		// fade out crumbs that come after clicked crumb
 		else if (linkType === 'crumb') {
-			Crumbs.removeAttribute('data-disable-mount-anim');
-			const crumbLinks = Array.from(document.querySelectorAll('.crumb-link'));
 			let clickedCrumbIndex;
-			crumbLinks.forEach((link) => {
+			CrumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
-					clickedCrumbIndex = crumbLinks.indexOf(link);
-					crumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(
+					clickedCrumbIndex = CrumbLinks.indexOf(link);
+					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(
 						'anim-fade-out-leftward'
 					);
 				}
 			});
 
-			for (let i = clickedCrumbIndex + 1; i < crumbLinks.length; i++) {
-				crumbLinks[i].parentElement.classList.add('anim-fade-out-leftward');
+			for (let i = clickedCrumbIndex + 1; i < CrumbLinks.length; i++) {
+				CrumbLinks[i].parentElement.classList.add('anim-fade-out-leftward');
 			}
+			// remember if page was reached via crumb link to ensure seamless crumb animation | rel:2
 			sessionStorage.setItem('crumbClicked', 'true');
 		}
 	}
