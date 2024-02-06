@@ -2,12 +2,12 @@
 const { crumbs } = Astro.props;
 ---
 
-<nav class="crumbs" aria-label="breadcrumbs">
+<nav class="crumbs" id="crumbs" aria-label="breadcrumbs">
 	<ol>
 		{
 			crumbs.map((crumb, index) => (
 				<li class="crumb">
-					<a class="crumb-link" href={crumb.href}>
+					<a class="crumb-link" href={crumb.href} data-crumb-link>
 						<h2>{crumb.text}</h2>
 					</a>
 
@@ -68,8 +68,8 @@ const { crumbs } = Astro.props;
 			}
 		}
 
-		// mounting animations
-		.crumb:last-child {
+		// mounting animations / data flag to fade in all crumbs | rel:3
+		.crumb:last-child, &[data-fade-in-all-crumbs] {
 			animation: fade-in-rightward ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s)
 				backwards;
 		}
