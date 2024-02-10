@@ -219,6 +219,10 @@ const { crumbs } = Astro.props;
 		Main.classList.remove('anim-fade-out');
 		Footer.classList.remove('anim-fade-out');
 		Crumbs.classList.remove('anim-fade-out');
+		CrumbLinks.forEach((crumbLink) => {
+			crumbLink.parentElement.classList.remove('anim-fade-out-leftward');
+			crumbLink.nextElementSibling && crumbLink.nextElementSibling.classList.remove('anim-fade-out-leftward');
+		});
 	}
 
 	function bindEvents() {
