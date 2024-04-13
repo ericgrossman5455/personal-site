@@ -2,17 +2,20 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 
 const crumbs = [
-  {
-    text: "journal",
-    href: "#",
-  }
+	{
+		text: 'journal',
+		href: '#',
+	},
 ];
 ---
 
-<MainLayout title="Journal | Eric Grossman" description="Eric Grossman's Journal home page" crumbs={crumbs}>
+<MainLayout
+	title='Journal | Eric Grossman'
+	description="Eric Grossman's Journal home page"
+	crumbs={crumbs}>
 	<article>
 		<h2>a demonstration</h2>
-		<h1>Notes.</h1>
+		<h1>Essays.</h1>
 		<p>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero sit
 			aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident
@@ -20,7 +23,7 @@ const crumbs = [
 			elit. Alias perferendis blanditiis libero sit aperiam similique sunt architecto numquam neque ea.
 			Aspernatur, nesciunt! Repellendus provident ipsa minima molestias inventore rerum numquam!
 		</p>
-		<a href="/journal/test">test</a>
+		<a href='/journal/test'>test</a>
 		<p>
 			Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias perferendis blanditiis libero sit
 			aperiam similique sunt architecto numquam neque ea. Aspernatur, nesciunt! Repellendus provident
@@ -45,12 +48,12 @@ const crumbs = [
 	</article>
 </MainLayout>
 
-<style lang="scss">
+<style lang='scss'>
 	article {
 		padding: 20px;
 		max-width: 60ch;
 		margin: 80px auto;
-		
+
 		p {
 			padding: 30px 0;
 		}
