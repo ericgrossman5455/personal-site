@@ -7,34 +7,34 @@ import Crumbs from './Crumbs.astro';
 const { crumbs } = Astro.props;
 ---
 
-<nav aria-expanded="true" data-disable-mount-anim>
-	<div class="top-bar">
-		<button class="nav-toggle" title="Navigation" aria-label="Navigation" aria-controls="nav-panel">
-			<span class="visually-hidden">Navigation</span>
-			<Icon name="nav_toggle" />
+<nav aria-expanded='true' data-disable-nav-panel-anim>
+	<div class='top-bar'>
+		<button class='nav-toggle' title='Navigation' aria-label='Navigation' aria-controls='nav-panel'>
+			<span class='visually-hidden'>Navigation</span>
+			<Icon name='nav_toggle' />
 		</button>
 		<Crumbs crumbs={crumbs} />
 	</div>
 
-	<div id="nav-panel" class="">
-		<div class="placeholder">
-			<Icon name="nav_toggle" />
+	<div class='nav-panel' id='nav-panel'>
+		<div class='placeholder'>
+			<Icon name='nav_toggle' />
 		</div>
 
-		<div class="directory">
+		<div class='directory'>
 			{
 				navData.map((page) => (
 					<a href={page.path} title={page.name} aria-label={page.name} data-nav-link>
-						<span class="visually-hidden">{page.name}</span>
+						<span class='visually-hidden'>{page.name}</span>
 						<Icon name={page.name.toLowerCase()} />
 					</a>
 				))
 			}
 		</div>
 
-		<button class="contact" title="Contact" aria-label="Contact methods">
-			<span class="visually-hidden">Contact methods</span>
-			<Icon name="contact" />
+		<button class='contact' title='Contact' aria-label='Contact methods'>
+			<span class='visually-hidden'>Contact methods</span>
+			<Icon name='contact' />
 		</button>
 	</div>
 </nav>
@@ -46,7 +46,7 @@ const { crumbs } = Astro.props;
 	}
 </style>
 
-<style lang="scss">
+<style lang='scss'>
 	nav {
 		$nav-width: 70px;
 		$icon-width: 35px;
@@ -58,7 +58,7 @@ const { crumbs } = Astro.props;
 		width: $nav-width;
 		height: calc(100vh);
 		height: calc(100dvh);
-		transition: width ease-in-out var(--nav-anim-duration);
+		transition: width cubic-bezier(0.26, 0.4, 0, 1) var(--nav-anim-duration);
 		z-index: 100;
 
 		&[aria-expanded='false'] {
@@ -194,16 +194,22 @@ const { crumbs } = Astro.props;
 	}
 
 	function checkSessionStorage() {
-		// attribute used to ensure current crumb doesn't animate when page navigated to via crumb link | rel:2
-		if (sessionStorage.getItem('crumbClicked') === 'true') {
-			Crumbs.setAttribute('data-disable-mount-anim', '');
-			sessionStorage.removeItem('crumbClicked');
+		if (sessionStorage.getItem('disableCrumbAnim') === 'true') {
+			Crumbs.setAttribute('data-disable-crumb-anim', '');
+			sessionStorage.removeItem('disableCrumbAnim');
 		}
 
 		// attribute used to fade in all crumbs when clicked link takes user outside of expected crumb path (divergent) | rel:3
-		if (sessionStorage.getItem('divergentLinkClicked') === 'true') {
+		if (sessionStorage.getItem('fadeInAllCrumbs') === 'true') {
 			Crumbs.setAttribute('data-fade-in-all-crumbs', '');
-			sessionStorage.removeItem('divergentLinkClicked');
+			sessionStorage.removeItem('fadeInAllCrumbs');
+		}
+
+		// set anim class so that content slides in rightward to match previous unmount anim | rel:4
+		if (sessionStorage.getItem('fadeInRightward') === 'true') {
+			Main.classList.add('anim-fade-in-rightward');
+			Footer.classList.add('anim-fade-in-rightward');
+			sessionStorage.removeItem('fadeInRightward');
 		}
 	}
 
@@ -221,7 +227,8 @@ const { crumbs } = Astro.props;
 		Crumbs.classList.remove('anim-fade-out');
 		CrumbLinks.forEach((crumbLink) => {
 			crumbLink.parentElement.classList.remove('anim-fade-out-leftward');
-			crumbLink.nextElementSibling && crumbLink.nextElementSibling.classList.remove('anim-fade-out-leftward');
+			crumbLink.nextElementSibling &&
+				crumbLink.nextElementSibling.classList.remove('anim-fade-out-leftward');
 		});
 	}
 
@@ -229,10 +236,7 @@ const { crumbs } = Astro.props;
 		window.addEventListener('resize', mediaQueryHandler);
 		NavToggle.addEventListener('click', attributeToggler);
 		AllLinks.forEach((link) => {
-			if (
-				!link.hasAttribute('data-disable-link-handler') &&
-				!link.getAttribute('href').includes('#')
-			) {
+			if (!link.hasAttribute('data-disable-link-handler') && !link.getAttribute('href').includes('#')) {
 				link.addEventListener('click', linkHandler);
 			}
 		});
@@ -363,7 +367,7 @@ const { crumbs } = Astro.props;
 
 		// remember divergent link was clicked so that all following crumbs fade in | rel:3
 		if (linkData === 'divergentLink') {
-			sessionStorage.setItem('divergentLinkClicked', 'true');
+			sessionStorage.setItem('fadeInAllCrumbs', 'true');
 		}
 
 		if (linkData === 'navLink') {
@@ -409,37 +413,55 @@ const { crumbs } = Astro.props;
 	}
 
 	function unmountAnimHandler(linkDestination, linkData) {
-		// add anim-fade-out to content
-		Main.classList.add('anim-fade-out');
-		Footer.classList.add('anim-fade-out');
-
 		// determine if user is going to new section
-		let isGoingToNewSection;
+		let isGoingToNewSection = false;
 		let destinationSection = linkDestination.slice(1).split('/')[0];
 		let currentSection = window.location.pathname.slice(1).split('/')[0];
 		currentSection !== destinationSection && (isGoingToNewSection = true);
 
-		// fade out all crumbs if going to new section
 		if (isGoingToNewSection === true) {
+			// fade out all crumbs and content if going to new section
 			Crumbs.classList.add('anim-fade-out');
+			Main.classList.add('anim-fade-out');
+			Footer.classList.add('anim-fade-out');
+		} else if (isGoingToNewSection === false && linkData === 'navLink') {
+			// slide "back" rightwards to root of section
+			Main.classList.add('anim-fade-out-rightward');
+			Footer.classList.add('anim-fade-out-rightward');
+			// remember to continue rightward movement of content | rel:4
+			sessionStorage.setItem('fadeInRightward', 'true');
+			// prepare crumbs to match incoming page
+			for (let i = 1; i < CrumbLinks.length; i++) {
+				CrumbLinks[i].parentElement.classList.add('anim-fade-out-rightward');
+			}
+			sessionStorage.setItem('disableCrumbAnim', 'true');
+		} else {
+			// slide "forwards" leftwards to next page in same section
+			Main.classList.add('anim-fade-out-leftward');
+			Footer.classList.add('anim-fade-out-leftward');
 		}
+
 		// fade out crumbs that come after clicked crumb
-		else if (linkData === 'crumbLink') {
+		if (linkData === 'crumbLink') {
+			// slide "back" rightwards to previous crumb
+			Main.classList.add('anim-fade-out-rightward');
+			Footer.classList.add('anim-fade-out-rightward');
+			// remember to continue rightward movement of content | rel:4
+			sessionStorage.setItem('fadeInRightward', 'true');
+
 			let clickedCrumbIndex;
 			CrumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
 					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
-					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(
-						'anim-fade-out-leftward'
-					);
+					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add('anim-fade-out-rightward');
 				}
 			});
 
 			for (let i = clickedCrumbIndex + 1; i < CrumbLinks.length; i++) {
-				CrumbLinks[i].parentElement.classList.add('anim-fade-out-leftward');
+				CrumbLinks[i].parentElement.classList.add('anim-fade-out-rightward');
 			}
 			// remember if page was reached via crumb link to ensure seamless crumb animation | rel:2
-			sessionStorage.setItem('crumbClicked', 'true');
+			sessionStorage.setItem('disableCrumbAnim', 'true');
 		}
 	}
 </script>
