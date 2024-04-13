@@ -211,8 +211,8 @@ const { crumbs } = Astro.props;
 
 		// set anim class so that content slides in rightward to match previous unmount anim | rel:4
 		if (sessionStorage.getItem('fadeInRightward') === 'true') {
-			Main.classList.add('anim-fade-in-rightward');
-			Footer.classList.add('anim-fade-in-rightward');
+			Main.style.animationName = 'fade-in-rightward';
+			Footer.style.animationName = 'fade-in-rightward';
 			sessionStorage.removeItem('fadeInRightward');
 		}
 	}
@@ -423,24 +423,47 @@ const { crumbs } = Astro.props;
 		let currentSection = window.location.pathname.slice(1).split('/')[0];
 		currentSection !== destinationSection && (isGoingToNewSection = true);
 
+		// determine unmount animations depending on context
 		if (isGoingToNewSection === true) {
-			// fade out all crumbs and content if going to new section
 			Crumbs.classList.add('anim-fade-out');
 			Main.classList.add('anim-fade-out');
 			Footer.classList.add('anim-fade-out');
+		} else if (isGoingToNewSection === false && linkData === 'navLink' && _screenWidth === 'narrow') {
+			Main.classList.add('anim-fade-out');
+			Footer.classList.add('anim-fade-out');
+
+			// prepare crumbs to match incoming page
+
+			let clickedCrumbIndex;
+			CrumbLinks.forEach((link) => {
+				if (link.getAttribute('href') === linkDestination) {
+					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
+					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add('anim-fade-out-leftward');
+				}
+			});
+			for (let i = 1; i < CrumbLinks.length; i++) {
+				CrumbLinks[i].parentElement.classList.add('anim-fade-out-leftward');
+			}
+			sessionStorage.setItem('disableCrumbAnim', 'true');
 		} else if (isGoingToNewSection === false && linkData === 'navLink') {
-			// slide "back" rightwards to root of section
 			Main.classList.add('anim-fade-out-rightward');
 			Footer.classList.add('anim-fade-out-rightward');
 			// remember to continue rightward movement of content | rel:4
 			sessionStorage.setItem('fadeInRightward', 'true');
 			// prepare crumbs to match incoming page
+			let clickedCrumbIndex;
+			CrumbLinks.forEach((link) => {
+				if (link.getAttribute('href') === linkDestination) {
+					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
+					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add('anim-fade-out-rightward');
+				}
+			});
+
 			for (let i = 1; i < CrumbLinks.length; i++) {
 				CrumbLinks[i].parentElement.classList.add('anim-fade-out-rightward');
 			}
 			sessionStorage.setItem('disableCrumbAnim', 'true');
-		} else {
-			// slide "forwards" leftwards to next page in same section
+		} else if (isGoingToNewSection === false) {
 			Main.classList.add('anim-fade-out-leftward');
 			Footer.classList.add('anim-fade-out-leftward');
 		}
@@ -464,7 +487,6 @@ const { crumbs } = Astro.props;
 			for (let i = clickedCrumbIndex + 1; i < CrumbLinks.length; i++) {
 				CrumbLinks[i].parentElement.classList.add('anim-fade-out-rightward');
 			}
-			// remember if page was reached via crumb link to ensure seamless crumb animation | rel:2
 			sessionStorage.setItem('disableCrumbAnim', 'true');
 		}
 	}
