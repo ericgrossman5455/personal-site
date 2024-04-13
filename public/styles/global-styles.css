@@ -30,6 +30,49 @@
 	display: none !important;
 }
 
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.anim-fade-in {
+	animation: fade-in ease-out var(--nav-anim-duration) forwards;
+}
+
+@keyframes fade-in-leftward {
+	0% {
+		transform: translateX(10px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.anim-fade-in-leftward {
+	animation: fade-in-leftward ease-out var(--nav-anim-duration) forwards;
+}
+
+@keyframes fade-in-rightward {
+	0% {
+		transform: translateX(-10px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+.anim-fade-in-rightward {
+	animation: fade-in-rightward ease-out var(--nav-anim-duration) forwards;
+}
+
 @keyframes fade-out {
 	100% {
 		opacity: 0;
@@ -55,24 +98,17 @@
 	animation: fade-out-leftward ease-out var(--nav-anim-duration) forwards !important;
 }
 
-@keyframes fade-in-leftward {
+@keyframes fade-out-rightward {
 	0% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+	100% {
 		transform: translateX(10px);
 		opacity: 0;
 	}
-	100% {
-		transform: translateX(0);
-		opacity: 1;
-	}
 }
 
-@keyframes fade-in-rightward {
-	0% {
-		transform: translateX(-10px);
-		opacity: 0;
-	}
-	100% {
-		transform: translateX(0);
-		opacity: 1;
-	}
+.anim-fade-out-rightward {
+	animation: fade-out-rightward ease-out var(--nav-anim-duration) forwards !important;
 }

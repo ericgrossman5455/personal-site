@@ -99,12 +99,11 @@ h1 {
 	/* font-style: italic; */
 }
 
-h2 {
+h2, .h2 {
 	font-family: 'PT Mono', monospace;
 	font-size: 14px;
 	letter-spacing: .05em;
 	text-transform: uppercase;
-	/* padding-left: 3px; */
 }
 
 p {
