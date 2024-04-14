@@ -10,7 +10,7 @@
 }
 
 .anim-fade-in {
-	animation: fade-in ease-out var(--nav-anim-duration) forwards;
+	animation: fade-in var(--global-anim-timing-func) var(--nav-anim-duration) forwards;
 }
 
 @keyframes fade-in-leftward {
@@ -25,7 +25,7 @@
 }
 
 .anim-fade-in-leftward {
-	animation: fade-in-leftward ease-out var(--nav-anim-duration) forwards;
+	animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) forwards;
 }
 
 @keyframes fade-in-rightward {
@@ -40,7 +40,7 @@
 }
 
 .anim-fade-in-rightward {
-	animation: fade-in-rightward ease-out var(--nav-anim-duration) forwards;
+	animation: fade-in-rightward var(--global-anim-timing-func) var(--nav-anim-duration) forwards;
 }
 
 @keyframes fade-out {
@@ -50,7 +50,7 @@
 }
 
 .anim-fade-out {
-	animation: fade-out ease-out var(--nav-anim-duration) forwards !important;
+	animation: fade-out var(--global-anim-timing-func) var(--nav-anim-duration) forwards !important;
 }
 
 @keyframes fade-out-leftward {
@@ -65,7 +65,7 @@
 }
 
 .anim-fade-out-leftward {
-	animation: fade-out-leftward ease-out var(--nav-anim-duration) forwards !important;
+	animation: fade-out-leftward var(--global-anim-timing-func) var(--nav-anim-duration) forwards !important;
 }
 
 @keyframes fade-out-rightward {
@@ -80,5 +80,5 @@
 }
 
 .anim-fade-out-rightward {
-	animation: fade-out-rightward ease-out var(--nav-anim-duration) forwards !important;
+	animation: fade-out-rightward var(--global-anim-timing-func) var(--nav-anim-duration) forwards !important;
 }

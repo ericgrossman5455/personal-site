@@ -41,8 +41,9 @@ const { crumbs } = Astro.props;
 
 <style is:global>
 	:root {
-		/* update value in JS too for Safari bug | rel:1 */
+		/* update nav-anim-duration value in JS too for Safari bug | rel:1 */
 		--nav-anim-duration: 300ms;
+		--global-anim-timing-func: cubic-bezier(0.26, 0.4, 0, 1);
 	}
 </style>
 
@@ -58,7 +59,7 @@ const { crumbs } = Astro.props;
 		width: $nav-width;
 		height: calc(100vh);
 		height: calc(100dvh);
-		transition: width cubic-bezier(0.26, 0.4, 0, 1) var(--nav-anim-duration);
+		transition: width var(--global-anim-timing-func) var(--nav-anim-duration);
 		z-index: 100;
 
 		&[aria-expanded='false'] {
