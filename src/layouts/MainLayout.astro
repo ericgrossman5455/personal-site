@@ -2,51 +2,53 @@
 // component imports
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import GrainFilter from '../components/GrainFilter.astro';
 
 const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/styles/global-reset.css" />
-		<link rel="stylesheet" type="text/css" href="/styles/global-typography.css" />
-		<link rel="stylesheet" type="text/css" href="/styles/global-utilities.css" />
-		<link rel="stylesheet" type="text/css" href="/styles/global-animations.css" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
-		<link rel="manifest" href="/favicons/site.webmanifest" />
-		<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#212024" />
-		<link rel="shortcut icon" href="/favicons/favicon.ico" />
-		<meta name="apple-mobile-web-app-title" content="Eric Grossman" />
-		<meta name="application-name" content="Eric Grossman" />
-		<meta name="msapplication-TileColor" content="#212024" />
-		<meta name="msapplication-config" content="/favicons/browserconfig.xml" />
-		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#e3e3e3" />
-		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#3c3c3c" />
-		<meta name="color-scheme" content="light dark" />
-		<meta name="generator" content={Astro.generator} />
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='/styles/global-reset.css' />
+		<link rel='stylesheet' type='text/css' href='/styles/global-typography.css' />
+		<link rel='stylesheet' type='text/css' href='/styles/global-utilities.css' />
+		<link rel='stylesheet' type='text/css' href='/styles/global-animations.css' />
+		<link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
+		<link rel='icon' type='image/png' sizes='32x32' href='/favicons/favicon-32x32.png' />
+		<link rel='icon' type='image/png' sizes='16x16' href='/favicons/favicon-16x16.png' />
+		<link rel='manifest' href='/favicons/site.webmanifest' />
+		<link rel='mask-icon' href='/favicons/safari-pinned-tab.svg' color='#212024' />
+		<link rel='shortcut icon' href='/favicons/favicon.ico' />
+		<meta name='apple-mobile-web-app-title' content='Eric Grossman' />
+		<meta name='application-name' content='Eric Grossman' />
+		<meta name='msapplication-TileColor' content='#212024' />
+		<meta name='msapplication-config' content='/favicons/browserconfig.xml' />
+		<meta name='theme-color' media='(prefers-color-scheme: light)' content='#e3e3e3' />
+		<meta name='theme-color' media='(prefers-color-scheme: dark)' content='#3c3c3c' />
+		<meta name='color-scheme' content='light dark' />
+		<meta name='generator' content={Astro.generator} />
 
-		<meta name="author" content="Eric Grossman" />
-		<meta name="description" content={description} />
+		<meta name='author' content='Eric Grossman' />
+		<meta name='description' content={description} />
 		<title>{title}</title>
 	</head>
 
 	<body>
-		<div id="primary-grid">
+		<div class='primary-grid' id='primary-grid'>
 			<Nav crumbs={crumbs} />
 			<main>
 				<slot>LOREM IPSUM</slot>
 			</main>
 			<Footer />
+			<GrainFilter />
 		</div>
 	</body>
 </html>
 
-<style is:global lang="scss">
+<style is:global lang='scss'>
 	:root {
 		--bg-layer-base: #e3e3e3;
 		--glyph-standard: #4b4b4b;
@@ -70,17 +72,17 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 		}
 	}
 
-	#primary-grid {
+	body {
+		overflow-x: clip;
+	}
+
+	.primary-grid {
 		display: grid;
 		grid-template-columns: auto 1fr;
 		grid-template-rows: 1fr auto;
 		grid-template-areas:
 			'nav main'
 			'nav footer';
-	}
-
-	body {
-		overflow-x: clip;
 	}
 
 	main {
@@ -106,6 +108,31 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 				button {
 					pointer-events: none;
 				}
+			}
+		}
+	}
+
+	.grain {
+		$grain-opacity-light: 1;
+		$grain-opacity-dark: 0.12;
+
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: -1;
+		filter: opacity($grain-opacity-light);
+
+		// fix for Firefox's opacity being x2 opaque as Chrome
+		@-moz-document url-prefix() {
+			filter: opacity(calc($grain-opacity-light / 2));
+		}
+
+		@media (prefers-color-scheme: dark) {
+			filter: opacity($grain-opacity-dark);
+
+			@-moz-document url-prefix() {
+				filter: opacity($grain-opacity-dark / 2);
 			}
 		}
 	}
