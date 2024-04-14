@@ -439,7 +439,7 @@ const { crumbs } = Astro.props;
 				Main.classList.add('anim-fade-out');
 				Footer.classList.add('anim-fade-out');
 				crumbUnmountAnimHandler('fade-out-leftward');
-			} else if (linkType === 'navLink' && _screenWidth === 'wide') {
+			} else if ((linkType === 'navLink' && _screenWidth === 'wide') || linkType === 'crumbLink') {
 				Main.classList.add('anim-fade-out-rightward');
 				Footer.classList.add('anim-fade-out-rightward');
 				sessionStorage.setItem('contentFadeInRightward', 'true');
@@ -454,13 +454,6 @@ const { crumbs } = Astro.props;
 			Crumbs.classList.add('anim-fade-out');
 			Main.classList.add('anim-fade-out');
 			Footer.classList.add('anim-fade-out');
-		}
-
-		if (linkType === 'crumbLink') {
-			Main.classList.add('anim-fade-out-rightward');
-			Footer.classList.add('anim-fade-out-rightward');
-			sessionStorage.setItem('contentFadeInRightward', 'true');
-			crumbUnmountAnimHandler('fade-out-rightward');
 		}
 
 		function crumbUnmountAnimHandler(animationName) {
