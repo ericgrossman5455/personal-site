@@ -1,4 +1,4 @@
-<div class='grain' aria-hidden='true'>
+<div class='grain'>
 	<!-- Thanks to Sébastien Noël at https://fffuel.co/nnnoise/ -->
 	<svg
 		xmlns='http://www.w3.org/2000/svg'
@@ -17,7 +17,7 @@
 				color-interpolation-filters='linearRGB'>
 				<feTurbulence
 					type='turbulence'
-					baseFrequency='0.05'
+					baseFrequency='0.06'
 					numOctaves='4'
 					seed='15'
 					stitchTiles='stitch'
@@ -49,3 +49,41 @@
 		</rect>
 	</svg>
 </div>
+
+<style is:global lang='scss'>
+	.grain {
+		$grain-opacity-light: 0.5;
+		$grain-opacity-dark: 0.06;
+
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		height: 100lvh;
+		pointer-events: none;
+		z-index: -1;
+		opacity: $grain-opacity-light;
+
+		@media (prefers-color-scheme: dark) {
+			opacity: $grain-opacity-dark;
+		}
+
+		// double opacity on Chrome to match rendering of Safari & FireFox
+		&.chrome-detected {
+			opacity: calc($grain-opacity-light * 2);
+
+			@media (prefers-color-scheme: dark) {
+				opacity: calc($grain-opacity-dark * 2);
+			}
+		}
+	}
+</style>
+
+<script>
+	import { browserDetect } from '../../public/scripts/global-scripts.js';
+
+	const GrainEl = document.querySelector('.grain');
+
+	if (browserDetect() === 'chrome') {
+		GrainEl.classList.add('chrome-detected');
+	}
+</script>
