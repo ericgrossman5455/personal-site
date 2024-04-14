@@ -210,6 +210,7 @@ const { crumbs } = Astro.props;
 		}
 
 		if (sessionStorage.getItem('contentFadeInRightward') === 'true') {
+			// animationName used instead of class to avoid opacity overrides from .anim- classes
 			Main.style.animationName = 'fade-in-rightward';
 			Footer.style.animationName = 'fade-in-rightward';
 			sessionStorage.removeItem('contentFadeInRightward');
@@ -221,17 +222,27 @@ const { crumbs } = Astro.props;
 			return;
 		}
 
-		// remove cached styling from previous unmount
 		setCurrentNavLink();
 		mediaQueryHandler();
-		Nav.removeAttribute('style');
-		Main.classList.remove('anim-fade-out');
-		Footer.classList.remove('anim-fade-out');
-		Crumbs.classList.remove('anim-fade-out');
+
+		// remove cached styling from previous unmount
+		let itemsToRemove = {
+			elements: [Nav, Main, Footer],
+			unmountAnimClasses: ['anim-fade-out', 'anim-fade-out-leftward', 'anim-fade-out-rightward'],
+		};
+
+		itemsToRemove.elements.forEach((el) => {
+			el.removeAttribute('style');
+			itemsToRemove.unmountAnimClasses.forEach((unmountAnimClass) => {
+				el.classList.remove(unmountAnimClass);
+			});
+		});
+
 		CrumbLinks.forEach((crumbLink) => {
-			crumbLink.parentElement.classList.remove('anim-fade-out-leftward');
-			crumbLink.nextElementSibling &&
-				crumbLink.nextElementSibling.classList.remove('anim-fade-out-leftward');
+			itemsToRemove.unmountAnimClasses.forEach((unmountAnimClass) => {
+				crumbLink.parentElement.classList.remove(unmountAnimClass);
+				crumbLink.nextElementSibling && crumbLink.nextElementSibling.classList.remove(unmountAnimClass);
+			});
 		});
 	}
 
