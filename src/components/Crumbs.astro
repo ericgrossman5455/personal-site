@@ -20,7 +20,8 @@ const { crumbs } = Astro.props;
 
 <style lang='scss'>
 	.crumbs {
-		$anim-delay: 0.2s;
+		$crumb-anim-delay: 0.2s;
+		$crumb-divider-opacity: 0.4;
 
 		padding: 5px 10px 3px 18px;
 
@@ -52,18 +53,29 @@ const { crumbs } = Astro.props;
 			&-divider {
 				margin: 0 7px;
 				margin-bottom: 0.5px;
-				opacity: 0.4;
+				opacity: $crumb-divider-opacity;
 			}
 		}
 
 		// mounting animations / data flag to fade in all crumbs | rel:3
 		.crumb:last-child,
 		&[data-fade-in-all-crumbs] {
-			animation: fade-in-leftward ease-out var(--nav-anim-duration) calc($anim-delay + 0.1s) backwards;
+			animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) calc($crumb-anim-delay + 0.1s) backwards;
 		}
 
 		.crumb:nth-last-child(2) .crumb-divider {
-			animation: fade-in-leftward ease-out var(--nav-anim-duration) $anim-delay backwards;
+			animation: crumb-divider-fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) $crumb-anim-delay backwards;
+
+			@keyframes crumb-divider-fade-in-leftward {
+				0% {
+					transform: translateX(10px);
+					opacity: 0;
+				}
+				100% {
+					transform: translateX(0);
+					opacity: $crumb-divider-opacity;
+				}
+			}
 		}
 
 		&[data-disable-crumb-anim] > ol {
