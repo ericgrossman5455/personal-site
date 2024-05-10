@@ -1,0 +1,26 @@
+---
+import MainLayout from './MainLayout.astro';
+
+const { frontmatter } = Astro.props;
+const crumbs = [
+	{
+		text: 'journal',
+		href: '/journal',
+	},
+	{
+		text: `post-${frontmatter.id.toString().padStart(3, '0')}`,
+		href: '#',
+	},
+];
+---
+
+<MainLayout title=`${frontmatter.title} | Eric Grossman` crumbs={crumbs} >
+	<h1>{frontmatter.title}</h1>
+	<article>
+		<slot />
+	</article>
+</MainLayout>
+
+<style lang='scss'>
+
+</style>
