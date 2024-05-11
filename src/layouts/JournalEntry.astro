@@ -14,13 +14,55 @@ const crumbs = [
 ];
 ---
 
-<MainLayout title=`${frontmatter.title} | Eric Grossman` crumbs={crumbs} >
-	<h1>{frontmatter.title}</h1>
-	<article>
-		<slot />
-	</article>
+<MainLayout title=`${frontmatter.title} | Eric Grossman` description={frontmatter.description} crumbs={crumbs} >
+	<div class="two-column">
+		<div class="left-column">
+			<img src=`/assets/${frontmatter.image.src}` alt={frontmatter.image.alt} />
+		</div>
+		<div class="right-column">
+			<article>
+				<h1>{frontmatter.title}</h1>
+				<slot />
+			</article>
+		</div>
+	</div>
 </MainLayout>
 
-<style lang='scss'>
+<style lang='scss' is:global>
+	.two-column {
+		display: grid;
+		grid-template-columns: 1fr 1.5fr;
 
+
+		.left-column {
+			background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(235,235,235,1) 20%);
+			
+			display: grid;
+			align-items: center;
+			justify-content: center;
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			
+			img {
+				width: 350px;
+				height: 350px;
+				border-radius: 5px;
+			}
+		}
+
+		.right-column {
+
+			article {
+				max-width: 60ch;
+				margin: 0 auto;
+
+				p {
+					margin-top: 20px;
+				}
+
+			}
+			padding: 10%;
+		}
+	}
 </style>
