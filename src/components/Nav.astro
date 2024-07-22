@@ -168,7 +168,7 @@ const { crumbs } = Astro.props;
 <script>
 	import { browserDetect } from '../../public/scripts/global-scripts.js';
 
-	const SplashScreen = document.getElementById('splash-screen');
+	// const SplashScreen = document.getElementById('splash-screen');
 	const PrimaryGrid = document.getElementById('primary-grid');
 	const Nav = document.querySelector('nav');
 	const NavToggle = document.querySelector('.nav-toggle');
@@ -219,7 +219,7 @@ const { crumbs } = Astro.props;
 		}
 
 		if (!sessionStorage.getItem('SplashScreenOccurred')) {
-			SplashScreen.removeAttribute('data-disable-splash-screen');
+			// SplashScreen.removeAttribute('data-disable-splash-screen');
 			setTimeout(() => {
 				sessionStorage.setItem('SplashScreenOccurred', 'true');
 			}, 700);
