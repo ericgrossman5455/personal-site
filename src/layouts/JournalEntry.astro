@@ -1,5 +1,6 @@
 ---
 import MainLayout from './MainLayout.astro';
+import Footer from '../components/Footer.astro';
 
 const { frontmatter } = Astro.props;
 const crumbs = [
@@ -24,6 +25,8 @@ const crumbs = [
 				<h1>{frontmatter.title}</h1>
 				<slot />
 			</article>
+			<Footer />
+
 		</div>
 	</div>
 </MainLayout>
@@ -36,6 +39,21 @@ const crumbs = [
 
 		.left-column {
 			background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(235,235,235,1) 20%);
+			// position: relative;
+
+			--dark-background: rgb(77, 77, 77);
+
+			@media (prefers-color-scheme: dark) {
+				background: var(--dark-background);
+				&::before {
+					content: '';
+					position: absolute;
+					left: -70px;
+					background-color: var(--dark-background);
+					width: 70px;
+					height: 100vh;
+				}
+		}
 			
 			display: grid;
 			align-items: center;
