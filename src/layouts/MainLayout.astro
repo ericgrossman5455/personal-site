@@ -3,6 +3,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import GrainFilter from '../components/GrainFilter.astro';
+import SplashScreen from '../components/SplashScreen.astro';
 
 const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astro.props;
 ---
@@ -16,6 +17,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 		<link rel='stylesheet' type='text/css' href='/styles/global-typography.css' />
 		<link rel='stylesheet' type='text/css' href='/styles/global-utilities.css' />
 		<link rel='stylesheet' type='text/css' href='/styles/global-animations.css' />
+		<script src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'></script>
 		<link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
 		<link rel='icon' type='image/png' sizes='32x32' href='/favicons/favicon-32x32.png' />
 		<link rel='icon' type='image/png' sizes='16x16' href='/favicons/favicon-16x16.png' />
@@ -37,6 +39,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 	</head>
 
 	<body>
+		<SplashScreen />
 		<div class='primary-grid' id='primary-grid'>
 			<Nav crumbs={crumbs} />
 			<main>
