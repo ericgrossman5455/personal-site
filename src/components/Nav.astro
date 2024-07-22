@@ -200,13 +200,6 @@ const { crumbs } = Astro.props;
 	}
 
 	function checkSessionStorage() {
-		if (!sessionStorage.getItem('SplashScreenOccurred')) {
-			SplashScreen.removeAttribute('data-disable-splash-screen');
-			setTimeout(() => {
-				sessionStorage.setItem('SplashScreenOccurred', 'true');
-			}, 700)
-		}
-
 		if (sessionStorage.getItem('crumbsDisableMountAnim') === 'true') {
 			Crumbs.setAttribute('data-disable-crumb-anim', '');
 			sessionStorage.removeItem('crumbsDisableMountAnim');
@@ -223,6 +216,13 @@ const { crumbs } = Astro.props;
 			Main.style.animationName = 'fade-in-rightward';
 			Footer.style.animationName = 'fade-in-rightward';
 			sessionStorage.removeItem('contentFadeInRightward');
+		}
+
+		if (!sessionStorage.getItem('SplashScreenOccurred')) {
+			SplashScreen.removeAttribute('data-disable-splash-screen');
+			setTimeout(() => {
+				sessionStorage.setItem('SplashScreenOccurred', 'true');
+			}, 700)
 		}
 	}
 
