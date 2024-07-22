@@ -168,6 +168,7 @@ const { crumbs } = Astro.props;
 <script>
 	import { browserDetect } from '../../public/scripts/global-scripts.js';
 
+	const SplashScreen = document.getElementById('splash-screen');
 	const PrimaryGrid = document.getElementById('primary-grid');
 	const Nav = document.querySelector('nav');
 	const NavToggle = document.querySelector('.nav-toggle');
@@ -199,6 +200,11 @@ const { crumbs } = Astro.props;
 	}
 
 	function checkSessionStorage() {
+		if (!sessionStorage.getItem('SplashScreenOccurred')) {
+			SplashScreen.removeAttribute('data-disable-splash-screen');
+			sessionStorage.setItem('SplashScreenOccurred', 'true');
+		}
+
 		if (sessionStorage.getItem('crumbsDisableMountAnim') === 'true') {
 			Crumbs.setAttribute('data-disable-crumb-anim', '');
 			sessionStorage.removeItem('crumbsDisableMountAnim');
