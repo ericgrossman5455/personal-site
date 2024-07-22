@@ -202,7 +202,9 @@ const { crumbs } = Astro.props;
 	function checkSessionStorage() {
 		if (!sessionStorage.getItem('SplashScreenOccurred')) {
 			SplashScreen.removeAttribute('data-disable-splash-screen');
-			sessionStorage.setItem('SplashScreenOccurred', 'true');
+			setTimeout(() => {
+				sessionStorage.setItem('SplashScreenOccurred', 'true');
+			}, 700)
 		}
 
 		if (sessionStorage.getItem('crumbsDisableMountAnim') === 'true') {
