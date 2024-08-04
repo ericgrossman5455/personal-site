@@ -67,7 +67,7 @@
 /* ---------- TAGS/CLASSES ----------*/
 
 h1, .h1 {
-	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
+	font-family: 'Times New Roman Self-hosted', 'Times New Roman', serif;
 	font-size: 100px;
 	font-weight: bold;
 	line-height: 0.93;
@@ -82,7 +82,7 @@ h2, .h2, a {
 }
 
 p {
-	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
+	font-family: 'Times New Roman Self-hosted', 'Times New Roman', serif;
 	font-size: 18px;
 	font-weight: normal;
 	line-height: 1.4;
