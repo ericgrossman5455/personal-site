@@ -3,7 +3,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-BoldItalic.woff2') format('woff2');
-	font-weight: bold;
+	font-weight: 800;
 	font-style: italic;
 	font-display: swap;
 }
@@ -11,7 +11,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Italic.woff2') format('woff2');
-	font-weight: normal;
+	font-weight: 400;
 	font-style: italic;
 	font-display: swap;
 }
@@ -19,7 +19,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Bold.woff2') format('woff2');
-	font-weight: bold;
+	font-weight: 800;
 	font-style: normal;
 	font-display: swap;
 }
@@ -27,7 +27,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Regular.woff2') format('woff2');
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
@@ -35,7 +35,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-BoldItalic.woff2') format('woff2');
-	font-weight: bold;
+	font-weight: 800;
 	font-style: italic;
 	font-display: swap;
 }
@@ -43,7 +43,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-Bold.woff2') format('woff2');
-	font-weight: bold;
+	font-weight: 800;
 	font-style: normal;
 	font-display: swap;
 }
@@ -51,7 +51,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-Italic.woff2') format('woff2');
-	font-weight: normal;
+	font-weight: 400;
 	font-style: italic;
 	font-display: swap;
 }
@@ -59,7 +59,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman.woff2') format('woff2');
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
@@ -69,14 +69,14 @@
 h1, .h1 {
 	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 100px;
-	font-weight: bold;
+	font-weight: 800;
 	line-height: 0.93;
 }
 
 h2, .h2, a {
 	font-family: 'Menlo Self-hosted', 'Menlo', monospace;
 	font-size: 14px;
-	font-weight: 100;
+	font-weight: 800;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
 }
@@ -84,7 +84,7 @@ h2, .h2, a {
 p {
 	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 18px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.4;
 	letter-spacing: -0.02em;
 }
