@@ -33,8 +33,32 @@
 }
 
 @font-face {
-	font-family: 'Andale Mono Self-hosted';
-	src: url('../fonts/AndaleMono.woff2') format('woff2');
+	font-family: 'Menlo Self-hosted';
+	src: url('../fonts/Menlo-BoldItalic.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Menlo Self-hosted';
+	src: url('../fonts/Menlo-Italic.woff2') format('woff2');
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Menlo Self-hosted';
+	src: url('../fonts/Menlo-Bold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Menlo Self-hosted';
+	src: url('../fonts/Menlo-Regular.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -42,7 +66,7 @@
 
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
-	src: url('../fonts/TimesNewRomanPS-BoldItalicMT.woff2') format('woff2');
+	src: url('../fonts/Times-New-Roman-BoldItalic.woff2') format('woff2');
 	font-weight: bold;
 	font-style: italic;
 	font-display: swap;
@@ -50,7 +74,7 @@
 
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
-	src: url('../fonts/TimesNewRomanPS-BoldMT.woff2') format('woff2');
+	src: url('../fonts/Times-New-Roman-Bold.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
@@ -58,7 +82,7 @@
 
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
-	src: url('../fonts/TimesNewRomanPS-ItalicMT.woff2') format('woff2');
+	src: url('../fonts/Times-New-Roman-Italic.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
 	font-display: swap;
@@ -66,12 +90,13 @@
 
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
-	src: url('../fonts/TimesNewRomanPSMT.woff2') format('woff2');
+	src: url('../fonts/Times-New-Roman.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
 
+/* ---------- TAGS/CLASSES ----------*/
 
 h1, .h1 {
 	font-family: 'Poltawski Self-hosted', 'Times New Roman', Times, serif;
@@ -81,10 +106,10 @@ h1, .h1 {
 }
 
 h2, .h2, a {
-	font-family: 'Andale Mono Self-hosted', 'Andale Mono', monospace;
-	font-size: 15px;
+	font-family: 'Menlo Self-hosted', 'Menlo', monospace;
+	font-size: 14px;
 	font-weight: 100;
-	letter-spacing: 0.02em;
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
 }
 
