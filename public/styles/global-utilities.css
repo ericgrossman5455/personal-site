@@ -13,6 +13,8 @@
 	position: absolute !important;
 	width: 0px !important;
 	white-space: nowrap !important;
+	/* Without using this custom font, the weight of copy blocks randomly change momentarily on page load in Safari on macOS and iOS */
+	font-family: 'Poltawski Self-hosted', 'Times New Roman', Times, serif;
 }
 .visually-hidden-focusable:focus,
 .visually-hidden-focusable:active {
