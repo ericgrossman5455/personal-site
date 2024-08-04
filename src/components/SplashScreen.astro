@@ -1,13 +1,10 @@
-<div class='splash-screen' id="splash-screen" data-disable-splash-screen>
+<div class='splash-screen' id='splash-screen' data-disable-splash-screen>
 	<lottie-player src='/assets/logo_anim.json' background='transparent' speed='1' autoplay
 	></lottie-player>
 </div>
 
 <style lang='scss'>
 	.splash-screen {
-		&[data-disable-splash-screen] {
-			display: none;
-		}
 		display: flex;
 		position: fixed;
 		z-index: 999;
@@ -20,10 +17,17 @@
 		height: 100vh;
 		width: 100lvw;
 		height: 100lvh;
-		
 		align-items: center;
 		justify-content: center;
 		animation: logo-anim 1s ease-in 1.8s 1 forwards;
+
+		&[data-disable-splash-screen] {
+			display: none;
+			position: absolute;
+			visibility: hidden;
+			width: 0;
+			height: 0;
+		}
 
 		lottie-player {
 			width: 20%;
