@@ -5,7 +5,6 @@
 	src: url('../fonts/Menlo-BoldItalic.woff2') format('woff2');
 	font-weight: 800;
 	font-style: italic;
-	font-display: swap;
 }
 
 @font-face {
@@ -13,7 +12,6 @@
 	src: url('../fonts/Menlo-Italic.woff2') format('woff2');
 	font-weight: 400;
 	font-style: italic;
-	font-display: swap;
 }
 
 @font-face {
@@ -21,7 +19,6 @@
 	src: url('../fonts/Menlo-Bold.woff2') format('woff2');
 	font-weight: 800;
 	font-style: normal;
-	font-display: swap;
 }
 
 @font-face {
@@ -29,7 +26,6 @@
 	src: url('../fonts/Menlo-Regular.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap;
 }
 
 @font-face {
@@ -37,7 +33,6 @@
 	src: url('../fonts/Times-New-Roman-BoldItalic.woff2') format('woff2');
 	font-weight: 800;
 	font-style: italic;
-	font-display: swap;
 }
 
 @font-face {
@@ -45,7 +40,6 @@
 	src: url('../fonts/Times-New-Roman-Bold.woff2') format('woff2');
 	font-weight: 800;
 	font-style: normal;
-	font-display: swap;
 }
 
 @font-face {
@@ -53,7 +47,6 @@
 	src: url('../fonts/Times-New-Roman-Italic.woff2') format('woff2');
 	font-weight: 400;
 	font-style: italic;
-	font-display: swap;
 }
 
 @font-face {
@@ -61,7 +54,6 @@
 	src: url('../fonts/Times-New-Roman.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
-	font-display: swap;
 }
 
 /* ---------- TAGS/CLASSES ----------*/
