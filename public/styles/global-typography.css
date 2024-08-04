@@ -2,59 +2,100 @@
 
 @font-face {
 	font-family: 'Poltawski';
-	font-style: normal;
-	font-weight: 800;
 	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Poltawski';
-	font-style: italic;
 	font-weight: 800;
-	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'Poltawski';
 	font-style: normal;
-	font-weight: 600;
-	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
+	font-display: swap;
 }
 
 @font-face {
 	font-family: 'Poltawski';
+	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
+	font-weight: 800;
 	font-style: italic;
-	font-weight: 600;
-	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
+	font-display: swap;
 }
 
 @font-face {
-	font-family: 'Courier New Self Hosted';
+	font-family: 'Poltawski';
+	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski';
+	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Courier New Self-hosted';
 	src: url('../fonts/CourierNewPS-BoldItalicMT.woff2') format('woff2');
 	font-weight: bold;
 	font-style: italic;
+	font-display: swap;
 }
 
 @font-face {
-	font-family: 'Courier New Self Hosted';
+	font-family: 'Courier New Self-hosted';
 	src: url('../fonts/CourierNewPS-BoldMT.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-	font-family: 'Courier New Self Hosted';
+	font-family: 'Courier New Self-hosted';
 	src: url('../fonts/CourierNewPS-ItalicMT.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
+	font-display: swap;
 }
 
 @font-face {
-	font-family: 'Courier New Self Hosted';
+	font-family: 'Courier New Self-hosted';
 	src: url('../fonts/CourierNewPSMT.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
+	font-display: swap;
 }
+
+@font-face {
+	font-family: 'Times New Roman Self-hosted';
+	src: url('../fonts/TimesNewRomanPS-BoldItalicMT.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Times New Roman Self-hosted';
+	src: url('../fonts/TimesNewRomanPS-BoldMT.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Times New Roman Self-hosted';
+	src: url('../fonts/TimesNewRomanPS-ItalicMT.woff2') format('woff2');
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Times New Roman Self-hosted';
+	src: url('../fonts/TimesNewRomanPSMT.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 
 h1, .h1 {
 	font-family: 'Poltawski', serif;
@@ -64,7 +105,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-	font-family: 'Courier New', 'Courier New Self Hosted', monospace;
+	font-family: 'Courier New Self-hosted', 'Courier New', monospace;
 	font-size: 15px;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
@@ -75,7 +116,7 @@ h2, .h2 {
 }
 
 p {
-	font-family: 'Times New Roman', Times, serif;
+	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 18px;
 	font-weight: 200;
 	line-height: 1.4;
