@@ -5,6 +5,7 @@
 	font-style: normal;
 	font-weight: 800;
 	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
 	font-style: italic;
 	font-weight: 800;
 	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -19,6 +21,7 @@
 	font-style: normal;
 	font-weight: 600;
 	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -26,6 +29,7 @@
 	font-style: italic;
 	font-weight: 600;
 	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -33,6 +37,7 @@
 	font-style: normal;
 	font-weight: 800;
 	src: url('../fonts/EB-Garamond-Bold.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -40,6 +45,7 @@
 	font-style: italic;
 	font-weight: 800;
 	src: url('../fonts/EB-Garamond-Bold-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -47,6 +53,7 @@
 	font-style: normal;
 	font-weight: 700;
 	src: url('../fonts/EB-Garamond-SemiBold.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -54,6 +61,7 @@
 	font-style: italic;
 	font-weight: 700;
 	src: url('../fonts/EB-Garamond-SemiBold-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -61,6 +69,7 @@
 	font-style: normal;
 	font-weight: 600;
 	src: url('../fonts/EB-Garamond-Medium.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -68,6 +77,7 @@
 	font-style: italic;
 	font-weight: 600;
 	src: url('../fonts/EB-Garamond-Medium-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -75,6 +85,7 @@
 	font-style: normal;
 	font-weight: 400;
 	src: url('../fonts/EB-Garamond-Regular.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -82,6 +93,7 @@
 	font-style: italic;
 	font-weight: 400;
 	src: url('../fonts/EB-Garamond-Italic.woff2') format(woff2);
+	font-display: swap;
 }
 
 @font-face {
@@ -89,20 +101,21 @@
 	font-style: normal;
 	font-weight: 400;
 	src: url('../fonts/PT-Mono.woff2') format(woff2);
+	font-display: swap;
 }
 
-h1 {
+h1, .h1 {
 	font-family: 'Poltawski', serif;
 	font-size: 100px;
 	font-weight: 800;
-	line-height: .93;
+	line-height: 0.93;
 	/* font-style: italic; */
 }
 
 h2, .h2 {
 	font-family: 'PT Mono', monospace;
 	font-size: 14px;
-	letter-spacing: .05em;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
 }
 
