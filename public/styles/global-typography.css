@@ -33,32 +33,8 @@
 }
 
 @font-face {
-	font-family: 'Courier New Self-hosted';
-	src: url('../fonts/CourierNewPS-BoldItalicMT.woff2') format('woff2');
-	font-weight: bold;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Courier New Self-hosted';
-	src: url('../fonts/CourierNewPS-BoldMT.woff2') format('woff2');
-	font-weight: bold;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Courier New Self-hosted';
-	src: url('../fonts/CourierNewPS-ItalicMT.woff2') format('woff2');
-	font-weight: normal;
-	font-style: italic;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Courier New Self-hosted';
-	src: url('../fonts/CourierNewPSMT.woff2') format('woff2');
+	font-family: 'Andale Mono Self-hosted';
+	src: url('../fonts/AndaleMono.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -105,7 +81,7 @@ h1, .h1 {
 }
 
 h2, .h2, a {
-	font-family: 'Andale Mono', 'Courier New Self-hosted', 'Courier New', monospace;
+	font-family: 'Andale Mono Self-hosted', 'Andale Mono', 'Courier New', monospace;
 	font-size: 15px;
 	font-weight: 100;
 	letter-spacing: 0.02em;
