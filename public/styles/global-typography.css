@@ -1,9 +1,41 @@
 /* CSS DOCUMENT */
 
 @font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format('woff2');
+	font-weight: bolder;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
+	font-weight: bolder;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-BoldItalic.woff2') format('woff2');
-	font-weight: 800;
+	font-weight: bold;
 	font-style: italic;
 	font-display: swap;
 }
@@ -11,7 +43,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Italic.woff2') format('woff2');
-	font-weight: 400;
+	font-weight: normal;
 	font-style: italic;
 	font-display: swap;
 }
@@ -19,7 +51,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Bold.woff2') format('woff2');
-	font-weight: 800;
+	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
 }
@@ -27,7 +59,7 @@
 @font-face {
 	font-family: 'Menlo Self-hosted';
 	src: url('../fonts/Menlo-Regular.woff2') format('woff2');
-	font-weight: 400;
+	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
@@ -35,7 +67,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-BoldItalic.woff2') format('woff2');
-	font-weight: 800;
+	font-weight: bold;
 	font-style: italic;
 	font-display: swap;
 }
@@ -43,7 +75,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-Bold.woff2') format('woff2');
-	font-weight: 800;
+	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
 }
@@ -51,7 +83,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman-Italic.woff2') format('woff2');
-	font-weight: 400;
+	font-weight: normal;
 	font-style: italic;
 	font-display: swap;
 }
@@ -59,7 +91,7 @@
 @font-face {
 	font-family: 'Times New Roman Self-hosted';
 	src: url('../fonts/Times-New-Roman.woff2') format('woff2');
-	font-weight: 400;
+	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
 }
