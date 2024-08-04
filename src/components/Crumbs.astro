@@ -21,8 +21,6 @@ const { crumbs } = Astro.props;
 <style lang='scss'>
 	.crumbs {
 		$crumb-anim-delay: 0.2s;
-		$crumb-divider-opacity: 0.5;
-
 		padding: 5px 10px 3px 17px;
 
 		&,
@@ -40,23 +38,26 @@ const { crumbs } = Astro.props;
 			color: var(--glyph-standard);
 			white-space: nowrap;
 
-			&:last-child a {
-				opacity: 1;
-			}
-
 			a {
 				color: inherit;
 				text-decoration: none;
 				opacity: 0.6;
-				transition: opacity 0.2s;
+				transition: opacity .5s;
 
 				p {
 					font-size: 12px;
 				}
 
-				&:hover {
-					text-decoration: underline;
+				&:hover, &:focus {
 					opacity: 1;
+				}
+			}
+
+			&:last-child a {
+				opacity: 1;
+
+				&.unmounting {
+					opacity: .6;
 				}
 			}
 
@@ -64,7 +65,7 @@ const { crumbs } = Astro.props;
 				pointer-events: none;
 				margin: 0 4px;
 				margin-bottom: 0.5px;
-				opacity: $crumb-divider-opacity;
+				opacity: 0.3;
 			}
 		}
 
@@ -80,13 +81,9 @@ const { crumbs } = Astro.props;
 				$crumb-anim-delay backwards;
 
 			@keyframes crumb-divider-fade-in-leftward {
-				0% {
+				from {
 					transform: translateX(10px);
 					opacity: 0;
-				}
-				100% {
-					transform: translateX(0);
-					opacity: $crumb-divider-opacity;
 				}
 			}
 		}

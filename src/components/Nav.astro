@@ -174,6 +174,7 @@ const { crumbs } = Astro.props;
 	const NavToggle = document.querySelector('.nav-toggle');
 	const Crumbs = document.getElementById('crumbs');
 	const CrumbLinks = document.querySelectorAll('[data-crumb-link]');
+	const CrumbLastLink = document.querySelector('.crumb:last-child a');
 	const NavPanel = document.getElementById('nav-panel');
 	const NavLinks = document.querySelectorAll('[data-nav-link]');
 	const Main = document.querySelector('main');
@@ -454,6 +455,7 @@ const { crumbs } = Astro.props;
 			} else {
 				Main.classList.add('anim-fade-out-leftward');
 				Footer.classList.add('anim-fade-out-leftward');
+				CrumbLastLink.classList.add('unmounting');
 			}
 		}
 
