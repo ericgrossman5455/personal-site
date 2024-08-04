@@ -44,6 +44,10 @@ const { crumbs } = Astro.props;
 				color: inherit;
 				text-decoration: none;
 
+				p {
+					font-size: 12px;
+				}
+
 				&:hover {
 					text-decoration: underline;
 				}
@@ -60,11 +64,13 @@ const { crumbs } = Astro.props;
 		// mounting animations / data flag to fade in all crumbs | rel:3
 		.crumb:last-child,
 		&[data-fade-in-all-crumbs] {
-			animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) calc($crumb-anim-delay + 0.1s) backwards;
+			animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration)
+				calc($crumb-anim-delay + 0.1s) backwards;
 		}
 
 		.crumb:nth-last-child(2) .crumb-divider {
-			animation: crumb-divider-fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) $crumb-anim-delay backwards;
+			animation: crumb-divider-fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration)
+				$crumb-anim-delay backwards;
 
 			@keyframes crumb-divider-fade-in-leftward {
 				0% {

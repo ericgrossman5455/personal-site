@@ -1,7 +1,7 @@
 /* CSS DOCUMENT */
 
 @font-face {
-	font-family: 'Poltawski';
+	font-family: 'Poltawski Self-hosted';
 	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format('woff2');
 	font-weight: 800;
 	font-style: normal;
@@ -9,7 +9,7 @@
 }
 
 @font-face {
-	font-family: 'Poltawski';
+	font-family: 'Poltawski Self-hosted';
 	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
 	font-weight: 800;
 	font-style: italic;
@@ -17,7 +17,7 @@
 }
 
 @font-face {
-	font-family: 'Poltawski';
+	font-family: 'Poltawski Self-hosted';
 	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
 	font-weight: 600;
 	font-style: normal;
@@ -25,7 +25,7 @@
 }
 
 @font-face {
-	font-family: 'Poltawski';
+	font-family: 'Poltawski Self-hosted';
 	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
 	font-weight: 600;
 	font-style: italic;
@@ -98,21 +98,18 @@
 
 
 h1, .h1 {
-	font-family: 'Poltawski', serif;
+	font-family: 'Poltawski Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 100px;
 	font-weight: 800;
 	line-height: 0.93;
 }
 
-h2, .h2 {
-	font-family: 'Courier New Self-hosted', 'Courier New', monospace;
+h2, .h2, a {
+	font-family: 'Andale Mono', 'Courier New Self-hosted', 'Courier New', monospace;
 	font-size: 15px;
-	letter-spacing: 0.06em;
+	font-weight: 100;
+	letter-spacing: 0.02em;
 	text-transform: uppercase;
-
-	b {
-		font-weight: bold
-	}
 }
 
 p {
@@ -121,4 +118,12 @@ p {
 	font-weight: 200;
 	line-height: 1.4;
 	letter-spacing: -0.02em;
+}
+
+article a {
+	font-size: 12px;
+	text-decoration: none;
+	color: var(--glyph-standard);
+	outline: 1px solid var(--glyph-standard);
+	padding: 5px 7px;
 }
