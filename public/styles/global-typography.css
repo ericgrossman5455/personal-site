@@ -1,4 +1,35 @@
 /* CSS DOCUMENT */
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format('woff2');
+	font-weight: bolder;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
+	font-weight: bolder;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poltawski Self-hosted';
+	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
 
 @font-face {
 	font-family: 'Menlo Self-hosted';
@@ -67,9 +98,9 @@
 /* ---------- TAGS/CLASSES ----------*/
 
 h1, .h1 {
-	font-family: 'Times New Roman Self-hosted', Times, serif;
+	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 100px;
-	font-weight: bold;
+	font-weight: 800;
 	line-height: 0.93;
 }
 
@@ -82,9 +113,9 @@ h2, .h2, a {
 }
 
 p {
-	font-family: 'Times New Roman Self-hosted', Times, serif;
+	font-family: 'Times New Roman Self-hosted', 'Times New Roman', Times, serif;
 	font-size: 18px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.4;
 	letter-spacing: -0.02em;
 }
