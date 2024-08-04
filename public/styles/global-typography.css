@@ -69,7 +69,7 @@
 h1, .h1 {
 	font-family: 'Times New Roman', Times, serif;
 	font-size: 100px;
-	font-weight: 800;
+	font-weight: bold;
 	line-height: 0.93;
 }
 
@@ -84,7 +84,7 @@ h2, .h2, a {
 p {
 	font-family: 'Times New Roman', Times, serif;
 	font-size: 18px;
-	font-weight: 400;
+	font-weight: normal;
 	line-height: 1.4;
 	letter-spacing: -0.02em;
 }
