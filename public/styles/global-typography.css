@@ -81,7 +81,7 @@ h1, .h1 {
 }
 
 h2, .h2, a {
-	font-family: 'Andale Mono Self-hosted', 'Andale Mono', 'Courier New', monospace;
+	font-family: 'Andale Mono Self-hosted', 'Andale Mono', monospace;
 	font-size: 15px;
 	font-weight: 100;
 	letter-spacing: 0.02em;
