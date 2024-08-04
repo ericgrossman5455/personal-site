@@ -4,7 +4,7 @@
 	font-family: 'Poltawski';
 	font-style: normal;
 	font-weight: 800;
-	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format(woff2);
+	src: url('../fonts/Poltawski-Nowy-Bold.woff2') format('woff2');
 	font-display: swap;
 }
 
@@ -12,7 +12,7 @@
 	font-family: 'Poltawski';
 	font-style: italic;
 	font-weight: 800;
-	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format(woff2);
+	src: url('../fonts/Poltawski-Nowy-Bold-Italic.woff2') format('woff2');
 	font-display: swap;
 }
 
@@ -20,7 +20,7 @@
 	font-family: 'Poltawski';
 	font-style: normal;
 	font-weight: 600;
-	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format(woff2);
+	src: url('../fonts/Poltawski-Nowy-SemiBold.woff2') format('woff2');
 	font-display: swap;
 }
 
@@ -28,99 +28,64 @@
 	font-family: 'Poltawski';
 	font-style: italic;
 	font-weight: 600;
-	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format(woff2);
+	src: url('../fonts/Poltawski-Nowy-SemiBold-Italic.woff2') format('woff2');
 	font-display: swap;
 }
 
 @font-face {
-	font-family: 'EB Garamond';
-	font-style: normal;
-	font-weight: 800;
-	src: url('../fonts/EB-Garamond-Bold.woff2') format(woff2);
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'EB Garamond';
+	font-family: 'Courier New';
+	src: url('CourierNewPS-BoldItalicMT.woff2') format('woff2');
+	font-weight: bold;
 	font-style: italic;
-	font-weight: 800;
-	src: url('../fonts/EB-Garamond-Bold-Italic.woff2') format(woff2);
 	font-display: swap;
 }
 
 @font-face {
-	font-family: 'EB Garamond';
+	font-family: 'Courier New';
+	src: url('CourierNewPS-BoldMT.woff2') format('woff2');
+	font-weight: bold;
 	font-style: normal;
-	font-weight: 700;
-	src: url('../fonts/EB-Garamond-SemiBold.woff2') format(woff2);
 	font-display: swap;
 }
 
 @font-face {
-	font-family: 'EB Garamond';
+	font-family: 'Courier New';
+	src: url('CourierNewPS-ItalicMT.woff2') format('woff2');
+	font-weight: normal;
 	font-style: italic;
-	font-weight: 700;
-	src: url('../fonts/EB-Garamond-SemiBold-Italic.woff2') format(woff2);
 	font-display: swap;
 }
 
 @font-face {
-	font-family: 'EB Garamond';
+	font-family: 'Courier New';
+	src: url('CourierNewPSMT.woff2') format('woff2');
+	font-weight: normal;
 	font-style: normal;
-	font-weight: 600;
-	src: url('../fonts/EB-Garamond-Medium.woff2') format(woff2);
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'EB Garamond';
-	font-style: italic;
-	font-weight: 600;
-	src: url('../fonts/EB-Garamond-Medium-Italic.woff2') format(woff2);
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'EB Garamond';
-	font-style: normal;
-	font-weight: 400;
-	src: url('../fonts/EB-Garamond-Regular.woff2') format(woff2);
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'EB Garamond';
-	font-style: italic;
-	font-weight: 400;
-	src: url('../fonts/EB-Garamond-Italic.woff2') format(woff2);
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'PT Mono';
-	font-style: normal;
-	font-weight: 400;
-	src: url('../fonts/PT-Mono.woff2') format(woff2);
 	font-display: swap;
 }
 
 h1, .h1 {
-	font-family: 'Poltawski', serif;
+	font-family: 'Poltawski', 'Times New Roman', Times, serif;
 	font-size: 100px;
 	font-weight: 800;
 	line-height: 0.93;
-	/* font-style: italic; */
 }
 
 h2, .h2 {
-	font-family: 'PT Mono', monospace;
-	font-size: 14px;
-	letter-spacing: 0.05em;
+	font-family: 'Courier New', monospace;
+	font-size: 15px;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
+
+	b {
+		font-weight: 600;
+	}
 }
 
 p {
-	font-family: 'EB Garamond', sans-serif;
+	font-family: 'Times New Roman', Times, serif;
 	font-size: 18px;
+	font-weight: 200;
 	line-height: 1.4;
+	letter-spacing: -0.02em;
 }

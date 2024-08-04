@@ -21,7 +21,7 @@ const { crumbs } = Astro.props;
 <style lang='scss'>
 	.crumbs {
 		$crumb-anim-delay: 0.2s;
-		$crumb-divider-opacity: 0.4;
+		$crumb-divider-opacity: 0.5;
 
 		padding: 5px 10px 3px 18px;
 
@@ -38,7 +38,6 @@ const { crumbs } = Astro.props;
 
 		.crumb {
 			color: var(--glyph-standard);
-			line-height: 1.3;
 			white-space: nowrap;
 
 			a {
@@ -51,7 +50,8 @@ const { crumbs } = Astro.props;
 			}
 
 			&-divider {
-				margin: 0 7px;
+				pointer-events: none;
+				margin: 0 4px;
 				margin-bottom: 0.5px;
 				opacity: $crumb-divider-opacity;
 			}
