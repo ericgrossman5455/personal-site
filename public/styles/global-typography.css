@@ -30,34 +30,34 @@
 
 @font-face {
 	font-family: 'Courier New Self Hosted';
-	src: url('CourierNewPS-BoldItalicMT.woff2') format('woff2');
+	src: url('../fonts/CourierNewPS-BoldItalicMT.woff2') format('woff2');
 	font-weight: bold;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Courier New Self Hosted';
-	src: url('CourierNewPS-BoldMT.woff2') format('woff2');
+	src: url('../fonts/CourierNewPS-BoldMT.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Courier New Self Hosted';
-	src: url('CourierNewPS-ItalicMT.woff2') format('woff2');
+	src: url('../fonts/CourierNewPS-ItalicMT.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Courier New Self Hosted';
-	src: url('CourierNewPSMT.woff2') format('woff2');
+	src: url('../fonts/CourierNewPSMT.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
 
 h1, .h1 {
-	font-family: 'Poltawski', 'Times New Roman', Times, serif;
+	font-family: 'Poltawski', serif;
 	font-size: 100px;
 	font-weight: 800;
 	line-height: 0.93;
@@ -70,8 +70,6 @@ h2, .h2 {
 	text-transform: uppercase;
 
 	b {
-		/* incase system doesn't have a bold pre-installed Courier New */
-		font-family: 'Courier New Self Hosted', 'Courier New', monospace;
 		font-weight: bold
 	}
 }
