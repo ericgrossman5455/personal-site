@@ -53,18 +53,12 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 
 <style is:global lang='scss'>
 	:root {
+		color-scheme: light dark;
 		--bg-layer-base: #e3e3e3;
 		--glyph-standard: #4b4b4b;
 
 		background-color: var(--bg-layer-base);
 		color: var(--glyph-standard);
-		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-		color-scheme: light dark;
-		font-family: sans-serif;
-
-		scroll-behavior: smooth;
-		overflow-x: clip;
 
 		@media (prefers-color-scheme: dark) {
 			--bg-layer-base: #3c3c3c;
@@ -73,6 +67,11 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 			background-color: var(--bg-layer-base);
 			color: var(--glyph-standard);
 		}
+
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		font-family: serif;
+		scroll-behavior: smooth;
+		overflow-x: clip;
 	}
 
 	body {
@@ -90,6 +89,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 
 	main {
 		grid-area: &;
+		will-change: width;
 	}
 
 	footer {
