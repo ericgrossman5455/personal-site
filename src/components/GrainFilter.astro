@@ -2,10 +2,11 @@
 
 <style is:global lang='scss'>
 	.grain {
-		$grain-opacity: .3;
+		$grain-opacity-light: .7;
+		$grain-opacity-dark: .5;
 
 		background-image: url(/public/assets/grain.png);
-		filter: invert(0) opacity($grain-opacity);
+		filter: invert(1) opacity($grain-opacity-light);
 		position: fixed;
 		width: 100vw;
 		height: 100vh;
@@ -15,7 +16,7 @@
 		z-index: 999;
 
 		@media (prefers-color-scheme: dark) {
-			filter: invert(1) opacity($grain-opacity);
+			filter: invert(0) opacity($grain-opacity-dark);
 		}
 	}
 </style>
