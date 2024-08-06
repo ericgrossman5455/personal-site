@@ -37,28 +37,31 @@ const { crumbs } = Astro.props;
 		.crumb {
 			color: var(--glyph-standard);
 			white-space: nowrap;
+			$inactive-crumb-opacity: .6;
 
 			a {
 				color: inherit;
 				text-decoration: none;
-				opacity: 0.6;
+				opacity: $inactive-crumb-opacity;
 
 				p {
 					font-size: 12px;
 					font-weight: 400;
 				}
 
-				&:hover, &:focus {
+				&:hover,
+				&:focus,
+				&.clicked-crumb {
 					opacity: 1;
 				}
 			}
 
 			&:last-child a {
 				opacity: 1;
-				transition: opacity .5s;
+				transition: opacity 0.5s;
 
-				&.unmounting {
-					opacity: .6;
+				&.active-crumb-fade {
+					opacity: $inactive-crumb-opacity;
 				}
 			}
 
