@@ -17,7 +17,8 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 		<link rel='stylesheet' type='text/css' href='/styles/global-typography.css' />
 		<link rel='stylesheet' type='text/css' href='/styles/global-utilities.css' />
 		<link rel='stylesheet' type='text/css' href='/styles/global-animations.css' />
-		<script async src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'></script>
+		<script async src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'>
+		</script>
 		<link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
 		<link rel='icon' type='image/png' sizes='32x32' href='/favicons/favicon-32x32.png' />
 		<link rel='icon' type='image/png' sizes='16x16' href='/favicons/favicon-16x16.png' />
@@ -89,7 +90,6 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 
 	main {
 		grid-area: &;
-		will-change: width;
 	}
 
 	footer {
@@ -100,6 +100,7 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 	footer {
 		animation: fade-in-leftward ease-out var(--nav-anim-duration);
 		transition: opacity var(--nav-anim-duration);
+		will-change: transform, opacity, width;
 
 		@media only screen and (max-width: 600px) {
 			&[aria-hidden='true'] {
