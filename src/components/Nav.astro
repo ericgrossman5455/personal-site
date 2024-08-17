@@ -60,7 +60,8 @@ const { crumbs } = Astro.props;
 		height: calc(100vh);
 		height: calc(100dvh);
 		transition: width var(--global-anim-timing-func) var(--nav-anim-duration);
-		z-index: 100;
+		z-index: 10;
+		will-change: width;
 
 		&[aria-expanded='false'] {
 			width: 0px;
@@ -73,7 +74,7 @@ const { crumbs } = Astro.props;
 		}
 
 		.top-bar {
-			z-index: 99;
+			z-index: 9;
 			position: fixed;
 			display: flex;
 			max-width: 600px;
@@ -168,11 +169,13 @@ const { crumbs } = Astro.props;
 <script>
 	import { browserDetect } from '../../public/scripts/global-scripts.js';
 
+	const SplashScreen = document.getElementById('splash-screen');
 	const PrimaryGrid = document.getElementById('primary-grid');
 	const Nav = document.querySelector('nav');
 	const NavToggle = document.querySelector('.nav-toggle');
 	const Crumbs = document.getElementById('crumbs');
 	const CrumbLinks = document.querySelectorAll('[data-crumb-link]');
+	const CrumbLastLink = document.querySelector('.crumb:last-child a');
 	const NavPanel = document.getElementById('nav-panel');
 	const NavLinks = document.querySelectorAll('[data-nav-link]');
 	const Main = document.querySelector('main');
@@ -216,6 +219,11 @@ const { crumbs } = Astro.props;
 			Footer.style.animationName = 'fade-in-rightward';
 			sessionStorage.removeItem('contentFadeInRightward');
 		}
+
+		if (!sessionStorage.getItem('SplashScreenOccurred')) {
+			SplashScreen.removeAttribute('data-disable-splash-screen');
+			sessionStorage.setItem('SplashScreenOccurred', 'true');
+		}
 	}
 
 	function cacheCheck(e) {
@@ -229,7 +237,7 @@ const { crumbs } = Astro.props;
 		// remove cached styling from previous unmount
 		let itemsToRemove = {
 			elements: [Nav, Main, Footer, Crumbs],
-			unmountAnimClasses: ['anim-fade-out', 'anim-fade-out-leftward', 'anim-fade-out-rightward'],
+			unmountAnimClasses: ['anim-fade-out', 'anim-fade-out-leftward', 'anim-fade-out-rightward', 'clicked-crumb', 'active-crumb-fade'],
 		};
 
 		itemsToRemove.elements.forEach((el) => {
@@ -242,6 +250,7 @@ const { crumbs } = Astro.props;
 		CrumbLinks.forEach((crumbLink) => {
 			itemsToRemove.unmountAnimClasses.forEach((unmountAnimClass) => {
 				crumbLink.parentElement.classList.remove(unmountAnimClass);
+				crumbLink.classList.remove(unmountAnimClass);
 				crumbLink.nextElementSibling && crumbLink.nextElementSibling.classList.remove(unmountAnimClass);
 			});
 		});
@@ -448,6 +457,7 @@ const { crumbs } = Astro.props;
 			} else {
 				Main.classList.add('anim-fade-out-leftward');
 				Footer.classList.add('anim-fade-out-leftward');
+				CrumbLastLink.classList.add('active-crumb-fade');
 			}
 		}
 
@@ -465,6 +475,7 @@ const { crumbs } = Astro.props;
 					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
 					// animate divider at end of clicked crumb
 					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(`anim-${animationName}`);
+					CrumbLinks[clickedCrumbIndex].classList.add('clicked-crumb')
 				}
 			});
 

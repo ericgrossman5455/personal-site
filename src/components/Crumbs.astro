@@ -21,9 +21,7 @@ const { crumbs } = Astro.props;
 <style lang='scss'>
 	.crumbs {
 		$crumb-anim-delay: 0.2s;
-		$crumb-divider-opacity: 0.4;
-
-		padding: 5px 10px 3px 18px;
+		padding: 5px 10px 3px 17px;
 
 		&,
 		ol,
@@ -38,42 +36,58 @@ const { crumbs } = Astro.props;
 
 		.crumb {
 			color: var(--glyph-standard);
-			line-height: 1.3;
 			white-space: nowrap;
+			$inactive-crumb-opacity: .6;
 
 			a {
 				color: inherit;
 				text-decoration: none;
+				opacity: $inactive-crumb-opacity;
 
-				&:hover {
-					text-decoration: underline;
+				p {
+					font-size: 12px;
+					font-weight: 400;
+				}
+
+				&:hover,
+				&:focus,
+				&.clicked-crumb {
+					opacity: 1;
+				}
+			}
+
+			&:last-child a {
+				opacity: 1;
+				transition: opacity 0.5s;
+
+				&.active-crumb-fade {
+					opacity: $inactive-crumb-opacity;
 				}
 			}
 
 			&-divider {
-				margin: 0 7px;
+				pointer-events: none;
+				margin: 0 4px;
 				margin-bottom: 0.5px;
-				opacity: $crumb-divider-opacity;
+				opacity: 0.3;
 			}
 		}
 
 		// mounting animations / data flag to fade in all crumbs | rel:3
 		.crumb:last-child,
 		&[data-fade-in-all-crumbs] {
-			animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) calc($crumb-anim-delay + 0.1s) backwards;
+			animation: fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration)
+				calc($crumb-anim-delay + 0.1s) backwards;
 		}
 
 		.crumb:nth-last-child(2) .crumb-divider {
-			animation: crumb-divider-fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration) $crumb-anim-delay backwards;
+			animation: crumb-divider-fade-in-leftward var(--global-anim-timing-func) var(--nav-anim-duration)
+				$crumb-anim-delay backwards;
 
 			@keyframes crumb-divider-fade-in-leftward {
-				0% {
+				from {
 					transform: translateX(10px);
 					opacity: 0;
-				}
-				100% {
-					transform: translateX(0);
-					opacity: $crumb-divider-opacity;
 				}
 			}
 		}
