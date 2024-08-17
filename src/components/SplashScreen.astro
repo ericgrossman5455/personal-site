@@ -19,7 +19,7 @@
 		height: 100lvh;
 		align-items: center;
 		justify-content: center;
-		animation: logo-anim 1s ease-in 1.8s 1 forwards;
+		animation: logo-anim 1s ease-in-out 1.8s 1 forwards;
 		will-change: transform;
 
 		&[data-disable-splash-screen] {
@@ -28,12 +28,12 @@
 		}
 
 		lottie-player {
-			width: 20%;
-			height: 20%;
-			max-width: 200px;
-			max-height: 200px;
-			min-width: 125px;
-			min-height: 125px;
+			width: 10%;
+			height: 10%;
+			max-width: 125px;
+			max-height: 125px;
+			min-width: 75px;
+			min-height: 75px;
 			filter: invert(0.2);
 
 			@media (prefers-color-scheme: dark) {
