@@ -15,53 +15,58 @@ const crumbs = [
 ];
 ---
 
-<MainLayout title=`${frontmatter.title} | Eric Grossman` description={frontmatter.description} crumbs={crumbs} >
-	<div class="two-column">
-		<div class="left-column">
+<MainLayout
+	title=`${frontmatter.title} | Eric Grossman`
+	description={frontmatter.description}
+	crumbs={crumbs}
+	disableGlobalFooter='true'>
+	<div class='journal-entry-grid'>
+		<div class='image-column'>
 			<img src=`/assets/${frontmatter.image.src}` alt={frontmatter.image.alt} />
 		</div>
-		<div class="right-column">
+		<div class='article-column'>
 			<article>
 				<h1>{frontmatter.title}</h1>
 				<slot />
 			</article>
 			<Footer />
-
 		</div>
 	</div>
 </MainLayout>
 
 <style lang='scss' is:global>
-	.two-column {
+	.journal-entry-grid {
 		display: grid;
 		grid-template-columns: 1fr 1.5fr;
 
+		@media only screen and (max-width: 1500px) {
+			grid-template-columns: 1fr;
+		}
 
-		.left-column {
-			background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(235,235,235,1) 20%);
-			// position: relative;
-
-			--dark-background: rgb(77, 77, 77);
+		.image-column {
+			background-color: rgb(235, 235, 235);
 
 			@media (prefers-color-scheme: dark) {
-				background: var(--dark-background);
-				&::before {
-					content: '';
-					position: absolute;
-					left: -70px;
-					background-color: var(--dark-background);
-					width: 70px;
-					height: 100vh;
-				}
-		}
-			
-			display: grid;
+				background-color: rgb(77, 77, 77);
+			}
+
+			// color-match nav panel
+			&::before {
+				content: '';
+				position: absolute;
+				left: calc(var(--nav-width) * -1);
+				background-color: inherit;
+				width: var(--nav-width);
+				height: 100vh;
+			}
+
+			display: flex;
 			align-items: center;
 			justify-content: center;
 			position: sticky;
 			top: 0;
 			height: 100vh;
-			
+
 			img {
 				width: 350px;
 				height: 350px;
@@ -69,18 +74,21 @@ const crumbs = [
 			}
 		}
 
-		.right-column {
-
+		.article-column {
+			padding: 100px 10%;
 			article {
-				max-width: 60ch;
+				max-width: 75ch;
 				margin: 0 auto;
 
-				p {
-					margin-top: 20px;
+				h1 {
+					margin-bottom: 20px;
 				}
 
+				p {
+					margin-bottom: 20px !important;
+				}
 			}
-			padding: 10%;
+			
 		}
 	}
 </style>

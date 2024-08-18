@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import GrainFilter from '../components/GrainFilter.astro';
 import SplashScreen from '../components/SplashScreen.astro';
 
-const { title = 'FPO', description = 'FPO', crumbs = [] } = Astro.props;
+const { title = 'FPO', description = 'FPO', crumbs = [], disableGlobalFooter = 'false' } = Astro.props;
 ---
 
 <!doctype html>
@@ -46,7 +46,7 @@ const { title = 'FPO', description = 'FPO', crumbs = [] } = Astro.props;
 			<main>
 				<slot>LOREM IPSUM</slot>
 			</main>
-			<Footer />
+			{disableGlobalFooter == 'true' ? '' : <Footer />}
 			<GrainFilter />
 		</div>
 	</body>

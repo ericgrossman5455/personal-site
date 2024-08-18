@@ -43,20 +43,20 @@ const { crumbs } = Astro.props;
 	:root {
 		/* update nav-anim-duration value in JS too for Safari bug | rel:1 */
 		--nav-anim-duration: 300ms;
+		--nav-width: 70px;
 		--global-anim-timing-func: cubic-bezier(0.26, 0.4, 0, 1);
 	}
 </style>
 
 <style lang='scss'>
 	nav {
-		$nav-width: 70px;
 		$icon-width: 35px;
 		$vert-padding: 20px;
 
 		grid-area: nav;
 		position: sticky;
 		top: 0;
-		width: $nav-width;
+		width: var(--nav-width);
 		height: calc(100vh);
 		height: calc(100dvh);
 		transition: width var(--global-anim-timing-func) var(--nav-anim-duration);
@@ -79,8 +79,8 @@ const { crumbs } = Astro.props;
 			display: flex;
 			max-width: 600px;
 			top: $vert-padding;
-			left: calc(($nav-width - $icon-width) / 2);
-			margin-right: calc(($nav-width - $icon-width) / 2);
+			left: calc((var(--nav-width) - $icon-width) / 2);
+			margin-right: calc((var(--nav-width) - $icon-width) / 2);
 			backdrop-filter: blur(10px);
 			-webkit-backdrop-filter: blur(10px);
 			border-radius: 5px;
@@ -119,7 +119,7 @@ const { crumbs } = Astro.props;
 			row-gap: 25px;
 
 			a {
-				$flush-left: calc(($nav-width - $icon-width) / -2);
+				$flush-left: calc((var(--nav-width) - $icon-width) / -2);
 				position: relative;
 
 				&:after {
@@ -237,7 +237,13 @@ const { crumbs } = Astro.props;
 		// remove cached styling from previous unmount
 		let itemsToRemove = {
 			elements: [Nav, Main, Footer, Crumbs],
-			unmountAnimClasses: ['anim-fade-out', 'anim-fade-out-leftward', 'anim-fade-out-rightward', 'clicked-crumb', 'active-crumb-fade'],
+			unmountAnimClasses: [
+				'anim-fade-out',
+				'anim-fade-out-leftward',
+				'anim-fade-out-rightward',
+				'clicked-crumb',
+				'active-crumb-fade',
+			],
 		};
 
 		itemsToRemove.elements.forEach((el) => {
@@ -475,7 +481,7 @@ const { crumbs } = Astro.props;
 					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
 					// animate divider at end of clicked crumb
 					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(`anim-${animationName}`);
-					CrumbLinks[clickedCrumbIndex].classList.add('clicked-crumb')
+					CrumbLinks[clickedCrumbIndex].classList.add('clicked-crumb');
 				}
 			});
 
