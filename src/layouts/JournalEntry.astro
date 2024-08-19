@@ -26,8 +26,12 @@ const crumbs = [
 		</div>
 		<div class='article-column'>
 			<article>
-				<h1>{frontmatter.title}</h1>
-				<slot />
+				<div class='header'>
+					<h1>{frontmatter.title}</h1>
+				</div>
+				<div class='body'>
+					<slot />
+				</div>
 			</article>
 			<Footer />
 		</div>
@@ -43,6 +47,7 @@ const crumbs = [
 			grid-template-columns: 1fr;
 		}
 
+		$img-size: 350px;
 		.image-column {
 			background-color: rgb(235, 235, 235);
 
@@ -67,15 +72,31 @@ const crumbs = [
 			top: 0;
 			height: 100vh;
 
+			@media only screen and (max-width: 1500px) {
+				position: static;
+			}
+
 			img {
-				width: 350px;
-				height: 350px;
-				border-radius: 5px;
+				width: $img-size;
+				height: $img-size;
+				border-radius: 7px;
+				box-shadow: 0 15px 35px rgba($color: #000000, $alpha: 0.5);
+				animation: img-develop 3s ease-in-out 0s 1 both;
+			}
+
+			@keyframes img-develop {
+				from {
+					box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.3);
+					// transform: translateY(10px);
+					-webkit-filter: grayscale(100%);
+					filter: grayscale(100%);
+				}
 			}
 		}
 
 		.article-column {
-			padding: 100px 10%;
+			padding: calc(50vh - ($img-size / 2) - 12px) 10% 10%;
+
 			article {
 				max-width: 75ch;
 				margin: 0 auto;
@@ -84,11 +105,20 @@ const crumbs = [
 					margin-bottom: 20px;
 				}
 
-				p {
-					margin-bottom: 20px !important;
+				.body {
+					p {
+						margin-bottom: 20px !important;
+
+						&:first-child::first-letter {
+							float: left;
+							margin-top: 2%;
+							margin-right: 3px;
+							line-height: 66%;
+							font-size: 396%;
+						}
+					}
 				}
 			}
-			
 		}
 	}
 </style>

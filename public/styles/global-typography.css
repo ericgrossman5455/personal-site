@@ -66,27 +66,40 @@
 
 /* ---------- TAGS/CLASSES ----------*/
 
-h1, .h1 {
+h1,
+.h1 {
 	font-family: 'Times New Roman', Times, serif;
 	font-size: 100px;
 	font-weight: bold;
 	line-height: 0.93;
+	letter-spacing: -0.02em;
 }
 
-h2, .h2, a {
+h1,
+.h1 {
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 100px;
+	font-weight: normal;
+	line-height: 0.93;
+	letter-spacing: -0.01em;
+}
+
+h2,
+.h2,
+a {
 	font-family: 'Menlo', monospace;
 	font-size: 14px;
 	font-weight: normal;
-	letter-spacing: 0.04em;
+	letter-spacing: 0.02em;
 	text-transform: uppercase;
 }
 
 p {
 	font-family: 'Times New Roman', Times, serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: normal;
-	line-height: 1.4;
-	letter-spacing: -0.02em;
+	line-height: 2;
+	letter-spacing: 0.1em;
 }
 
 article a {
@@ -94,5 +107,6 @@ article a {
 	text-decoration: none;
 	color: var(--glyph-standard);
 	outline: 1px solid var(--glyph-standard);
+	border-radius: 5px;
 	padding: 5px 7px;
 }
