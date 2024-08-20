@@ -334,6 +334,7 @@ const { crumbs } = Astro.props;
 		Nav.setAttribute('aria-expanded', 'true');
 		NavPanel.removeAttribute('aria-hidden');
 		NavPanel.classList.remove('display-none');
+		PrimaryGrid.setAttribute('data-nav-expanded', 'true');
 
 		if (_screenWidth === 'narrow') {
 			freezeContent();
@@ -345,6 +346,7 @@ const { crumbs } = Astro.props;
 		Nav.setAttribute('aria-expanded', 'false');
 		NavPanel.setAttribute('aria-hidden', 'true');
 		freezeContent('thaw');
+		PrimaryGrid.setAttribute('data-nav-expanded', 'false');
 
 		_navAnimTimer = setTimeout(() => {
 			NavPanel.classList.add('display-none');

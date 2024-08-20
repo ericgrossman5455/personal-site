@@ -42,12 +42,21 @@ const crumbs = [
 	.journal-entry-grid {
 		display: grid;
 		grid-template-columns: 1fr 1.5fr;
+		--image-size: 450px;
 
-		@media only screen and (max-width: 1500px) {
+		@media only screen and (max-width: 2400px) {
+			--image-size: 350px;
+		}
+
+		@media only screen and (max-width: 1600px) {
+			--image-size: 250px;
+		}
+
+		@media only screen and (max-width: 1000px) {
+			--image-size: 40%;
 			grid-template-columns: 1fr;
 		}
 
-		$img-size: 350px;
 		.image-column {
 			background-color: rgb(235, 235, 235);
 
@@ -55,7 +64,7 @@ const crumbs = [
 				background-color: rgb(77, 77, 77);
 			}
 
-			// color-match nav panel
+			// bleed background color under nav panel
 			&::before {
 				content: '';
 				position: absolute;
@@ -72,22 +81,27 @@ const crumbs = [
 			top: 0;
 			height: 100vh;
 
-			@media only screen and (max-width: 1500px) {
+			@media only screen and (max-width: 1000px) {
 				position: static;
 			}
 
 			img {
-				width: $img-size;
-				height: $img-size;
-				border-radius: 7px;
+				width: var(--image-size);
+				height: auto;
 				box-shadow: 0 15px 35px rgba($color: #000000, $alpha: 0.5);
-				animation: img-develop 3s ease-in-out 0s 1 both;
+				animation: img-develop 5s ease-in-out 0.5s 1 both;
+				// center image irrespective of nav status | rel:4
+				margin-left: calc(var(--nav-width) * -1);
+				transition: margin-left var(--nav-anim-duration) var(--global-anim-timing-func) var(--nav-anim-duration);
+
+				@media only screen and (max-width: 600px) {
+					margin-left: 0;
+				}
 			}
 
 			@keyframes img-develop {
 				from {
-					box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.3);
-					// transform: translateY(10px);
+					box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.2);
 					-webkit-filter: grayscale(100%);
 					filter: grayscale(100%);
 				}
@@ -95,7 +109,7 @@ const crumbs = [
 		}
 
 		.article-column {
-			padding: calc(50vh - ($img-size / 2) - 12px) 10% 10%;
+			padding: calc(50vh - (var(--image-size) / 2) - 12px) 10% 10%;
 
 			article {
 				max-width: 75ch;
@@ -119,6 +133,13 @@ const crumbs = [
 					}
 				}
 			}
+		}
+	}
+
+	// center image irrespective of nav status | rel:4
+	@media only screen and (min-width: 600px) {
+		#primary-grid[data-nav-expanded='false'] .journal-entry-grid .image-column img {
+			margin-left: 0;
 		}
 	}
 </style>
