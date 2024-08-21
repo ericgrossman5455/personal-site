@@ -452,7 +452,12 @@ const { crumbs } = Astro.props;
 		currentSection == destinationSection && (isSameSection = true);
 
 		// determine unmount animations depending on context
-		if (isSameSection === true) {
+
+		if (isSameSection === false || linkType === 'divergentLink') {
+			Crumbs.classList.add('anim-fade-out');
+			Main.classList.add('anim-fade-out');
+			Footer.classList.add('anim-fade-out');
+		} else if (isSameSection === true) {
 			if (linkType === 'navLink' && _screenWidth === 'narrow') {
 				Main.classList.add('anim-fade-out');
 				Footer.classList.add('anim-fade-out');
@@ -467,12 +472,6 @@ const { crumbs } = Astro.props;
 				Footer.classList.add('anim-fade-out-leftward');
 				CrumbLastLink.classList.add('active-crumb-fade');
 			}
-		}
-
-		if (isSameSection === false) {
-			Crumbs.classList.add('anim-fade-out');
-			Main.classList.add('anim-fade-out');
-			Footer.classList.add('anim-fade-out');
 		}
 
 		function crumbUnmountAnimHandler(animationName) {

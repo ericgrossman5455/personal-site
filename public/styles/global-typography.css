@@ -88,10 +88,14 @@ h2,
 .h2,
 a {
 	font-family: 'Menlo', monospace;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: normal;
 	letter-spacing: 0.02em;
 	text-transform: uppercase;
+
+	b {
+		font-weight: bold;
+	}
 }
 
 p {
