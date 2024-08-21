@@ -26,7 +26,23 @@ const crumbs = [
 	disableGlobalFooter='true'>
 	<div class='journal-entry-grid'>
 		<div class='image-column'>
-			<img src=`/assets/${frontmatter.image.src}` alt={frontmatter.image.alt} />
+			<div class='content-container'>
+				<div class='mini-header-container' aria-hidden='true'>
+					{
+						frontmatter.subheader ? (
+							<h2 class='subheader'>
+								{frontmatter.subheader.date}
+								<br />
+								{`${frontmatter.subheader.readTime} min read`}
+							</h2>
+						) : (
+							''
+						)
+					}
+					<h1>{frontmatter.title}</h1>
+				</div>
+				<img src=`/assets/${frontmatter.image.src}` alt={frontmatter.image.alt} />
+			</div>
 		</div>
 		<div class='article-column'>
 			<article>
@@ -69,7 +85,7 @@ const crumbs = [
 <style lang='scss' is:global>
 	// center image regardless of nav | rel:4
 	@media only screen and (min-width: 600px) {
-		#primary-grid[data-nav-expanded='false'] .journal-entry-grid .image-column img {
+		#primary-grid[data-nav-expanded='false'] .journal-entry-grid .image-column .content-container {
 			margin-left: 0;
 		}
 	}
@@ -121,11 +137,8 @@ const crumbs = [
 				position: static;
 			}
 
-			img {
+			.content-container {
 				width: var(--image-size);
-				height: auto;
-				box-shadow: 0 15px 35px rgba($color: #000000, $alpha: 0.5);
-				animation: img-develop 5s ease-in-out 0.5s 1 both;
 				// center image regardless of nav | rel:4
 				margin-left: calc(var(--nav-width) * -1);
 				transition: margin-left var(--nav-anim-duration) var(--global-anim-timing-func)
@@ -134,13 +147,42 @@ const crumbs = [
 				@media only screen and (max-width: 600px) {
 					margin-left: 0;
 				}
-			}
 
-			@keyframes img-develop {
-				from {
-					box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.2);
-					-webkit-filter: grayscale(100%);
-					filter: grayscale(100%);
+				.mini-header-container {
+					margin-bottom: 10px;
+					max-height: 0;
+					opacity: 0;
+					transition:
+						max-height var(--nav-anim-duration) ease-out var(--nav-anim-duration),
+						opacity var(--nav-anim-duration) ease-out var(--nav-anim-duration);
+
+					&.reveal {
+						max-height: 300px;
+						opacity: 1;
+					}
+
+					h1 {
+						font-size: 40px;
+					}
+
+					.subheader {
+						font-size: 11px;
+						line-height: 1.3;
+					}
+				}
+
+				img {
+					height: auto;
+					box-shadow: 0 15px 35px rgba($color: #000000, $alpha: 0.5);
+					animation: img-develop 5s ease-in-out 0.5s 1 both;
+				}
+
+				@keyframes img-develop {
+					from {
+						box-shadow: 0 5px 15px rgba($color: #000000, $alpha: 0.2);
+						-webkit-filter: grayscale(100%);
+						filter: grayscale(100%);
+					}
 				}
 			}
 		}
@@ -229,3 +271,34 @@ const crumbs = [
 		}
 	}
 </style>
+
+<script>
+	import { throttle } from '../../public/scripts/global-scripts.js';
+
+	const mainHeader = document.querySelector('.header-container');
+	const miniHeader = document.querySelector('.mini-header-container');
+
+	function isElVisible(el) {
+		let bottomPosition = el.getBoundingClientRect().bottom;
+
+		if (bottomPosition >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function revealMiniHeader() {
+		console.dir('run');
+		if (isElVisible(mainHeader)) {
+			miniHeader.classList.remove('reveal');
+			miniHeader.setAttribute('aria-hidden', 'false');
+		} else {
+			miniHeader.classList.add('reveal');
+			miniHeader.setAttribute('aria-hidden', 'true');
+		}
+	}
+
+	window.addEventListener('DOMContentLoaded', revealMiniHeader);
+	window.addEventListener('scroll', throttle(revealMiniHeader, 50));
+</script>
