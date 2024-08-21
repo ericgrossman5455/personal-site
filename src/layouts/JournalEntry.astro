@@ -31,13 +31,18 @@ const crumbs = [
 		<div class='article-column'>
 			<article>
 				<div class='header-container'>
-					<h2>{frontmatter.date}{frontmatter.readTime ? ` | ${frontmatter.readTime} min read` : ''}</h2>
+					<h2 class='subheader'>
+						{frontmatter.date}{frontmatter.readTime ? ` | ${frontmatter.readTime} min read` : ''}
+					</h2>
 					<h1>{frontmatter.title}</h1>
 				</div>
 				{
 					frontmatter.summary ? (
-						<div class='summary'>
-							<p class='h2'>{frontmatter.summary}</p>
+						<div class='summary-container'>
+							<p class='h2 placeholder' aria-hidden='true'>
+								{frontmatter.summary}
+							</p>
+							<p class='h2 animated'>{frontmatter.summary}</p>
 						</div>
 					) : (
 						''
@@ -53,6 +58,13 @@ const crumbs = [
 </MainLayout>
 
 <style lang='scss' is:global>
+	// center image regardless of nav | rel:4
+	@media only screen and (min-width: 600px) {
+		#primary-grid[data-nav-expanded='false'] .journal-entry-grid .image-column img {
+			margin-left: 0;
+		}
+	}
+
 	.journal-entry-grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -105,7 +117,7 @@ const crumbs = [
 				height: auto;
 				box-shadow: 0 15px 35px rgba($color: #000000, $alpha: 0.5);
 				animation: img-develop 5s ease-in-out 0.5s 1 both;
-				// center image irrespective of nav status | rel:4
+				// center image regardless of nav | rel:4
 				margin-left: calc(var(--nav-width) * -1);
 				transition: margin-left var(--nav-anim-duration) var(--global-anim-timing-func)
 					var(--nav-anim-duration);
@@ -135,16 +147,20 @@ const crumbs = [
 					padding-bottom: 30px;
 					border-bottom: 1.5px solid var(--glyph-standard);
 
-					h2 {
+					.subheader {
 						font-size: 14px;
 						margin-bottom: 10px;
 					}
 				}
 
-				.summary {
+				.summary-container {
+					$padding-right-left: 22px;
+					$padding-top-bottom: 20px;
+
 					background-color: #d7d7d7;
 					overflow: hidden;
-					animation: summary-drop-down 1s ease-in-out 0.5s 1 both;
+					position: relative;
+					padding: $padding-top-bottom $padding-right-left;
 
 					@media (prefers-color-scheme: dark) {
 						background-color: #464646;
@@ -153,22 +169,41 @@ const crumbs = [
 					p {
 						text-wrap: pretty;
 						line-height: 1.3;
-						padding: 20px 22px 20px;
 					}
 
-					@keyframes summary-drop-down {
-						from {
-							max-height: 0px;
+					.placeholder {
+						opacity: 0;
+						pointer-events: none;
+					}
+
+					.animated {
+						top: $padding-top-bottom;
+						right: $padding-right-left;
+						left: $padding-right-left;
+						position: absolute;
+						animation: summary-typewriter 2s ease-in-out 0s 1 both;
+					}
+
+					@keyframes summary-typewriter {
+						0% {
+							max-width: 0%;
+							opacity: 0;
 						}
 
-						to {
-							max-height: 300px;
+						40% {
+							opacity: 0;
+						}
+
+						100% {
+							max-width: 100%;
+							opacity: 1;
 						}
 					}
 				}
 
 				.body {
 					padding-top: 60px;
+
 					p {
 						margin-bottom: 20px !important;
 
@@ -182,13 +217,6 @@ const crumbs = [
 					}
 				}
 			}
-		}
-	}
-
-	// center image irrespective of nav status | rel:4
-	@media only screen and (min-width: 600px) {
-		#primary-grid[data-nav-expanded='false'] .journal-entry-grid .image-column img {
-			margin-left: 0;
 		}
 	}
 </style>
