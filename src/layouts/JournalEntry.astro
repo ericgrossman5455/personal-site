@@ -31,18 +31,27 @@ const crumbs = [
 		<div class='article-column'>
 			<article>
 				<div class='header-container'>
-					<h2 class='subheader'>
-						{frontmatter.date}{frontmatter.readTime ? ` | ${frontmatter.readTime} min read` : ''}
-					</h2>
+					{
+						frontmatter.subheader ? (
+							<h2 class='subheader'>
+								{frontmatter.subheader.date}
+								{frontmatter.subheader.readTime ? ` | ${frontmatter.subheader.readTime} min read` : ''}
+							</h2>
+						) : (
+							''
+						)
+					}
 					<h1>{frontmatter.title}</h1>
 				</div>
 				{
 					frontmatter.summary ? (
 						<div class='summary-container'>
-							<p class='h2 placeholder' aria-hidden='true'>
-								{frontmatter.summary}
-							</p>
-							<p class='h2 animated'>{frontmatter.summary}</p>
+							<div class='summary-mask'>
+								<p class='h2 placeholder' aria-hidden='true'>
+									{frontmatter.summary}
+								</p>
+								<p class='h2 animated'>{frontmatter.summary}</p>
+							</div>
 						</div>
 					) : (
 						''
@@ -145,7 +154,7 @@ const crumbs = [
 
 				.header-container {
 					padding-bottom: 30px;
-					border-bottom: 1.5px solid var(--glyph-standard);
+					border-bottom: 1px solid var(--glyph-standard);
 
 					.subheader {
 						font-size: 14px;
@@ -171,30 +180,30 @@ const crumbs = [
 						line-height: 1.3;
 					}
 
-					.placeholder {
-						opacity: 0;
-						pointer-events: none;
-					}
+					.summary-mask {
+						mask-image: linear-gradient(to top, transparent 0px, #fff 0px);
 
-					.animated {
-						top: $padding-top-bottom;
-						right: $padding-right-left;
-						left: $padding-right-left;
-						position: absolute;
-						animation: summary-typewriter 2s ease-in-out 0s 1 both;
+						.placeholder {
+							opacity: 0;
+							pointer-events: none;
+						}
+
+						.animated {
+							top: $padding-top-bottom;
+							right: $padding-right-left;
+							left: $padding-right-left;
+							position: absolute;
+							animation: summary-typewriter 3s ease-in-out 0s 1 both;
+						}
 					}
 
 					@keyframes summary-typewriter {
-						0% {
+						from {
 							max-width: 0%;
 							opacity: 0;
 						}
 
-						40% {
-							opacity: 0;
-						}
-
-						100% {
+						to {
 							max-width: 100%;
 							opacity: 1;
 						}
