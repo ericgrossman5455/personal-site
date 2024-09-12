@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import GrainFilter from '../components/GrainFilter.astro';
 import SplashScreen from '../components/SplashScreen.astro';
 
-const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astro.props;
+const { title = 'FPO', description = 'FPO', crumbs = [], disableGlobalFooter = 'false' } = Astro.props;
 ---
 
 <!doctype html>
@@ -41,12 +41,12 @@ const { title = 'Lorem Ipsum', description = 'Lorem Ipsum', crumbs = [] } = Astr
 
 	<body>
 		<SplashScreen />
-		<div class='primary-grid' id='primary-grid'>
+		<div class='primary-grid' id='primary-grid' data-nav-expanded='true'>
 			<Nav crumbs={crumbs} />
 			<main>
 				<slot>LOREM IPSUM</slot>
 			</main>
-			<Footer />
+			{disableGlobalFooter == 'true' ? '' : <Footer />}
 			<GrainFilter />
 		</div>
 	</body>
