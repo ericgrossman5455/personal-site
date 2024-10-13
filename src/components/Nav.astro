@@ -1,10 +1,22 @@
 ---
 import { Icon } from 'astro-icon/components';
-
-import navData from '../data/navData';
 import Crumbs from './Crumbs.astro';
 
 const { crumbs } = Astro.props;
+const sitePages = [
+	{
+		name: 'Home',
+		path: '/',
+	},
+	{
+		name: 'Journal',
+		path: '/journal',
+	},
+	{
+		name: 'About',
+		path: '/about',
+	},
+];
 ---
 
 <nav aria-expanded='true' data-disable-nav-panel-anim>
@@ -23,7 +35,7 @@ const { crumbs } = Astro.props;
 
 		<div class='directory'>
 			{
-				navData.map((page) => (
+				sitePages.map((page) => (
 					<a href={page.path} title={page.name} aria-label={page.name} data-nav-link>
 						<span class='visually-hidden'>{page.name}</span>
 						<Icon name={page.name.toLowerCase()} />
