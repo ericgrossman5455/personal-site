@@ -19,8 +19,7 @@
 		height: 100lvh;
 		align-items: center;
 		justify-content: center;
-		animation: logo-anim 1s ease-in-out 1.8s 1 forwards;
-		will-change: transform;
+		animation: bg-fade-out 1s linear 1.8s 1 forwards;
 
 		&[data-disable-splash-screen] {
 			display: none;
@@ -34,6 +33,8 @@
 			max-height: 125px;
 			min-width: 75px;
 			min-height: 75px;
+			animation: logo-zoom 1s ease-in-out 1.8s 1 forwards;
+			will-change: transform;
 			filter: invert(0.2);
 
 			@media (prefers-color-scheme: dark) {
@@ -41,13 +42,27 @@
 			}
 		}
 
-		@keyframes logo-anim {
+		@keyframes logo-zoom {
+			25% {
+				transform: scale(.9);
+			}
 			99% {
 				transform: scale(200);
-				opacity: 0;
 			}
 			100% {
 				transform: scale(200);
+				opacity: 0;
+			}
+		}
+
+		@keyframes bg-fade-out {
+			40% {
+				opacity: 1;
+			}
+			99% {
+				opacity: 0;
+			}
+			100% {
 				opacity: 0;
 				pointer-events: none;
 			}

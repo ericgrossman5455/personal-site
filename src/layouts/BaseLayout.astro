@@ -44,8 +44,9 @@ const { title = 'FPO', description = 'FPO', crumbs = [], disableGlobalFooter = '
 		<div class='primary-grid' id='primary-grid' data-nav-expanded='true'>
 			<Nav crumbs={crumbs} />
 			<main>
-				<slot>LOREM IPSUM</slot>
+				<slot>PAGE CONTENT ADDED HERE</slot>
 			</main>
+			<!-- true should be boolean, not a string -->
 			{disableGlobalFooter == 'true' ? '' : <Footer />}
 			<GrainFilter />
 		</div>
@@ -55,6 +56,7 @@ const { title = 'FPO', description = 'FPO', crumbs = [], disableGlobalFooter = '
 <style is:global lang='scss'>
 	:root {
 		color-scheme: light dark;
+		// Put vars in it's own global styles scss file
 		--bg-layer-base: #e3e3e3;
 		--glyph-standard: #4b4b4b;
 

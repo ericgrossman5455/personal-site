@@ -19,6 +19,13 @@ const sitePages = [
 ];
 ---
 
+<!-- 
+Something to try from Astro's default template blog
+const { pathname } = Astro.url;
+const subpath = pathname.match(/[^\/]+/g);
+const isActive = href === pathname || href === '/' + subpath?.[0];
+-->
+
 <nav aria-expanded='true' data-disable-nav-panel-anim>
 	<div class='top-bar'>
 		<button class='nav-toggle' title='Navigation' aria-label='Navigation' aria-controls='nav-panel'>
@@ -29,7 +36,7 @@ const sitePages = [
 	</div>
 
 	<div class='nav-panel' id='nav-panel'>
-		<div class='placeholder'>
+		<div class='placeholder' inert>
 			<Icon name='nav_toggle' />
 		</div>
 

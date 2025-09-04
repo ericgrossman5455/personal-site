@@ -1,5 +1,5 @@
 ---
-import MainLayout from './MainLayout.astro';
+import BaseLayout from './BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 
 const { frontmatter } = Astro.props;
@@ -19,7 +19,7 @@ const crumbs = [
 ];
 ---
 
-<MainLayout
+<BaseLayout
 	title=`${frontmatter.title} | Eric Grossman`
 	description={frontmatter.description}
 	crumbs={crumbs}
@@ -80,7 +80,7 @@ const crumbs = [
 			<Footer />
 		</div>
 	</div>
-</MainLayout>
+</BaseLayout>
 
 <style lang='scss' is:global>
 	// center image regardless of nav | rel:4

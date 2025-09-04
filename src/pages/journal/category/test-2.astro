@@ -1,5 +1,5 @@
 ---
-import MainLayout from '../../../layouts/MainLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const crumbs = [
 	{
@@ -21,7 +21,7 @@ const crumbs = [
 ];
 ---
 
-<MainLayout title="Test | Eric Grossman" crumbs={crumbs} >
+<BaseLayout title="Test | Eric Grossman" crumbs={crumbs} >
 	<article>
 		<h2>Lorem</h2>
 		<h1>Test 2.</h1>
@@ -55,7 +55,7 @@ const crumbs = [
 			Aspernatur, nesciunt! Repellendus provident ipsa minima molestias inventore rerum numquam!
 		</p>
 	</article>
-</MainLayout>
+</BaseLayout>
 
 <style lang="scss">
 	article {
