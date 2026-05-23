@@ -5,7 +5,7 @@ const { crumbs } = Astro.props;
 <nav class='crumbs' id='crumbs' aria-label='breadcrumbs'>
 	<ol>
 		{
-			crumbs.map((crumb, index) => (
+			crumbs.map((crumb: { href: string; text: string; }, index: number) => (
 				<li class='crumb'>
 					<a class='crumb-link' href={crumb.href} data-crumb-link>
 						<p class='h2'>{crumb.text}</p>

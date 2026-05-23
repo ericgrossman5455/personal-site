@@ -23,5 +23,8 @@
 
 <script>
 	const currentYear = new Date().getFullYear().toString();
-	document.getElementById('current-year').textContent = currentYear;
+	const currentYearElement = document.getElementById('current-year');
+	if (currentYearElement) {
+		currentYearElement.textContent = currentYear;
+	}
 </script>

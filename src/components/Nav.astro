@@ -25,7 +25,6 @@ const { pathname } = Astro.url;
 const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + subpath?.[0];
 -->
-
 <nav aria-expanded='true' data-disable-nav-panel-anim>
 	<div class='top-bar'>
 		<button class='nav-toggle' title='Navigation' aria-label='Navigation' aria-controls='nav-panel'>
@@ -188,25 +187,25 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 <script>
 	import { browserDetect } from '../../public/scripts/global-scripts.js';
 
-	const SplashScreen = document.getElementById('splash-screen');
-	const PrimaryGrid = document.getElementById('primary-grid');
-	const Nav = document.querySelector('nav');
-	const NavToggle = document.querySelector('.nav-toggle');
-	const Crumbs = document.getElementById('crumbs');
-	const CrumbLinks = document.querySelectorAll('[data-crumb-link]');
-	const CrumbLastLink = document.querySelector('.crumb:last-child a');
-	const NavPanel = document.getElementById('nav-panel');
-	const NavLinks = document.querySelectorAll('[data-nav-link]');
-	const Main = document.querySelector('main');
-	const Footer = document.querySelector('footer');
-	const AllLinks = document.querySelectorAll('a');
+	const SplashScreen = document.getElementById('splash-screen')! as HTMLElement;
+	const PrimaryGrid = document.getElementById('primary-grid')! as HTMLElement;
+	const Nav = document.querySelector('nav')! as HTMLElement;
+	const NavToggle = document.querySelector('.nav-toggle')! as HTMLElement;
+	const Crumbs = document.getElementById('crumbs')! as HTMLElement;
+	const CrumbLinks = document.querySelectorAll('[data-crumb-link]') as NodeListOf<HTMLElement>;
+	const CrumbLastLink = document.querySelector('.crumb:last-child a')! as HTMLElement;
+	const NavPanel = document.getElementById('nav-panel')! as HTMLElement;
+	const NavLinks = document.querySelectorAll('[data-nav-link]') as NodeListOf<HTMLElement>;
+	const Main = document.querySelector('main')! as HTMLElement;
+	const Footer = document.querySelector('footer')! as HTMLElement;
+	const AllLinks = document.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>;
 
 	let _isContentFrozen = false;
-	let _screenWidth;
-	let _navAnimDuration;
-	let _navAnimTimer;
-	let _isNavExpanded;
-	let _navStateInvoker;
+	let _screenWidth: 'narrow' | 'wide';
+	let _navAnimDuration: number = 300;
+	let _navAnimTimer: ReturnType<typeof setTimeout> | undefined;
+	let _isNavExpanded: boolean = Nav.getAttribute('aria-expanded') === 'true';
+	let _navStateInvoker: string = '';
 
 	document.addEventListener('DOMContentLoaded', mount);
 	window.addEventListener('pageshow', cacheCheck);
@@ -245,7 +244,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 		}
 	}
 
-	function cacheCheck(e) {
+	function cacheCheck(e: { persisted: any }) {
 		if (!e.persisted) {
 			return;
 		}
@@ -274,7 +273,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 
 		CrumbLinks.forEach((crumbLink) => {
 			itemsToRemove.unmountAnimClasses.forEach((unmountAnimClass) => {
-				crumbLink.parentElement.classList.remove(unmountAnimClass);
+				crumbLink.parentElement?.classList.remove(unmountAnimClass);
 				crumbLink.classList.remove(unmountAnimClass);
 				crumbLink.nextElementSibling && crumbLink.nextElementSibling.classList.remove(unmountAnimClass);
 			});
@@ -285,7 +284,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 		window.addEventListener('resize', mediaQueryHandler);
 		NavToggle.addEventListener('click', attributeToggler);
 		AllLinks.forEach((link) => {
-			if (!link.hasAttribute('data-disable-link-handler') && !link.getAttribute('href').includes('#')) {
+			if (!link.hasAttribute('data-disable-link-handler') && !link.getAttribute('href')?.includes('#')) {
 				link.addEventListener('click', linkHandler);
 			}
 		});
@@ -303,7 +302,11 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 			if (linkDestination === '/' && currentLocation === '/') {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
-			} else if (currentLocation.includes(linkDestination) && linkDestination !== '/') {
+			} else if (
+				linkDestination &&
+				linkDestination !== '/' &&
+				currentLocation.includes(linkDestination)
+			) {
 				link.setAttribute('aria-current', 'page');
 				link.setAttribute('aria-label', 'scroll to top');
 			}
@@ -311,7 +314,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 	}
 
 	function mediaQueryHandler() {
-		_isNavExpanded = Nav.getAttribute('aria-expanded');
+		_isNavExpanded = Nav ? Nav.getAttribute('aria-expanded') === 'true' : false;
 
 		if (document.body.clientWidth <= 600) {
 			_screenWidth = 'narrow';
@@ -319,7 +322,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 			_screenWidth = 'wide';
 		}
 
-		if (_screenWidth === 'narrow' && _isNavExpanded === 'true') {
+		if (_screenWidth === 'narrow' && _isNavExpanded) {
 			setCollapsedNavAttributes();
 			return;
 		}
@@ -327,7 +330,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 		if (_screenWidth === 'wide') {
 			if (_isContentFrozen === true) {
 				freezeContent('thaw');
-			} else if (_isNavExpanded === 'false' && _navStateInvoker === 'auto-collapsed') {
+			} else if (!_isNavExpanded && _navStateInvoker === 'auto-collapsed') {
 				setExpandedNavAttributes();
 			}
 		}
@@ -339,7 +342,7 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 				window
 					.getComputedStyle(Nav)
 					.getPropertyValue('transition-duration')
-					.replace(/[^0-9\.]+/g, '')
+					.replace(/[^0-9\.]+/g, ''),
 			) * 1000;
 
 		// fix for Safari bug | rel:1
@@ -400,16 +403,26 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 	}
 
 	function attributeToggler() {
-		_isNavExpanded = Nav.getAttribute('aria-expanded');
+		_isNavExpanded = Nav ? Nav.getAttribute('aria-expanded') === 'true' : false;
 
-		_isNavExpanded === 'true' ? setCollapsedNavAttributes('user') : setExpandedNavAttributes('user');
+		_isNavExpanded ? setCollapsedNavAttributes('user') : setExpandedNavAttributes('user');
 	}
 
-	function linkHandler(e) {
+	function linkHandler(e: MouseEvent) {
 		e.preventDefault();
-		const linkDestination = e.target.closest('a').getAttribute('href');
+		const target = e.target as HTMLElement | null;
+		const anchor = target?.closest('a');
+		if (!anchor) {
+			return;
+		}
+
+		const linkDestination = anchor.getAttribute('href');
+		if (!linkDestination) {
+			return;
+		}
+
 		let linkType;
-		Object.keys(e.target.closest('a').dataset).forEach((data) => {
+		Object.keys(anchor.dataset).forEach((data) => {
 			if (data.includes('Link')) {
 				linkType = data;
 				return;
@@ -450,8 +463,8 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 		}
 
 		// expand nav to match nav state on destination page
-		_isNavExpanded = Nav.getAttribute('aria-expanded');
-		if (_screenWidth === 'wide' && _isNavExpanded === 'false') {
+		_isNavExpanded = Nav ? Nav.getAttribute('aria-expanded') === 'true' : false;
+		if (_screenWidth === 'wide' && !_isNavExpanded) {
 			setExpandedNavAttributes();
 		}
 
@@ -463,10 +476,10 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 		}, _navAnimDuration);
 	}
 
-	function unmountAnimHandler(linkDestination, linkType) {
+	function unmountAnimHandler(linkDestination: string | null, linkType: string | undefined) {
 		// determine if user is going to new section
 		let isSameSection = false;
-		let destinationSection = linkDestination.slice(1).split('/')[0];
+		let destinationSection = linkDestination?.slice(1).split('/')[0];
 		let currentSection = window.location.pathname.slice(1).split('/')[0];
 		currentSection == destinationSection && (isSameSection = true);
 
@@ -493,21 +506,23 @@ const isActive = href === pathname || href === '/' + subpath?.[0];
 			}
 		}
 
-		function crumbUnmountAnimHandler(animationName) {
-			let clickedCrumbIndex;
+		function crumbUnmountAnimHandler(animationName: string) {
+			let clickedCrumbIndex = -1;
 
 			CrumbLinks.forEach((link) => {
 				if (link.getAttribute('href') === linkDestination) {
 					clickedCrumbIndex = Array.from(CrumbLinks).indexOf(link);
 					// animate divider at end of clicked crumb
-					CrumbLinks[clickedCrumbIndex].nextElementSibling.classList.add(`anim-${animationName}`);
+					CrumbLinks[clickedCrumbIndex].nextElementSibling?.classList.add(`anim-${animationName}`);
 					CrumbLinks[clickedCrumbIndex].classList.add('clicked-crumb');
 				}
 			});
 
-			// fade out crumbs that come after clicked crumb
-			for (let i = clickedCrumbIndex + 1; i < CrumbLinks.length; i++) {
-				CrumbLinks[i].parentElement.classList.add(`anim-${animationName}`);
+			if (clickedCrumbIndex >= 0) {
+				// fade out crumbs that come after clicked crumb
+				for (let i = clickedCrumbIndex + 1; i < CrumbLinks.length; i++) {
+					CrumbLinks[i].parentElement?.classList.add(`anim-${animationName}`);
+				}
 			}
 
 			sessionStorage.setItem('crumbsDisableMountAnim', 'true');
